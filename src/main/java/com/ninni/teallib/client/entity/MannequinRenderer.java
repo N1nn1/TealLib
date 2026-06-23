@@ -1,6 +1,6 @@
 package com.ninni.teallib.client.entity;
 
-import com.ninni.teallib.TealLib;
+import com.ninni.teallib.common.data.entityvariant.EntityVariantManager;
 import com.ninni.teallib.common.entity.Mannequin;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -22,6 +22,6 @@ public class MannequinRenderer extends LivingEntityRenderer<Mannequin, Mannequin
 
     @Override
     public ResourceLocation getTextureLocation(Mannequin entity) {
-        return ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "textures/entity/mannequin.png");
+        return EntityVariantManager.getVariantTexture(entity, "", "");
     }
 }

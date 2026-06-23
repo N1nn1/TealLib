@@ -1,0 +1,6 @@
+{
+  "type": "teallib:mannequin",
+  "id": "teallib:weird_teal",
+  "location": "#minecraft:is_savanna",
+  "spawnWeight": 10000
+}

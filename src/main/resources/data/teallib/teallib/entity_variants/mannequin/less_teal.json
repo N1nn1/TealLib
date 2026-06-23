@@ -1,0 +1,6 @@
+{
+  "type": "teallib:mannequin",
+  "id": "teallib:less_teal",
+  "maxSpawnHeight": 0,
+  "spawnWeight": 10000
+}

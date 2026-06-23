@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -100,10 +101,10 @@ public class EntityVariantManager {
 
     public static Optional<WeightedEntry> chooseVariant(EntityType<?> type, Level level, BlockPos pos) {
         Holder<Biome> holder = level.getBiome(pos);
-        CodecUtils.Weather weather = level.isRainingAt(pos) && level.isThundering()
-                ? CodecUtils.Weather.THUNDER
-                : level.isRainingAt(pos) && holder.value().coldEnoughToSnow(pos)
-                  ? CodecUtils.Weather.SNOW
+        CodecUtils.Weather weather = level.isRaining() && level.canSeeSky(pos) && level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY() <= pos.getY() && holder.value().getPrecipitationAt(pos) == Biome.Precipitation.SNOW
+                ? CodecUtils.Weather.SNOW
+                : level.isRainingAt(pos) && level.isThundering()
+                  ? CodecUtils.Weather.THUNDER
                   : level.isRainingAt(pos)
                     ? CodecUtils.Weather.RAIN
                     : CodecUtils.Weather.NONE;

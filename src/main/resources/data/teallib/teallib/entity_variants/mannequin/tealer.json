@@ -1,0 +1,5 @@
+{
+  "type": "teallib:mannequin",
+  "id": "teallib:tealer",
+  "spawnWeight": 10000
+}

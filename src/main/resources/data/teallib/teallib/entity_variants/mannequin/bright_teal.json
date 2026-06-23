@@ -1,0 +1,6 @@
+{
+  "type": "teallib:mannequin",
+  "id": "teallib:bright_teal",
+  "weather": "snow",
+  "spawnWeight": 100000
+}

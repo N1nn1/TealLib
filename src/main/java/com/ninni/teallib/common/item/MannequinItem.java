@@ -1,5 +1,6 @@
 package com.ninni.teallib.common.item;
 
+import com.ninni.teallib.common.data.entityvariant.EntityVariantManager;
 import com.ninni.teallib.common.entity.Mannequin;
 import com.ninni.teallib.registry.TealEntityType;
 import net.minecraft.core.BlockPos;
@@ -52,6 +53,7 @@ public class MannequinItem extends Item {
                     mannequin.moveTo(mannequin.getX(), mannequin.getY(), mannequin.getZ(), f, 0.0F);
                     mannequin.setYHeadRot(f);
                     serverlevel.addFreshEntityWithPassengers(mannequin);
+                    EntityVariantManager.getNaturallyOccurringVariant(mannequin);
                     level.playSound(null, mannequin.getX(), mannequin.getY(), mannequin.getZ(), SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
                     mannequin.gameEvent(GameEvent.ENTITY_PLACE, context.getPlayer());
                 }
