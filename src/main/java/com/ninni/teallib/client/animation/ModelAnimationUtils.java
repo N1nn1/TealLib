@@ -15,15 +15,7 @@ public class ModelAnimationUtils {
 
     public static void animate(HierarchicalModel<?> model, AnimationState animationState, AnimationDefinition animationDefinition, float ageInTicks, float speed, float degree) {
         animationState.updateTime(ageInTicks, speed);
-        animationState.ifStarted(state ->
-                KeyframeAnimations.animate(
-                        model,
-                        animationDefinition,
-                        state.getAccumulatedTime(),
-                        degree,
-                        ANIMATION_VECTOR_CACHE
-                )
-        );
+        animationState.ifStarted(state -> KeyframeAnimations.animate(model, animationDefinition, state.getAccumulatedTime(), degree, ANIMATION_VECTOR_CACHE));
     }
 
     public static void animate(HierarchicalModel<?> model, AnimationState animationState, AnimationDefinition animationDefinition, float ageInTicks, float degree) {
