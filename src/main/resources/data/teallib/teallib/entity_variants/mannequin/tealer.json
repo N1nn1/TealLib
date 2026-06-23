@@ -1,5 +1,16 @@
 {
   "type": "teallib:mannequin",
   "id": "teallib:tealer",
-  "spawnWeight": 10000
+  "spawnWeight": 10000,
+  "variant_data_types": [
+    {
+      "type": "teallib:attribute",
+      "attribute": "minecraft:generic.scale",
+      "modifier": {
+        "id": "teallib:tealer_scale",
+        "amount": 0.2,
+        "operation": "add_value"
+      }
+    }
+  ]
 }

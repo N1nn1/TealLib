@@ -16,10 +16,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 public record AttributeData(float chance, Holder<Attribute> attribute, AttributeModifier modifier) implements VariantData {
     public static final MapCodec<AttributeData> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
             Codec.FLOAT.optionalFieldOf("chance", 1f).forGetter(AttributeData::chance),
-            Attribute.CODEC.fieldOf("type").forGetter(AttributeData::attribute),
+            Attribute.CODEC.fieldOf("attribute").forGetter(AttributeData::attribute),
             AttributeModifier.MAP_CODEC.fieldOf("modifier").forGetter(AttributeData::modifier)
     ).apply(inst, AttributeData::new));
-
 
     @Override
     public void applyEntity(Entity entity, ServerLevel level, RandomSource random) {
