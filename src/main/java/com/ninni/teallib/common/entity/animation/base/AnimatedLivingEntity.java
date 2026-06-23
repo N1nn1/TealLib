@@ -1,6 +1,6 @@
 package com.ninni.teallib.common.entity.animation.base;
 
-import com.ninni.teallib.common.animation.EntityAnimationController;
+import com.ninni.teallib.common.entity.animation.EntityAnimationController;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

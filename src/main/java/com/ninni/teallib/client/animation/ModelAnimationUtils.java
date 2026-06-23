@@ -1,7 +1,7 @@
 package com.ninni.teallib.client.animation;
 
+import com.ninni.teallib.common.entity.animation.EntityAnimationController;
 import com.ninni.teallib.mixin.HierarchicalModelAccessor;
-import com.ninni.teallib.common.animation.EntityAnimationController;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.model.HierarchicalModel;
@@ -13,13 +13,10 @@ import org.joml.Vector3f;
 public class ModelAnimationUtils {
     public static final Vector3f ANIMATION_VECTOR_CACHE = HierarchicalModelAccessor.getANIMATION_VECTOR_CACHE();
 
-    /**
-     * Vanilla-style animation playback backed by AnimationState.
-     */
     public static void animate(HierarchicalModel<?> model, AnimationState animationState, AnimationDefinition animationDefinition, float ageInTicks, float speed, float degree) {
         animationState.updateTime(ageInTicks, speed);
-        animationState.ifStarted(
-                state -> KeyframeAnimations.animate(
+        animationState.ifStarted(state ->
+                KeyframeAnimations.animate(
                         model,
                         animationDefinition,
                         state.getAccumulatedTime(),
@@ -33,18 +30,12 @@ public class ModelAnimationUtils {
         animate(model, animationState, animationDefinition, ageInTicks, 1.0F, degree);
     }
 
-    /**
-     * Animations that have a custom progress.
-     * <p>
-     * 0 = start of the animation
-     * <p>
-     * 1 = end of the animation
-     */
     public static void animateProgress(HierarchicalModel<?> model, AnimationDefinition animationDefinition, float progress, float degree) {
         float clamped = Mth.clamp(progress, 0.0F, 1.0F);
-        long time = (long) (clamped * animationDefinition.lengthInSeconds() * 20.0F);
 
-        KeyframeAnimations.animate(model, animationDefinition, time, degree, ANIMATION_VECTOR_CACHE);
+        long timeMillis = (long) (clamped * animationDefinition.lengthInSeconds() * 1000.0F);
+
+        KeyframeAnimations.animate(model, animationDefinition, timeMillis, degree, ANIMATION_VECTOR_CACHE);
     }
 
     public static void animateOppositeProgress(HierarchicalModel<?> model, AnimationDefinition animationDefinition, float progress, float degree) {

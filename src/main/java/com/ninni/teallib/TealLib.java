@@ -1,5 +1,7 @@
 package com.ninni.teallib;
 
+import com.ninni.teallib.registry.TealEntityType;
+import com.ninni.teallib.registry.TealItems;
 import com.ninni.teallib.registry.VariantDataTypes;
 import org.slf4j.Logger;
 
@@ -16,5 +18,7 @@ public class TealLib {
 
     public TealLib(IEventBus modEventBus, ModContainer modContainer) {
         VariantDataTypes.TYPES.register(modEventBus);
+        TealItems.ITEMS.register(modEventBus);
+        TealEntityType.ENTITY_TYPES.register(modEventBus);
     }
 }
