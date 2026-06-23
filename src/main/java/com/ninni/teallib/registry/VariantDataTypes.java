@@ -2,10 +2,10 @@ package com.ninni.teallib.registry;
 
 import com.mojang.serialization.MapCodec;
 import com.ninni.teallib.TealLib;
-import com.ninni.teallib.server.data.variantdata.AgeData;
-import com.ninni.teallib.server.data.variantdata.AttributeData;
-import com.ninni.teallib.server.data.variantdata.PersistentData;
-import com.ninni.teallib.server.data.variantdata.VariantData;
+import com.ninni.teallib.common.data.variantdata.AgeData;
+import com.ninni.teallib.common.data.variantdata.AttributeData;
+import com.ninni.teallib.common.data.variantdata.PersistentData;
+import com.ninni.teallib.common.data.variantdata.VariantData;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

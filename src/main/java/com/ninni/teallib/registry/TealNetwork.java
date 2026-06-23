@@ -1,7 +1,7 @@
 package com.ninni.teallib.registry;
 
 import com.ninni.teallib.TealLib;
-import com.ninni.teallib.server.network.BlockEntitySyncPacket;
+import com.ninni.teallib.common.network.BlockEntitySyncPacket;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
