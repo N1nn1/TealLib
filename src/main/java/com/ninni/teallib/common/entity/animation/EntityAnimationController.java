@@ -266,7 +266,7 @@ public final class EntityAnimationController {
     }
 
     public int getTick(ResourceLocation id) {
-        return Math.toIntExact(snapshots.get(id).startGameTime - snapshots.get(id).durationTicks);
+        return Math.toIntExact(entity.level().getGameTime() - snapshots.get(id).startGameTime);
     }
 
     private record AnimationSnapshot(boolean started, boolean looping, long startGameTime, int durationTicks, float progress, long lifecycleSerial) {

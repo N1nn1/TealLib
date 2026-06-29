@@ -23,7 +23,9 @@ import java.util.Optional;
 
 public interface Catchable {
 
-    boolean canBeCaught(@Nullable ItemStack stack, @Nullable Player player, @Nullable InteractionHand hand);
+    default boolean canBeCaught(@Nullable ItemStack stack, @Nullable Player player, @Nullable InteractionHand hand) {
+        return true;
+    };
 
     @Nullable
     default ItemStack getCaughtItem(ItemStack capturingItem) {
@@ -73,36 +75,48 @@ public interface Catchable {
 
     static <T extends Mob & Catchable> Optional<InteractionResult> catchWithItem(Player player, InteractionHand hand, T mob, @Nullable CompoundTag extraData) {
         ItemStack stack = player.getItemInHand(hand);
+        ItemStack captureStack = singleItemCopy(stack);
 
-        if (mob.isAlive()) {
-            if (mob.canBeCaught(stack, player, hand)) {
-                mob.playSound(mob.getPickupSound(stack), 1.0F, 1.0F);
+        if (!mob.isAlive()) return Optional.empty();
 
-                if (!stack.isEmpty() && Objects.requireNonNull(mob.getCaughtItem(stack)).isEmpty()) {
+        if (mob.canBeCaught(stack, player, hand)) {
+            mob.playSound(mob.getPickupSound(stack), 1.0F, 1.0F);
+
+            ItemStack caughtItem = mob.getCaughtItem(captureStack);
+            if (caughtItem == null) caughtItem = ItemStack.EMPTY;
+
+            if (caughtItem.isEmpty()) {
+                if (!stack.isEmpty()) {
                     CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack, tag -> {
                         mob.saveDataToTag(mob, tag);
                         if (extraData != null) tag.merge(extraData);
                     });
                     mob.discard();
-                } else if (mob.getCaughtItem(stack) != null && !Objects.requireNonNull(mob.getCaughtItem(stack)).isEmpty()) {
-                    ItemStack capturedStack = mob.getCaughtItem(stack);
-                    CustomData.update(DataComponents.BUCKET_ENTITY_DATA, capturedStack, tag -> {
-                        mob.saveDataToTag(mob, tag);
-                        if (extraData != null) {
-                            tag.merge(extraData);
-                        }
-                    });
-                    if (stack.getCount() == 1 && !player.isCreative()) player.setItemInHand(hand, capturedStack);
-                    else {
-                        if (!player.addItem(capturedStack)) player.drop(capturedStack, true);
+                }
+            } else {
+                CustomData.update(DataComponents.BUCKET_ENTITY_DATA, caughtItem, tag -> {
+                    mob.saveDataToTag(mob, tag);
+                    if (extraData != null) tag.merge(extraData);
+                });
+
+                if (stack.getCount() == 1 && !player.isCreative()) {
+                    player.setItemInHand(hand, caughtItem);
+                } else {
+                    if (!player.addItem(caughtItem)) {
+                        player.drop(caughtItem, true);
+                    }
+                    if (!player.isCreative()) {
                         stack.shrink(1);
                     }
-                    mob.discard();
-                } else if (stack.isEmpty() && Objects.requireNonNull(mob.getCaughtItem(stack)).isEmpty()) return Optional.empty();
+                }
 
-                return Optional.of(InteractionResult.sidedSuccess(mob.level().isClientSide));
-            } else {
-                if (mob.cantBeCaughtReason() != null) player.displayClientMessage(Objects.requireNonNull(mob.cantBeCaughtReason()), true);
+                mob.discard();
+            }
+
+            return Optional.of(InteractionResult.sidedSuccess(mob.level().isClientSide));
+        } else {
+            if (mob.cantBeCaughtReason() != null) {
+                player.displayClientMessage(Objects.requireNonNull(mob.cantBeCaughtReason()), true);
             }
         }
 
@@ -149,5 +163,9 @@ public interface Catchable {
 
         if (mob instanceof Catchable catchable) mob.playSound(catchable.getReleaseSound(), 1, 1);
         return mob;
+    }
+
+    static ItemStack singleItemCopy(ItemStack stack) {
+        return stack.isEmpty() ? ItemStack.EMPTY : stack.copyWithCount(1);
     }
 }
