@@ -33,7 +33,7 @@ public interface Catchable {
     }
 
     @Nullable
-    default Component cantBeCaughtReason() {
+    default Component cantBeCaughtReason(ItemStack capturingItem) {
         return null;
     }
 
@@ -80,6 +80,7 @@ public interface Catchable {
         if (!mob.isAlive()) return Optional.empty();
 
         if (mob.canBeCaught(stack, player, hand)) {
+            if (mob.level().isClientSide) return Optional.of(InteractionResult.SUCCESS);
             mob.playSound(mob.getPickupSound(stack), 1.0F, 1.0F);
 
             ItemStack caughtItem = mob.getCaughtItem(captureStack);
@@ -113,10 +114,11 @@ public interface Catchable {
                 mob.discard();
             }
 
-            return Optional.of(InteractionResult.sidedSuccess(mob.level().isClientSide));
+            return Optional.of(InteractionResult.SUCCESS);
         } else {
-            if (mob.cantBeCaughtReason() != null) {
-                player.displayClientMessage(Objects.requireNonNull(mob.cantBeCaughtReason()), true);
+            if (mob.cantBeCaughtReason(captureStack) != null) {
+                player.displayClientMessage(mob.cantBeCaughtReason(captureStack), true);
+                return Optional.of(InteractionResult.SUCCESS);
             }
         }
 
