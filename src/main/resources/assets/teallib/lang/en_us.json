@@ -1,4 +1,8 @@
 {
   "entity.teallib.mannequin": "Mannequin",
-  "item.teallib.mannequin": "Mannequin"
+  "item.teallib.mannequin": "Mannequin",
+
+  "config.teallib.section.vanilla_changes": "Vanilla Changes",
+  "config.teallib.bucket_tooltip": "Bucket Tooltip",
+  "config.teallib.bucket_tooltip.tooltip": "Whether bucketed mobs display themselves in the bucket tooltip."
 }

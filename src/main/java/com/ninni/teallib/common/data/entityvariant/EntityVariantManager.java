@@ -29,11 +29,11 @@ public class EntityVariantManager {
 
     private EntityVariantManager() {}
 
-    private static Registry<EntityVariantData> registry(RegistryAccess access) {
+    public static Registry<EntityVariantData> registry(RegistryAccess access) {
         return access.registryOrThrow(EntityVariantRegistries.ENTITY_VARIANT_REGISTRY_KEY);
     }
 
-    private static List<EntityVariantData> all(RegistryAccess access) {
+    public static List<EntityVariantData> all(RegistryAccess access) {
         List<EntityVariantData> out = new ArrayList<>();
         for (Map.Entry<ResourceKey<EntityVariantData>, EntityVariantData> entry : registry(access).entrySet()) {
             out.add(entry.getValue());

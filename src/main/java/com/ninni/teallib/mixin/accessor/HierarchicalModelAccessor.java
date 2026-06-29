@@ -1,4 +1,4 @@
-package com.ninni.teallib.mixin;
+package com.ninni.teallib.mixin.accessor;
 
 import net.minecraft.client.model.HierarchicalModel;
 import org.joml.Vector3f;

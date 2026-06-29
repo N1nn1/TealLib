@@ -1,7 +1,7 @@
 package com.ninni.teallib.client.animation;
 
 import com.ninni.teallib.common.entity.animation.EntityAnimationController;
-import com.ninni.teallib.mixin.HierarchicalModelAccessor;
+import com.ninni.teallib.mixin.accessor.HierarchicalModelAccessor;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.model.HierarchicalModel;

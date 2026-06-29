@@ -3,12 +3,19 @@
   "package": "com.ninni.teallib.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "HierarchicalModelAccessor"
+    "AxolotlMixin",
+    "MobBucketItemMixin",
+    "accessor.HierarchicalModelAccessor",
+    "accessor.TropicalFishAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "client": [
+    "accessor.EntityAccessor",
+    "client.AxolotlModelMixin"
+  ]
 }
