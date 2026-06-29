@@ -1,4 +1,4 @@
-package com.ninni.teallib.client.events;
+package com.ninni.teallib.client.event;
 
 import com.ninni.teallib.TealLib;
 import com.ninni.teallib.client.entity.MannequinModel;

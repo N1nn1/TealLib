@@ -1,4 +1,4 @@
-package com.ninni.teallib.common.events;
+package com.ninni.teallib.common.event;
 
 import com.ninni.teallib.TealLib;
 import com.ninni.teallib.common.entity.Mannequin;
