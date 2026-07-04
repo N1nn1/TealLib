@@ -1,0 +1,27 @@
+# Custom License v1.0
+
+Copyright (c) 2026 Ninni
+
+Permission is granted, free of charge, to any person obtaining a copy of this software (the "Software"),
+to use the Software under the following terms.
+
+You may:
+
+* Use this Software in personal or commercial Minecraft mods.
+* Bundle the compiled, unmodified library with your own mod releases.
+* Depend on this library through any supported dependency system.
+* Modify the Software for your own private use.
+
+You may NOT:
+
+* Redistribute the source code of this Software.
+* Reupload the Software or any modified version of it to other websites, repositories,
+or distribution platforms without prior written permission from the copyright holder.
+* Copy substantial portions of the source code into another project, whether modified or unmodified.
+* Publish modified versions of this Software.
+* Claim authorship of this Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
