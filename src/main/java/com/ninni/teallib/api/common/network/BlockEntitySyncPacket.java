@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
  * is reloaded using {@code loadWithComponents}, ensuring its state matches the server.
  * <p>
  * This is primarily used for custom Block Entity systems that require manual
- * synchronization beyond vanilla update packets.
+ * synchronization beyond (like the mod) vanilla update packets.
  */
 public class BlockEntitySyncPacket implements CustomPacketPayload {
 
