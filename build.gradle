@@ -25,8 +25,9 @@ sourceSets.main.resources {
     exclude("src/generated/**/.cache") // datagen cache files
 }
 
+
 repositories {
-    // Add here additional repositories if required by some of the dependencies below.
+    maven { url = "https://api.modrinth.com/maven" }
 }
 
 base {
@@ -92,6 +93,7 @@ configurations {
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
+    implementation "maven.modrinth:field-guide:1.12.0-1.21.1-neoforge"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

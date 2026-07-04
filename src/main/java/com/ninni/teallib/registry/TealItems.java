@@ -9,7 +9,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class TealItems {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, TealLib.MODID);
+    public static final DeferredRegister<Item> DEF_REG = DeferredRegister.create(BuiltInRegistries.ITEM, TealLib.MODID);
 
-    public static final DeferredHolder<Item, Item> MANNEQUIN = ITEMS.register("mannequin", () -> new MannequinItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
+    public static final DeferredHolder<Item, Item> MANNEQUIN = DEF_REG.register("mannequin", () -> new MannequinItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
 }

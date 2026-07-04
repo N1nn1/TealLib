@@ -1,6 +1,7 @@
 package com.ninni.teallib;
 
 import com.ninni.teallib.client.TealLibClientConfig;
+import com.ninni.teallib.registry.TealBiomeModifiers;
 import com.ninni.teallib.registry.TealEntityType;
 import com.ninni.teallib.registry.TealItems;
 import com.ninni.teallib.registry.VariantDataTypes;
@@ -30,8 +31,9 @@ public class TealLib {
 
     public TealLib(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG_SPEC, "teallib-client.toml");
-        VariantDataTypes.TYPES.register(modEventBus);
-        TealItems.ITEMS.register(modEventBus);
-        TealEntityType.ENTITY_TYPES.register(modEventBus);
+        VariantDataTypes.DEF_REG.register(modEventBus);
+        TealItems.DEF_REG.register(modEventBus);
+        TealEntityType.DEF_REG.register(modEventBus);
+        TealBiomeModifiers.DEF_REG.register(modEventBus);
     }
 }

@@ -14,10 +14,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class VariantDataTypes {
     public static final ResourceKey<Registry<MapCodec<? extends VariantData>>> KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "variant_data_type"));
-    public static final DeferredRegister<MapCodec<? extends VariantData>> TYPES = DeferredRegister.create(KEY, TealLib.MODID);
-    public static final Registry<MapCodec<? extends VariantData>> REGISTRY = TYPES.makeRegistry(builder -> {});
+    public static final DeferredRegister<MapCodec<? extends VariantData>> DEF_REG = DeferredRegister.create(KEY, TealLib.MODID);
+    public static final Registry<MapCodec<? extends VariantData>> REGISTRY = DEF_REG.makeRegistry(builder -> {});
 
-    public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<PersistentData>> PERSISTENT = TYPES.register("persistent", () -> PersistentData.CODEC);
-    public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<AgeData>> AGE = TYPES.register("age", () -> AgeData.CODEC);
-    public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<AttributeData>> ATTRIBUTE = TYPES.register("attribute", () -> AttributeData.CODEC);
+    public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<PersistentData>> PERSISTENT = DEF_REG.register("persistent", () -> PersistentData.CODEC);
+    public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<AgeData>> AGE = DEF_REG.register("age", () -> AgeData.CODEC);
+    public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<AttributeData>> ATTRIBUTE = DEF_REG.register("attribute", () -> AttributeData.CODEC);
 }

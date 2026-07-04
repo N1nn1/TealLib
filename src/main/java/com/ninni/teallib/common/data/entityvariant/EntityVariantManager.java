@@ -12,6 +12,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -91,7 +92,7 @@ public class EntityVariantManager {
         if (data == null || data.variantData.isEmpty()) return;
 
         Level level = mob.level();
-        if (!(level instanceof net.minecraft.server.level.ServerLevel serverLevel)) return;
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
         RandomSource random = mob.getRandom();
         for (VariantData variantData : data.variantData.get()) {
