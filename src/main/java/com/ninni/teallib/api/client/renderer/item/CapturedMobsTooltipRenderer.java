@@ -90,9 +90,9 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             float scaleMultiplier = 1;
 
             if (entity instanceof CustomInventoryRendering pose) {
-                pose.setIsRenderedInTooltip(true);
+                pose.setRenderedInTooltip(true);
                 if (living instanceof AgeableMob ageableMob) {
-                    if (pose.isBabyByDefault()) ageableMob.setBaby(true);
+                    if (pose.babyByDefault()) ageableMob.setBaby(true);
                     if (ageableMob.isBaby() && pose.scaleBaby()) scaleMultiplier = 0.5F;
                 }
                 pose.setCustomData(entity, fishTag);

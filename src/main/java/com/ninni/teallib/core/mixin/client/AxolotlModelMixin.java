@@ -29,7 +29,7 @@ public abstract class AxolotlModelMixin<T extends Axolotl & LerpingModel> extend
 
     @Inject(method = "setupAnim(Lnet/minecraft/world/entity/animal/axolotl/Axolotl;FFFFF)V", at = @At("HEAD"), cancellable = true)
     private void setupAnim(T axolotl, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch, CallbackInfo ci) {
-        if (axolotl instanceof CustomInventoryRendering pose && pose.isRenderedInTooltip()) {
+        if (axolotl instanceof CustomInventoryRendering pose && pose.renderedInTooltip()) {
             ci.cancel();
             this.body.setRotation(0.15f, 0, 0.0F);
             this.head.setRotation(-0.25f, 0.0F, 0.0F);

@@ -11,8 +11,8 @@ import net.minecraft.world.entity.Entity;
  * additional rendering data.
  */
 public interface CustomInventoryRendering {
-    boolean isRenderedInTooltip();
-    void setIsRenderedInTooltip(boolean bl);
+    boolean renderedInTooltip();
+    void setRenderedInTooltip(boolean bl);
     default boolean animateBob() {
         return true;
     }
@@ -25,7 +25,7 @@ public interface CustomInventoryRendering {
     default int getInventoryBlockLight() {
         return 15;
     }
-    default boolean isBabyByDefault() {
+    default boolean babyByDefault() {
         return false;
     }
     default void setCustomData(Entity entity, CompoundTag compoundTag) {}
