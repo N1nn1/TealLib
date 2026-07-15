@@ -31,7 +31,9 @@ public abstract class AbstractVariantAnimal extends Animal implements JsonVarian
     @SuppressWarnings("deprecation")
     @Override
     public @Nullable SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor serverLevelAccessor, @NotNull DifficultyInstance difficultyInstance, @NotNull MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData) {
-        EntityVariantManager.getNaturallyOccurringVariant(this);
+        if (mobSpawnType != MobSpawnType.BUCKET) {
+            EntityVariantManager.getNaturallyOccurringVariant(this);
+        }
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData);
     }
 

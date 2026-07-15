@@ -83,7 +83,7 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
                 }
             }
             if (entity instanceof Catchable catchable && entity instanceof Mob mob) catchable.loadDataFromTag(mob, fishTag);
-            else if (entity instanceof JsonVariantHolder holder && !fishTag.contains("Variant")) holder.setVariant(holder.getDefaultVariant());
+            if (entity instanceof JsonVariantHolder holder && !fishTag.contains("Variant")) holder.setVariant(holder.getDefaultVariant());
             if (entity instanceof EntityAccessor accessor) accessor.setTouchingWater(true);
             entity.setYHeadRot(0);
 
