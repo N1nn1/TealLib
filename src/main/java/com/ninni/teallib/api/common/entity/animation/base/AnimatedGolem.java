@@ -7,18 +7,18 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A class that implements the basics of an {@link EntityAnimationController EntityAnimationController} system extending {@link Monster Monster}
+ * A class that implements the basics of an {@link EntityAnimationController EntityAnimationController} system extending {@link net.minecraft.world.entity.animal.AbstractGolem AbstractGolem}
  */
-public abstract class AnimatedMonster extends Monster implements EntityAnimationHolder {
-    private static final EntityDataAccessor<CompoundTag> ANIMATION_SYNC = SynchedEntityData.defineId(AnimatedMonster.class, EntityDataSerializers.COMPOUND_TAG);
+public abstract class AnimatedGolem extends AbstractGolem implements EntityAnimationHolder {
+    private static final EntityDataAccessor<CompoundTag> ANIMATION_SYNC = SynchedEntityData.defineId(AnimatedGolem.class, EntityDataSerializers.COMPOUND_TAG);
     protected final EntityAnimationController animations = new EntityAnimationController(this);
 
-    protected AnimatedMonster(EntityType<? extends Monster> entityType, Level level) {
+    protected AnimatedGolem(EntityType<? extends AbstractGolem> entityType, Level level) {
         super(entityType, level);
     }
 

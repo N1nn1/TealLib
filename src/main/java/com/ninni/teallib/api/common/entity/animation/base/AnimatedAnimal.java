@@ -1,6 +1,7 @@
 package com.ninni.teallib.api.common.entity.animation.base;
 
 import com.ninni.teallib.api.common.entity.animation.EntityAnimationController;
+import com.ninni.teallib.api.common.entity.animation.EntityAnimationHolder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A class that implements the basics of an {@link EntityAnimationController EntityAnimationController} system extending {@link Animal Animal}
  */
-public abstract class AnimatedAnimal extends Animal {
+public abstract class AnimatedAnimal extends Animal implements EntityAnimationHolder {
     private static final EntityDataAccessor<CompoundTag> ANIMATION_SYNC = SynchedEntityData.defineId(AnimatedAnimal.class, EntityDataSerializers.COMPOUND_TAG);
     protected final EntityAnimationController animations = new EntityAnimationController(this);
 

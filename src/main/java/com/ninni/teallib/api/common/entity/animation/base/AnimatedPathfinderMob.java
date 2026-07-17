@@ -1,6 +1,7 @@
 package com.ninni.teallib.api.common.entity.animation.base;
 
 import com.ninni.teallib.api.common.entity.animation.EntityAnimationController;
+import com.ninni.teallib.api.common.entity.animation.EntityAnimationHolder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A class that implements the basics of an {@link EntityAnimationController EntityAnimationController} system extending {@link PathfinderMob PathfinderMob}
  */
-public abstract class AnimatedPathfinderMob extends PathfinderMob {
+public abstract class AnimatedPathfinderMob extends PathfinderMob implements EntityAnimationHolder {
     private static final EntityDataAccessor<CompoundTag> ANIMATION_SYNC = SynchedEntityData.defineId(AnimatedPathfinderMob.class, EntityDataSerializers.COMPOUND_TAG);
     protected final EntityAnimationController animations = new EntityAnimationController(this);
 

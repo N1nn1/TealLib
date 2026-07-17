@@ -323,6 +323,7 @@ public final class EntityAnimationController {
      * @return the advancing time of the {@link AnimationSnapshot Animation Snapshot} in ticks.
      */
     public int getTick(ResourceLocation id) {
+        if (isStopped(id)) return -1;
         return Math.toIntExact(entity.level().getGameTime() - snapshots.get(id).startGameTime);
     }
 
