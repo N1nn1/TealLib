@@ -40,6 +40,7 @@ public abstract class AbstractFloorParticle extends TextureSheetParticle {
             vector3f.rotate(quaternionf1);
             if (bl) vector3f.rotate(new Quaternionf().rotationX(Mth.PI));
             if (rotatingAmount > 0) vector3f.rotate(new Quaternionf().rotationY(this.age * rotatingAmount));
+            rotate(vector3f);
             vector3f.mul(f3);
             vector3f.add(f, f1, f2);
         }
@@ -51,7 +52,10 @@ public abstract class AbstractFloorParticle extends TextureSheetParticle {
         this.makeCornerVertex(vertexConsumer, avector3f[3], this.getU0(), this.getV1(), j);
     }
 
-    void makeCornerVertex(VertexConsumer vertexConsumer, Vector3f pos, float u, float v, int light) {
+    protected void rotate(Vector3f vector3f) {
+    }
+
+    protected void makeCornerVertex(VertexConsumer vertexConsumer, Vector3f pos, float u, float v, int light) {
         vertexConsumer.addVertex(pos.x(), pos.y(), pos.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(light);
     }
 }
