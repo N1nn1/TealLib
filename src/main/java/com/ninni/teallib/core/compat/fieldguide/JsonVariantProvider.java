@@ -35,6 +35,11 @@ public class JsonVariantProvider<T extends Mob & JsonVariantHolder> implements V
 
         return variants;
     }
+    
+    @Override
+    public boolean suppressesDefaultVariant(T entity) {
+        return true;
+    }
 
     @Override
     public void apply(T entity, VariantDef def) {
