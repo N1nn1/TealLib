@@ -19,6 +19,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.neoforged.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -233,7 +234,12 @@ public class EntityVariantManager {
         if (weightedEntries.isEmpty()) return Optional.empty();
 
         int totalWeight = weightedEntries.stream().mapToInt(WeightedEntry::weight).sum();
-        int randomWeight = level.getRandom().nextInt(totalWeight);
+        RandomSource random;
+
+        if (ModList.get().isLoaded("c2me")) random = RandomSource.create();
+        else random = level.getRandom();
+
+        int randomWeight = random.nextInt(totalWeight);
         int cumulative = 0;
 
         for (WeightedEntry entry : weightedEntries) {
