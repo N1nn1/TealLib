@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ninni.teallib.core.registry.VariantDataTypes;
 import net.minecraft.core.Holder;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,7 +28,7 @@ public record AttributeData(float chance, Holder<Attribute> attribute, Attribute
     ).apply(inst, AttributeData::new));
 
     @Override
-    public void applyEntity(Entity entity, ServerLevel level, RandomSource random) {
+    public void applyEntity(Entity entity, ServerLevelAccessor level, RandomSource random) {
         if (entity instanceof LivingEntity living) {
             if (random.nextFloat() > chance) return;
             AttributeInstance instance = living.getAttribute(attribute);

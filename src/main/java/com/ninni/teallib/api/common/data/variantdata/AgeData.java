@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ninni.teallib.core.registry.VariantDataTypes;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +22,7 @@ public record AgeData(float chance, int age) implements VariantData {
     ).apply(inst, AgeData::new));
 
     @Override
-    public void applyEntity(Entity entity, ServerLevel level, RandomSource random) {
+    public void applyEntity(Entity entity, ServerLevelAccessor level, RandomSource random) {
         if (random.nextFloat() > chance) return;
         if (entity instanceof AgeableMob mob) mob.setAge(age);
     }

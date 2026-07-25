@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.ninni.teallib.core.registry.VariantDataTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -30,7 +31,7 @@ public interface VariantData {
      * @param level The Server Level.
      * @param random The Random Source used for chance-based effects.
      */
-    default void applyEntity(Entity entity, ServerLevel level, RandomSource random) {
+    default void applyEntity(Entity entity, ServerLevelAccessor level, RandomSource random) {
     }
 
     /**

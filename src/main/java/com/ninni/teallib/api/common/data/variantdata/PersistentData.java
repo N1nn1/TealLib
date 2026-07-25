@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ninni.teallib.core.registry.VariantDataTypes;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -20,7 +20,7 @@ public record PersistentData(float chance) implements VariantData {
     ).apply(inst, PersistentData::new));
 
     @Override
-    public void applyEntity(Entity entity, ServerLevel level, RandomSource random) {
+    public void applyEntity(Entity entity, ServerLevelAccessor level, RandomSource random) {
         if (random.nextFloat() > chance) return;
         if (entity instanceof Mob mob) mob.setPersistenceRequired();
     }
