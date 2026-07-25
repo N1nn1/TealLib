@@ -16,7 +16,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import com.ninni.teallib.api.common.data.entityvariant.EntityVariantManager;
 
 @Mod(TealLib.MODID)
@@ -38,6 +38,6 @@ public class TealLib {
         TealItems.DEF_REG.register(modEventBus);
         TealEntityType.DEF_REG.register(modEventBus);
         TealBiomeModifiers.DEF_REG.register(modEventBus);
-        NeoForge.EVENT_BUS.addListener((EntityTickEvent.Post event) -> EntityVariantManager.assignVariantOnTick(event.getEntity()));
+        NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post event) -> EntityVariantManager.tickAwaitingVariants());
     }
 }

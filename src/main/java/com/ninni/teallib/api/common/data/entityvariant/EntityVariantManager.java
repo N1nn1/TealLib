@@ -6,7 +6,6 @@ import com.ninni.teallib.api.common.data.variantdata.VariantData;
 import com.ninni.teallib.api.common.entity.variant.JsonVariantHolder;
 import com.ninni.teallib.api.common.data.CodecUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -18,15 +17,19 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A utility class for working with {@link EntityVariantData Entity Variant Data}.
@@ -44,7 +47,7 @@ public class EntityVariantManager {
 
     private EntityVariantManager() {}
 
-    private static final String PENDING_VARIANT_KEY = "teallib.pending_variant";
+    private static final Set<Entity> AWAITING_VARIANT = ConcurrentHashMap.newKeySet();
 
     /**
      * @param access The Registry Access.
@@ -145,17 +148,21 @@ public class EntityVariantManager {
         if (canQueryNow(level, entity.blockPosition())) {
             getNaturallyOccurringVariant(entity, level);
         } else {
-            entity.getPersistentData().putBoolean(PENDING_VARIANT_KEY, true);
+            AWAITING_VARIANT.add(entity);
         }
     }
 
-    public static void assignVariantOnTick(Entity entity) {
-        if (entity.level().isClientSide || !(entity instanceof JsonVariantHolder)) return;
-        CompoundTag data = entity.getPersistentData();
-        if (!data.getBoolean(PENDING_VARIANT_KEY)) return;
-        if (entity.level() instanceof ServerLevelAccessor level && canQueryNow(level, entity.blockPosition())) {
-            data.remove(PENDING_VARIANT_KEY);
-            getNaturallyOccurringVariant(entity, level);
+    public static void tickAwaitingVariants() {
+        if (AWAITING_VARIANT.isEmpty()) return;
+        Iterator<Entity> it = AWAITING_VARIANT.iterator();
+        while (it.hasNext()) {
+            Entity entity = it.next();
+            if (entity.isRemoved() || entity.level().isClientSide) {
+                it.remove();
+            } else if (entity.level() instanceof ServerLevelAccessor level && canQueryNow(level, entity.blockPosition())) {
+                it.remove();
+                getNaturallyOccurringVariant(entity, level);
+            }
         }
     }
 
@@ -206,7 +213,7 @@ public class EntityVariantManager {
      * @return the chosen weighted entry, or an empty Optional if
      * no valid variants were found.
      */
-    public static Optional<WeightedEntry> chooseVariant(EntityType<?> type, ServerLevelAccessor level, BlockPos pos) {
+    public static Optional<WeightedEntry> chooseVariant(EntityType<?> type, LevelReader level, BlockPos pos) {
         Holder<Biome> holder = level.getBiome(pos);
         CodecUtils.Weather weather = resolveWeather(level, pos, holder);
 
@@ -264,14 +271,17 @@ public class EntityVariantManager {
         return Optional.empty();
     }
 
-    private static CodecUtils.Weather resolveWeather(ServerLevelAccessor level, BlockPos pos, Holder<Biome> holder) {
-        ServerLevel serverLevel = level.getLevel();
-        if (!serverLevel.isRaining()) return CodecUtils.Weather.NONE;
+    private static CodecUtils.Weather resolveWeather(LevelReader level, BlockPos pos, Holder<Biome> holder) {
+        Level weatherLevel;
+        if (level instanceof Level l) weatherLevel = l;
+        else if (level instanceof ServerLevelAccessor sla) weatherLevel = sla.getLevel();
+        else return CodecUtils.Weather.NONE;
+        if (!weatherLevel.isRaining()) return CodecUtils.Weather.NONE;
         if (!level.canSeeSky(pos) || level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY() > pos.getY()) return CodecUtils.Weather.NONE;
 
         Biome.Precipitation precipitation = holder.value().getPrecipitationAt(pos);
         if (precipitation == Biome.Precipitation.SNOW) return CodecUtils.Weather.SNOW;
-        if (precipitation == Biome.Precipitation.RAIN) return serverLevel.isThundering() ? CodecUtils.Weather.THUNDER : CodecUtils.Weather.RAIN;
+        if (precipitation == Biome.Precipitation.RAIN) return weatherLevel.isThundering() ? CodecUtils.Weather.THUNDER : CodecUtils.Weather.RAIN;
         return CodecUtils.Weather.NONE;
     }
 

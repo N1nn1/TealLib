@@ -33,8 +33,8 @@ public interface JsonVariantHolder {
         if (tag.contains(tagKey, 99)) {
             EntityVariantManager.getNaturallyOccurringVariant(mob);
         } else if (tag.contains(tagKey, 8)) {
-            ResourceLocation rl = ResourceLocation.parse(tag.getString(tagKey));
-            if (EntityVariantManager.isValidVariantForType(mob.level().registryAccess(), mob.getType(), rl)) {
+            ResourceLocation rl = ResourceLocation.tryParse(tag.getString(tagKey));
+            if (rl != null && EntityVariantManager.isValidVariantForType(mob.level().registryAccess(), mob.getType(), rl)) {
                 this.setVariant(rl);
             } else {
                 EntityVariantManager.getNaturallyOccurringVariant(mob);
