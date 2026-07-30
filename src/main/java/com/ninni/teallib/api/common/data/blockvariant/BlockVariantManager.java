@@ -23,7 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -149,7 +148,7 @@ public class BlockVariantManager {
     public static void assignNaturally(VariantHolderBlockEntity blockEntity) {
         Level level = blockEntity.getLevel();
         if (level != null) {
-            BlockVariantData data = get(level.registryAccess(), getNaturalVariant(blockEntity.getVariantType(), level, blockEntity.getBlockPos(), level.random, blockEntity.getDefaultVariant()));
+            BlockVariantData data = get(level.registryAccess(), getNaturalVariant(blockEntity.getVariantType(), level, blockEntity.getBlockPos(), RandomSource.create(), blockEntity.getDefaultVariant()));
             if (data != null) {
                 applyVariantData(blockEntity, data);
                 blockEntity.setVariant(data.id);
@@ -168,9 +167,7 @@ public class BlockVariantManager {
         if (data == null || data.variantData.isEmpty()) return;
         Level level = be.getLevel();
         if (level instanceof ServerLevel serverLevel) {
-            RandomSource random;
-            if (ModList.get().isLoaded("c2me")) random = RandomSource.create();
-            else random = level.getRandom();
+            RandomSource random = RandomSource.create();
             for (VariantData variantData : data.variantData.get()) {
                 variantData.applyBlockEntity(be, serverLevel, random);
             }
