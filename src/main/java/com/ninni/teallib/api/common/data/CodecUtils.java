@@ -2,6 +2,7 @@ package com.ninni.teallib.api.common.data;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * A collection of codecs and helper types used throughout Teal Lib's
@@ -63,6 +65,10 @@ public class CodecUtils {
             }
             return false;
         }
+    }
+
+    public static Codec<Float> floatRangeMinExclusiveWithMessage(float min, float max, Function<Float, String> errorMessage) {
+        return Codec.FLOAT.validate((aFloat) -> aFloat.compareTo(min) >= 0 && aFloat.compareTo(max) <= 0 ? DataResult.success(aFloat) : DataResult.error(() -> errorMessage.apply(aFloat)));
     }
 
     public enum Weather implements StringRepresentable {
