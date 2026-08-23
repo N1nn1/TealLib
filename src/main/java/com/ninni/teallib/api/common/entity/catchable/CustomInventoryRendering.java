@@ -14,7 +14,7 @@ public interface CustomInventoryRendering {
     boolean renderedInTooltip();
     void setRenderedInTooltip(boolean bl);
     default boolean animateBob() {
-        return true;
+        return false;
     }
     default boolean scaleBaby() {
         return true;

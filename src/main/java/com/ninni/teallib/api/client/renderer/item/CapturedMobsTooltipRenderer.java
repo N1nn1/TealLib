@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
@@ -69,21 +70,26 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             Entity entity = type.create(mc.level);
             if (!(entity instanceof LivingEntity living)) continue;
 
-            CompoundTag fishTag = tag.copy();
-            fishTag.remove("id");
-            fishTag.remove("CustomName");
-            EntityType.updateCustomEntityTag(mc.level, null, entity, CustomData.of(fishTag));
+
+            CompoundTag entityTag = tag.copy();
+            entityTag.remove("Rotation");
+            entityTag.remove("Motion");
+            entityTag.remove("Pos");
+            entityTag.remove("CustomName");
+            EntityType.updateCustomEntityTag(mc.level, null, entity, CustomData.of(entityTag));
             if (tag.contains("CustomName")) entity.setCustomName(Component.literal(tag.getString("CustomName")));
 
+
             if (entity instanceof Bucketable bucketable) {
-                bucketable.loadFromBucketTag(fishTag);
+                bucketable.loadFromBucketTag(entityTag);
                 if (entity instanceof TropicalFishAccessor tf) {
-                    if (fishTag.contains("BucketVariantTag")) tf.callSetPackedVariant(fishTag.getInt("BucketVariantTag"));
+                    if (entityTag.contains("BucketVariantTag")) tf.callSetPackedVariant(entityTag.getInt("BucketVariantTag"));
                     else tf.callSetPackedVariant(65536);
                 }
             }
-            if (entity instanceof Catchable catchable && entity instanceof Mob mob) catchable.loadDataFromTag(mob, fishTag);
-            if (entity instanceof JsonVariantHolder holder && !fishTag.contains("Variant")) holder.setVariant(holder.getDefaultVariant());
+            else if (entity instanceof Catchable catchable && entity instanceof Mob mob) catchable.loadDataFromTag(mob, entityTag);
+            else entity.load(entityTag);
+            if (entity instanceof JsonVariantHolder holder && !entityTag.contains("Variant")) holder.setVariant(holder.getDefaultVariant());
             if (entity instanceof EntityAccessor accessor) accessor.setTouchingWater(true);
             entity.setYHeadRot(0);
 
@@ -93,12 +99,10 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
                 pose.setRenderedInTooltip(true);
                 if (living instanceof AgeableMob ageableMob) {
                     if (pose.babyByDefault()) ageableMob.setBaby(true);
-                    if (ageableMob.isBaby() && pose.scaleBaby()) scaleMultiplier = 0.5F;
+                    if (ageableMob.isBaby() && pose.scaleBaby() && !ResourceLocation.tryParse(entityTag.getString("id")).getNamespace().equals("spawn")) scaleMultiplier = 0.5F;
                 }
-                pose.setCustomData(entity, fishTag);
-            } else {
-                if (living instanceof AgeableMob ageableMob && ageableMob.isBaby()) scaleMultiplier = 0.5F;
-            }
+                pose.setCustomData(entity, entityTag);
+            } else if (living instanceof AgeableMob ageableMob && ageableMob.isBaby()) scaleMultiplier = 0.5F;
             if (living instanceof Axolotl) scaleMultiplier *= 1.5F;
 
             //Scaling
@@ -117,8 +121,8 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
 
             //Bobbing
             float time = (mc.level.getGameTime() + mc.getTimer().getGameTimeDeltaPartialTick(false)) / 20.0f;
-            float bob = (float) Math.sin((time + i * 0.4f) * Math.PI * 0.5f) * 0.05f;
-            if (entity instanceof CustomInventoryRendering pose && !pose.animateBob()) bob = 0;
+            float bob = 0;
+            if (entity instanceof CustomInventoryRendering pose && pose.animateBob()) bob = (float) Math.sin((time + i * 0.4f) * Math.PI * 0.5f) * 0.05f;
 
             //Render
             PoseStack stack = graphics.pose();
@@ -126,7 +130,8 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             stack.translate(renderX, renderY + bob * scale, 50.0f + (i * 2));
             stack.scale(scale, -scale, scale);
             stack.mulPose(Axis.YP.rotationDegrees(45));
-            stack.mulPose(Axis.XP.rotationDegrees((i % 4 - 1.5f) * 5f));
+            stack.mulPose(Axis.XP.rotationDegrees((i % 4 - 1.5f) * -7.5f));
+            stack.mulPose(Axis.ZP.rotationDegrees((i % 4 - 1.5f) * -7.5f));
             if (living instanceof Axolotl) stack.mulPose(Axis.XP.rotationDegrees(25));
 
             int light = LightTexture.pack(15, 15);
