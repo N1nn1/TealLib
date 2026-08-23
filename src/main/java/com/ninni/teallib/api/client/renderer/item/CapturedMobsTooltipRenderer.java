@@ -93,22 +93,18 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             if (entity instanceof EntityAccessor accessor) accessor.setTouchingWater(true);
             entity.setYHeadRot(0);
 
-            float scaleMultiplier = 1;
-
             if (entity instanceof CustomInventoryRendering pose) {
                 pose.setRenderedInTooltip(true);
                 if (living instanceof AgeableMob ageableMob) {
                     if (pose.babyByDefault()) ageableMob.setBaby(true);
-                    if (ageableMob.isBaby() && pose.scaleBaby() && !ResourceLocation.tryParse(entityTag.getString("id")).getNamespace().equals("spawn")) scaleMultiplier = 0.5F;
                 }
                 pose.setCustomData(entity, entityTag);
-            } else if (living instanceof AgeableMob ageableMob && ageableMob.isBaby()) scaleMultiplier = 0.5F;
-            if (living instanceof Axolotl) scaleMultiplier *= 1.5F;
+            }
 
             //Scaling
-            float maxSize = Math.max(entity.getDimensions(entity.getPose()).width(), entity.getDimensions(entity.getPose()).height());
+            float maxSize = Math.max(entity.getBbWidth(), entity.getBbHeight());
             float scale = (cellSize * 0.8f) / maxSize;
-            scale = Math.min(scale, 32.0F) * scaleMultiplier;
+            scale = Math.min(scale, 32.0F);
 
             //Positioning
             int col = i % maxPerRow;
