@@ -65,19 +65,20 @@ public final class EntityAnimationController {
 
     /**
      * @param id The Animation ID
-     * @return if the {@link AnimationSnapshot Animation Snapshot} of the specified id is not playing
+     * @return if the {@link AnimationState Animation State} of the specified id is not playing
      */
     public boolean isStopped(ResourceLocation id) {
-        AnimationSnapshot snapshot = snapshots.get(id);
-        return snapshot == null || !snapshot.started;
+        AnimationState snapshot = states.get(id);
+        return snapshot == null || !snapshot.isStarted();
     }
 
     /**
      * @param id The Animation ID
-     * @return if the {@link AnimationSnapshot Animation Snapshot} of the specified id is playing
+     * @return if the {@link AnimationState Animation State} of the specified id is playing
      */
     public boolean isPlaying(ResourceLocation id) {
-        return !isStopped(id);
+        AnimationState snapshot = states.get(id);
+        return snapshot != null && snapshot.isStarted();
     }
 
     /**
