@@ -36,7 +36,13 @@ public abstract class AnimatedAgeableMob extends AgeableMob implements EntityAni
             animations.tickClient();
         } else {
             animations.tickServer();
-            if (animations.consumeDirty()) entityData.set(ANIMATION_SYNC, animations.writeSync());
+            flushAnimationSync();
+        }
+    }
+
+    public final void flushAnimationSync() {
+        if (animations.consumeDirty()) {
+            entityData.set(ANIMATION_SYNC, animations.writeSync());
         }
     }
 
