@@ -1,0 +1,104 @@
+{
+  "entity.teallib.mannequin": "Manichino",
+  "item.teallib.mannequin": "Manichino",
+
+  "config.teallib.section.vanilla_changes": "Vanilla Changes",
+
+  "config.teallib.bucket_tooltip": "Bucket Tooltip",
+  "config.teallib.bucket_tooltip.tooltip": "Whether bucketed mobs display themselves in the bucket tooltip.",
+
+  "config.teallib.replace_baby_mob_names": "Replace Baby Mob Names",
+  "config.teallib.replace_baby_mob_names.tooltip": "Whether Baby mobs get unique names (Example: Baby Cows called Calves, or Baby Chickens called Chicks).",
+
+  "config.teallib.axolotl_bucket_tooltip": "Axolotl Bucket Tooltip",
+  "config.teallib.axolotl_bucket_tooltip.tooltip": "Whether Axolotls display their variant in the bucket's tooltip.",
+
+
+  "variant.minecraft.rabbit.0": "Marrone",
+  "variant.minecraft.rabbit.1": "Bianco",
+  "variant.minecraft.rabbit.2": "Nero",
+  "variant.minecraft.rabbit.3": "A macchie bianche",
+  "variant.minecraft.rabbit.4": "Dorato",
+  "variant.minecraft.rabbit.5": "Sale e Pepe",
+  "variant.minecraft.rabbit.99": "Caerbannog",
+
+  "variant.minecraft.fox.0": "Rossa",
+  "variant.minecraft.fox.1": "Artica",
+
+  "variant.minecraft.mooshroom.red": "Rossa",
+  "variant.minecraft.mooshroom.brown": "Marrone",
+
+  "variant.minecraft.frog.temperate": "Temperata",
+  "variant.minecraft.frog.warm": "Calda",
+  "variant.minecraft.frog.cold": "Fredda",
+
+  "variant.minecraft.llama.0": "Cremoso",
+  "variant.minecraft.llama.1": "Bianco",
+  "variant.minecraft.llama.2": "Marrone",
+  "variant.minecraft.llama.3": "Grigio",
+  "variant.minecraft.trader_llama.0": "Cremoso",
+  "variant.minecraft.trader_llama.1": "Bianco",
+  "variant.minecraft.trader_llama.2": "Marrone",
+  "variant.minecraft.trader_llama.3": "Grigio",
+
+  "variant.minecraft.parrot.0": "Rosso e Blu",
+  "variant.minecraft.parrot.1": "Blu",
+  "variant.minecraft.parrot.2": "Verde",
+  "variant.minecraft.parrot.3": "Giallo e Blu",
+  "variant.minecraft.parrot.4": "Grigio",
+
+  "variant.minecraft.horse.0": "Bianco",
+  "variant.minecraft.horse.1": "Cremoso",
+  "variant.minecraft.horse.2": "Color Castagna",
+  "variant.minecraft.horse.3": "Marrone",
+  "variant.minecraft.horse.4": "Nero",
+  "variant.minecraft.horse.5": "Grigio",
+  "variant.minecraft.horse.6": "Marrone Scuro",
+
+  "variant.minecraft.axolotl.0": "Lucy",
+  "variant.minecraft.axolotl.1": "Selvatico",
+  "variant.minecraft.axolotl.2":  "Dorato",
+  "variant.minecraft.axolotl.3": "Ciano",
+  "variant.minecraft.axolotl.4":  "Blu",
+
+  "variant.minecraft.cat.tabby": "Tabby",
+  "variant.minecraft.cat.black": "Nero",
+  "variant.minecraft.cat.red": "Rosso",
+  "variant.minecraft.cat.siamese": "Siamese",
+  "variant.minecraft.cat.british_shorthair": "British Shorthair",
+  "variant.minecraft.cat.calico": "Calico",
+  "variant.minecraft.cat.persian": "Persiano",
+  "variant.minecraft.cat.ragdoll": "Ragdoll",
+  "variant.minecraft.cat.white": "Bianco",
+  "variant.minecraft.cat.jellie": "Jellie",
+  "variant.minecraft.cat.all_black": "Nero Pece",
+
+
+  "tooltip.teallib.default_baby": "Cucciolo di ",
+
+  "entity.minecraft.cow.baby": "Vitello",
+  "entity.minecraft.mooshroom.baby": "Vitello di Mooshroom",
+  "entity.minecraft.camel.baby": "Cammellino",
+
+  "entity.minecraft.skeleton_horse.baby": "Puledro scheletro",
+  "entity.minecraft.zombie_horse.baby": "Puledro zombi",
+  "entity.minecraft.horse.baby": "Puledro",
+  "entity.minecraft.donkey.baby": "Asinello",
+
+  "entity.minecraft.pig.baby": "Maialino",
+
+  "entity.minecraft.wolf.baby": "Lupacchiotto",
+
+  "entity.minecraft.cat.baby": "Gattino",
+
+  "entity.minecraft.llama.baby": "Cria",
+  "entity.minecraft.trader_llama.baby": "Cria di mercante",
+
+  "entity.minecraft.fox.baby": "Volpacchiotto",
+  "entity.minecraft.rabbit.baby": "Coniglietto",
+
+  "entity.minecraft.goat.baby": "Capretto",
+
+  "entity.minecraft.chicken.baby": "Pulcino",
+  "entity.minecraft.sheep.baby": "Agnello"
+}

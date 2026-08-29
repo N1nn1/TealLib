@@ -19,11 +19,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Bucketable;
+import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
+import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.item.component.CustomData;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Client-side tooltip renderer for displaying captured mobs inside an item tooltip.
@@ -39,6 +44,8 @@ import org.jetbrains.annotations.NotNull;
 @OnlyIn(Dist.CLIENT)
 public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
     private final ListTag capturedMobs;
+    private static final Map<String, Entity> PREVIEW_ENTITIES = new HashMap<>();
+    private static final Map<String, Long> PREVIEW_TIMES = new HashMap<>();
 
     public CapturedMobsTooltipRenderer(CapturedMobsTooltipData data) {
         this.capturedMobs = data.capturedMobs();
@@ -67,7 +74,7 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             EntityType<?> type = EntityType.byString(tag.getString("id")).orElse(null);
             if (type == null || mc.level == null) continue;
 
-            Entity entity = type.create(mc.level);
+            Entity entity = getPreviewEntity(mc, type, tag);
             if (!(entity instanceof LivingEntity living)) continue;
 
 
@@ -78,7 +85,6 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             entityTag.remove("CustomName");
             EntityType.updateCustomEntityTag(mc.level, null, entity, CustomData.of(entityTag));
             if (tag.contains("CustomName")) entity.setCustomName(Component.literal(tag.getString("CustomName")));
-
 
             if (entity instanceof Bucketable bucketable) {
                 bucketable.loadFromBucketTag(entityTag);
@@ -116,7 +122,8 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             float renderY = y + yOffset + (rowHeights[row] / 2f);
 
             //Bobbing
-            float time = (mc.level.getGameTime() + mc.getTimer().getGameTimeDeltaPartialTick(false)) / 20.0f;
+            float partialTick = mc.getTimer().getGameTimeDeltaPartialTick(false);
+            float time = (mc.level.getGameTime() + partialTick) / 20.0f;
             float bob = 0;
             if (entity instanceof CustomInventoryRendering pose && pose.animateBob()) bob = (float) Math.sin((time + i * 0.4f) * Math.PI * 0.5f) * 0.05f;
 
@@ -128,7 +135,12 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             stack.mulPose(Axis.YP.rotationDegrees(45));
             stack.mulPose(Axis.XP.rotationDegrees((i % 4 - 1.5f) * -7.5f));
             stack.mulPose(Axis.ZP.rotationDegrees((i % 4 - 1.5f) * -7.5f));
-            if (living instanceof Axolotl) stack.mulPose(Axis.XP.rotationDegrees(25));
+            if (entity instanceof Squid || entity instanceof Guardian) {
+                if (entity instanceof Squid) stack.translate(0,0.45,0);
+                stack.scale(0.9f, 0.9f, 0.9f);
+                stack.mulPose(Axis.ZP.rotationDegrees(45));
+                partialTick = 0.6f;
+            }
 
             int light = LightTexture.pack(15, 15);
             if (entity instanceof CustomInventoryRendering pose) light = LightTexture.pack(pose.getInventoryBlockLight(), pose.getInventorySkyLight());
@@ -137,9 +149,9 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
 
             Minecraft.getInstance().getEntityRenderDispatcher().render(
                     living,
-                    0.0, 0.0, 0.0,
-                    0.0f,
-                    1.0f,
+                    0.0, -0.075, 0.0,
+                    0,
+                    partialTick,
                     stack,
                     graphics.bufferSource(),
                     light
@@ -181,6 +193,28 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
 
             stack.popPose();
         }
+    }
+
+    private static Entity getPreviewEntity(Minecraft mc, EntityType<?> type, CompoundTag tag) {
+        if (mc.level == null) return null;
+
+        String id = tag.getString("id");
+
+        Entity entity = PREVIEW_ENTITIES.get(id);
+
+        if (entity == null || entity.getType() != type) {
+            entity = type.create(mc.level);
+            if (entity == null) return null;
+
+            PREVIEW_ENTITIES.put(id, entity);
+            PREVIEW_TIMES.put(id, mc.level.getGameTime());
+        }
+
+        long currentTime = mc.level.getGameTime();
+        long previousTime = PREVIEW_TIMES.getOrDefault(id, currentTime);
+        for (int i = 0; i < Math.min(currentTime - previousTime, 5L); i++) entity.tickCount++;
+        PREVIEW_TIMES.put(id, currentTime);
+        return entity;
     }
 
     @SuppressWarnings("unused")

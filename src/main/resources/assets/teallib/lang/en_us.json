@@ -3,6 +3,115 @@
   "item.teallib.mannequin": "Mannequin",
 
   "config.teallib.section.vanilla_changes": "Vanilla Changes",
+
   "config.teallib.bucket_tooltip": "Bucket Tooltip",
-  "config.teallib.bucket_tooltip.tooltip": "Whether bucketed mobs display themselves in the bucket tooltip."
+  "config.teallib.bucket_tooltip.tooltip": "Whether bucketed mobs display themselves in the bucket tooltip.",
+
+  "config.teallib.replace_baby_mob_names": "Replace Baby Mob Names",
+  "config.teallib.replace_baby_mob_names.tooltip": "Whether Baby mobs get unique names (Example: Baby Cows called Calves, or Baby Chickens called Chicks).",
+
+  "config.teallib.axolotl_bucket_tooltip": "Axolotl Bucket Tooltip",
+  "config.teallib.axolotl_bucket_tooltip.tooltip": "Whether Axolotls display their variant in the bucket's tooltip.",
+
+
+
+  "variant.minecraft.rabbit.0": "Brown",
+  "variant.minecraft.rabbit.1": "White",
+  "variant.minecraft.rabbit.2": "Black",
+  "variant.minecraft.rabbit.3": "White Splotched",
+  "variant.minecraft.rabbit.4": "Gold",
+  "variant.minecraft.rabbit.5": "Salt And Pepper",
+  "variant.minecraft.rabbit.99": "Caerbannog",
+
+  "variant.minecraft.fox.0": "Red",
+  "variant.minecraft.fox.1": "Snow",
+
+  "variant.minecraft.mooshroom.red": "Red",
+  "variant.minecraft.mooshroom.brown": "Brown",
+
+  "variant.minecraft.frog.temperate": "Temperate",
+  "variant.minecraft.frog.warm": "Warm",
+  "variant.minecraft.frog.cold": "Cold",
+
+  "variant.minecraft.llama.0": "Creamy",
+  "variant.minecraft.llama.1": "White",
+  "variant.minecraft.llama.2": "Brown",
+  "variant.minecraft.llama.3": "Gray",
+  "variant.minecraft.trader_llama.0": "Creamy",
+  "variant.minecraft.trader_llama.1": "White",
+  "variant.minecraft.trader_llama.2": "Brown",
+  "variant.minecraft.trader_llama.3": "Gray",
+
+  "variant.minecraft.parrot.0": "Red and Blue",
+  "variant.minecraft.parrot.1": "Blue",
+  "variant.minecraft.parrot.2": "Green",
+  "variant.minecraft.parrot.3": "Yellow and Blue",
+  "variant.minecraft.parrot.4": "Gray",
+
+  "variant.minecraft.horse.0": "White",
+  "variant.minecraft.horse.1": "Creamy",
+  "variant.minecraft.horse.2": "Chestnut",
+  "variant.minecraft.horse.3": "Brown",
+  "variant.minecraft.horse.4": "Black",
+  "variant.minecraft.horse.5": "Gray",
+  "variant.minecraft.horse.6": "Dark Brown",
+
+  "variant.minecraft.axolotl.0": "Lucy",
+  "variant.minecraft.axolotl.1": "Wild",
+  "variant.minecraft.axolotl.2":  "Gold",
+  "variant.minecraft.axolotl.3": "Cyan",
+  "variant.minecraft.axolotl.4":  "Blue",
+
+  "variant.minecraft.cat.tabby": "Tabby",
+  "variant.minecraft.cat.black": "Black",
+  "variant.minecraft.cat.red": "Red",
+  "variant.minecraft.cat.siamese": "Siamese",
+  "variant.minecraft.cat.british_shorthair": "British Shorthair",
+  "variant.minecraft.cat.calico": "Calico",
+  "variant.minecraft.cat.persian": "Persian",
+  "variant.minecraft.cat.ragdoll": "Ragdoll",
+  "variant.minecraft.cat.white": "White",
+  "variant.minecraft.cat.jellie": "Jellie",
+  "variant.minecraft.cat.all_black": "Jet Black",
+
+
+  "tooltip.teallib.default_baby": "Baby ",
+
+  "entity.minecraft.polar_bear.baby": "Polar Bear Cub",
+  "entity.minecraft.panda.baby": "Panda Cub",
+
+  "entity.minecraft.cow.baby": "Calf",
+  "entity.minecraft.mooshroom.baby": "Mooshroom Calf",
+  "entity.minecraft.camel.baby": "Camel Calf",
+  "entity.minecraft.dolphin.baby": "Dolphin Calf",
+
+  "entity.minecraft.skeleton_horse.baby": "Skeleton Foal",
+  "entity.minecraft.zombie_horse.baby": "Zombie Foal",
+  "entity.minecraft.horse.baby": "Foal",
+  "entity.minecraft.mule.baby": "Mule Foal",
+  "entity.minecraft.donkey.baby": "Donkey Foal",
+
+  "entity.minecraft.hoglin.baby": "Hoglet",
+  "entity.minecraft.zoglin.baby": "Zoglet",
+  "entity.minecraft.pig.baby": "Piglet",
+
+  "entity.minecraft.armadillo.baby": "Armadillo Pup",
+  "entity.minecraft.wolf.baby": "Puppy",
+
+  "entity.minecraft.ocelot.baby": "Ocelot Kitten",
+  "entity.minecraft.cat.baby": "Kitten",
+
+  "entity.minecraft.llama.baby": "Cria",
+  "entity.minecraft.trader_llama.baby": "Trader Cria",
+
+  "entity.minecraft.fox.baby": "Fox Kit",
+  "entity.minecraft.rabbit.baby": "Rabbit Kit",
+
+  "entity.minecraft.sniffer.baby": "Snifflet",
+  "entity.minecraft.goat.baby": "Kid",
+  "entity.minecraft.drowned.baby": "Gurgle",
+  "entity.minecraft.turtle.baby": "Turtle Hatchling",
+
+  "entity.minecraft.chicken.baby": "Chick",
+  "entity.minecraft.sheep.baby": "Lamb"
 }

@@ -3,6 +3,7 @@
   "package": "com.ninni.teallib.core.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AxolotlMixin",
     "EntityMixin",
     "MobBucketItemMixin",
     "WaterAnimalMixin",

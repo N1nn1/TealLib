@@ -1,5 +1,6 @@
 package com.ninni.teallib.api.common.item;
 
+import com.ninni.teallib.api.common.item.tooltip.TooltipUtils;
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.api.common.data.entityvariant.EntityVariantManager;
 import com.ninni.teallib.api.common.entity.catchable.Catchable;
@@ -152,14 +153,8 @@ public class CatchableMobBucketItem extends Item {
             list.add(Component.literal(compoundTag.getString("CustomName")).withStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.YELLOW)));
         }
 
-        if (context.level() != null) {
-            if (EntityVariantManager.getVariantCountFor(context.level().registryAccess(), entityTypeSupplier.get()) > 1) {
-                if (!compoundTag.isEmpty() && compoundTag.contains("Variant")) {
-                    ResourceLocation loc = ResourceLocation.parse(compoundTag.getString("Variant"));
-                    String name = BuiltInRegistries.ENTITY_TYPE.getKey(entityTypeSupplier.get()).getPath();
-                    list.add(Component.translatable("variant." + loc.getNamespace() + "." + name + "." + loc.getPath()).withStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY)));
-                }
-            }
+        if (entityTypeSupplier != null) {
+            TooltipUtils.addJsonEntityVariantTooltip(stack, context, list, entityTypeSupplier.get());
         }
 
         super.appendHoverText(stack, context, list, tooltipFlag);
