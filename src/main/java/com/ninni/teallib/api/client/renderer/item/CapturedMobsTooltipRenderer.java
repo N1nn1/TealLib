@@ -135,11 +135,14 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             stack.mulPose(Axis.YP.rotationDegrees(45));
             stack.mulPose(Axis.XP.rotationDegrees((i % 4 - 1.5f) * -7.5f));
             stack.mulPose(Axis.ZP.rotationDegrees((i % 4 - 1.5f) * -7.5f));
-            if (entity instanceof Squid || entity instanceof Guardian) {
-                if (entity instanceof Squid) stack.translate(0,0.45,0);
+            if (entity instanceof Squid) {
+                stack.translate(0,0.45,0);
                 stack.scale(0.9f, 0.9f, 0.9f);
                 stack.mulPose(Axis.ZP.rotationDegrees(45));
-                partialTick = 0.6f;
+            }
+            if (entity instanceof Guardian) {
+                stack.mulPose(Axis.YN.rotationDegrees(70));
+                stack.mulPose(Axis.ZN.rotationDegrees(20));
             }
 
             int light = LightTexture.pack(15, 15);
@@ -149,7 +152,7 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
 
             Minecraft.getInstance().getEntityRenderDispatcher().render(
                     living,
-                    0.0, -0.075, 0.0,
+                    0.0, -0.2, 0.0,
                     0,
                     partialTick,
                     stack,
