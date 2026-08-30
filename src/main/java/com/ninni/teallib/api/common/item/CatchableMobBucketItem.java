@@ -1,5 +1,6 @@
 package com.ninni.teallib.api.common.item;
 
+import com.ninni.teallib.api.common.entity.variant.component.EntityVariantComponents;
 import com.ninni.teallib.api.common.item.tooltip.TooltipUtils;
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.api.common.data.entityvariant.EntityVariantManager;
@@ -154,7 +155,7 @@ public class CatchableMobBucketItem extends Item {
         }
 
         if (entityTypeSupplier != null) {
-            TooltipUtils.addJsonEntityVariantTooltip(stack, context, list, entityTypeSupplier.get());
+            EntityVariantComponents.addToTooltip(list, compoundTag, context, entityTypeSupplier.get());
         }
 
         super.appendHoverText(stack, context, list, tooltipFlag);

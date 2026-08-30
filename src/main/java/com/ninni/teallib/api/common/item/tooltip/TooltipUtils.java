@@ -39,7 +39,6 @@ import java.util.stream.Collectors;
 
 public class TooltipUtils {
     public static final Style GRAY_ITALIC = Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY);
-    public static final Style BLUE_ITALIC = Style.EMPTY.withItalic(true).withColor(ChatFormatting.BLUE);
 
     public static Component getEntityName(CompoundTag entityTag) {
         Optional<EntityType<?>> type = EntityType.byString(entityTag.getString("id"));
@@ -72,33 +71,6 @@ public class TooltipUtils {
             }
         } else {
             return entityName;
-        }
-    }
-
-    public static void addJsonEntityVariantTooltip(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, @NotNull List<Component> list, @NotNull EntityType<?> type) {
-        addJsonEntityVariantTooltip(stack, context, list, type, GRAY_ITALIC);
-    }
-
-    public static void addJsonEntityVariantTooltip(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, @NotNull List<Component> list, @NotNull EntityType<?> type, Style style) {
-        CompoundTag compoundTag = stack.getOrDefault(DataComponents.ENTITY_DATA, CustomData.EMPTY).copyTag();
-        if (compoundTag.isEmpty()) compoundTag = stack.getOrDefault(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY).copyTag();
-
-        addJsonEntityVariantTooltip(context, list, type, compoundTag, style);
-    }
-
-    public static void addJsonEntityVariantTooltip(Item.@NotNull TooltipContext context, @NotNull List<Component> list, @NotNull EntityType<?> type, CompoundTag compoundTag) {
-        addJsonEntityVariantTooltip(context, list, type, compoundTag, GRAY_ITALIC);
-    }
-
-    public static void addJsonEntityVariantTooltip(Item.@NotNull TooltipContext context, @NotNull List<Component> list, @NotNull EntityType<?> type, CompoundTag compoundTag, Style style) {
-        if (context.level() == null) return;
-
-        if (EntityVariantManager.getVariantCountFor(context.level().registryAccess(), type) > 1) {
-            if (!compoundTag.isEmpty() && compoundTag.contains("Variant")) {
-                ResourceLocation loc = ResourceLocation.parse(compoundTag.getString("Variant"));
-                ResourceLocation entityName = BuiltInRegistries.ENTITY_TYPE.getKey(type);
-                list.add(Component.translatable("variant." + loc.getNamespace() + "."  + entityName.getPath() +"." + loc.getPath()).withStyle(style));
-            }
         }
     }
 
@@ -135,18 +107,6 @@ public class TooltipUtils {
         }
     }
 
-    public static @NotNull Optional<MutableComponent> getEntityVariantName(CompoundTag compoundTag, ResourceLocation id) {
-        String name = String.valueOf(compoundTag.get("Variant"));
-        if (name.isEmpty() || name.equals("null")) name = String.valueOf(compoundTag.get("variant"));
-        if (name.isEmpty() || name.equals("null")) return Optional.empty();
-
-        String fallback = Arrays.stream(name.split("_")).map((s) -> s.isEmpty() ? s : s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase()).collect(Collectors.joining(" "));
-        String variantNameLocation = "variant." + id.getNamespace() + "." + id.getPath() + "." + name.toLowerCase();
-        MutableComponent variantName;
-        if (Component.translatable(variantNameLocation).getString().equals(variantNameLocation)) variantName = Component.literal(fallback);
-        else variantName = Component.translatable(variantNameLocation);
-        return Optional.of(variantName);
-    }
 
     public static void addFoodTooltip(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, @NotNull List<Component> list) {
         //from farmer's delight

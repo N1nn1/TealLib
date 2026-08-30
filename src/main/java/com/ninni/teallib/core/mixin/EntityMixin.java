@@ -35,10 +35,10 @@ public class EntityMixin implements CustomInventoryRendering {
             if (!(self instanceof LivingEntity mob) || !mob.isBaby()) return;
 
             String key = self.getType().getDescriptionId() + ".baby";
-            MutableComponent baby = Component.translatable(key).withStyle(ChatFormatting.BLUE);
+            MutableComponent baby = Component.translatable(key);
 
             if (baby.getString().equals(key)) {
-                baby = Component.translatable("tooltip.teallib.default_baby").withStyle(ChatFormatting.BLUE);
+                baby = Component.translatable("tooltip.teallib.default_baby");
                 cir.setReturnValue(baby.append(self.getType().getDescription()));
             } else {
                 cir.setReturnValue(baby);

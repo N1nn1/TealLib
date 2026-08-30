@@ -90,6 +90,7 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
                 bucketable.loadFromBucketTag(entityTag);
                 if (entity instanceof TropicalFishAccessor tf) {
                     if (entityTag.contains("BucketVariantTag")) tf.callSetPackedVariant(entityTag.getInt("BucketVariantTag"));
+                    else if (entityTag.contains("Variant")) tf.callSetPackedVariant(entityTag.getInt("Variant"));
                     else tf.callSetPackedVariant(65536);
                 }
             }

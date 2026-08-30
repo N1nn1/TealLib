@@ -1,5 +1,6 @@
 package com.ninni.teallib.core;
 
+import com.ninni.teallib.api.common.entity.variant.component.VanillaEntityVariantComponents;
 import com.ninni.teallib.core.client.TealLibClientConfig;
 import com.ninni.teallib.core.registry.TealBiomeModifiers;
 import com.ninni.teallib.core.registry.TealEntityType;
@@ -39,5 +40,7 @@ public class TealLib {
         TealEntityType.DEF_REG.register(modEventBus);
         TealBiomeModifiers.DEF_REG.register(modEventBus);
         NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post event) -> EntityVariantManager.tickAwaitingVariants());
+
+        VanillaEntityVariantComponents.register();
     }
 }
