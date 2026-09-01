@@ -1,9 +1,7 @@
 package com.ninni.teallib.api.common.item;
 
-import com.ninni.teallib.api.common.entity.variant.component.EntityVariantComponents;
-import com.ninni.teallib.api.common.item.tooltip.TooltipUtils;
+import com.ninni.teallib.api.common.data.variant.EntityVariantComponents;
 import com.ninni.teallib.core.TealLib;
-import com.ninni.teallib.api.common.data.entityvariant.EntityVariantManager;
 import com.ninni.teallib.api.common.entity.catchable.Catchable;
 import com.ninni.teallib.api.common.item.tooltip.CapturedMobsTooltipData;
 import net.minecraft.ChatFormatting;
@@ -14,12 +12,10 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;

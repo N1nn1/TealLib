@@ -1,5 +1,6 @@
-package com.ninni.teallib.api.common.entity.variant.component;
+package com.ninni.teallib.core.registry;
 
+import com.ninni.teallib.api.common.data.variant.EntityVariantComponents;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ninni.teallib.api.common.entity.variant.component.EntityVariantComponents.GRAY_ITALIC;
+import static com.ninni.teallib.api.common.data.variant.EntityVariantComponents.GRAY_ITALIC;
 
 //Here's some small examples using vanilla things!
 

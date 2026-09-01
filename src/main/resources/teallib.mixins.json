@@ -8,7 +8,8 @@
     "MobBucketItemMixin",
     "WaterAnimalMixin",
     "accessor.HierarchicalModelAccessor",
-    "accessor.TropicalFishAccessor"
+    "accessor.TropicalFishAccessor",
+    "client.NeoForgeRenderTypesMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -18,6 +19,9 @@
   },
   "client": [
     "accessor.EntityAccessor",
-    "client.LivingEntityRendererMixin"
+    "client.EyesLayerMixin",
+    "client.LivingEntityRendererMixin",
+    "client.RenderLayerMixin",
+    "client.RenderTypesMixin"
   ]
 }

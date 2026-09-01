@@ -2,8 +2,8 @@ package com.ninni.teallib.api.common.item.tooltip;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-import com.ninni.teallib.api.common.data.blockvariant.BlockVariantManager;
-import com.ninni.teallib.api.common.data.entityvariant.EntityVariantManager;
+import com.ninni.teallib.api.common.data.variant.VariantManager;
+import com.ninni.teallib.api.common.data.variant.VariantTarget;
 import com.ninni.teallib.core.TealLib;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -11,7 +11,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.nbt.TagType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -20,7 +19,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -31,11 +29,9 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class TooltipUtils {
     public static final Style GRAY_ITALIC = Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY);
@@ -97,7 +93,7 @@ public class TooltipUtils {
             if (tag.contains("VariantId")) beId = ResourceLocation.tryParse(tag.getString("VariantId"));
             else beId = ResourceLocation.tryParse(tag.getString("id"));
             if (beId != null) {
-                if (BlockVariantManager.getVariantCountFor(context.level().registryAccess(), BuiltInRegistries.BLOCK_ENTITY_TYPE.get(beId)) > 1) {
+                if (VariantManager.getVariantCountFor(context.level().registryAccess(), VariantTarget.of(BuiltInRegistries.BLOCK_ENTITY_TYPE.get(beId))) > 1) {
                     ResourceLocation variant = ResourceLocation.tryParse(tag.getString("Variant"));
                     if (variant != null) {
                         list.add(Component.translatable("variant." + variant.getNamespace() + "." + beId.getPath() + "." + variant.getPath()).withStyle(style));

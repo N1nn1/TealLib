@@ -17,6 +17,9 @@ It's teal and that's the appeal!
 Library mod that provides qol along with a new Animation system, data driven mob Variants with custom attributes, mob storage in items and more
 '''
 
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
 [[mixins]]
 config="${mod_id}.mixins.json"
 

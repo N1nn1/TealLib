@@ -2,7 +2,6 @@ package com.ninni.teallib.core.common.entity;
 
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.api.common.entity.animation.base.AnimatedLivingEntity;
-import com.ninni.teallib.api.common.entity.variant.JsonVariantHolder;
 import com.ninni.teallib.core.registry.TealItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -26,12 +25,11 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class Mannequin extends AnimatedLivingEntity implements JsonVariantHolder {
+public class Mannequin extends AnimatedLivingEntity {
     private static final Predicate<Entity> RIDABLE_MINECARTS = p_31582_ -> p_31582_ instanceof AbstractMinecart && ((AbstractMinecart)p_31582_).canBeRidden();
     private static final EntityDataAccessor<Boolean> SITTING_DATA = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> DATA_ROTATION = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> DATA_TARGET_ROTATION = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<String> DATA_VARIANT = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.STRING);
 
     public static ResourceLocation PUNCH = ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "punch");
     public static ResourceLocation ROTATION = ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "rotation");
@@ -55,7 +53,6 @@ public class Mannequin extends AnimatedLivingEntity implements JsonVariantHolder
         builder.define(SITTING_DATA, false);
         builder.define(DATA_ROTATION, 0f);
         builder.define(DATA_TARGET_ROTATION, 0f);
-        builder.define(DATA_VARIANT, this.getDefaultVariant().toString());
     }
 
     @Override
@@ -64,7 +61,6 @@ public class Mannequin extends AnimatedLivingEntity implements JsonVariantHolder
         compound.putBoolean("Sitting", isSitting());
         compound.putFloat("Rotation", getRotation());
         compound.putFloat("YHeadRot", getYHeadRot());
-        compound.putString("Variant", this.getVariant().toString());
     }
 
     @Override
@@ -73,7 +69,6 @@ public class Mannequin extends AnimatedLivingEntity implements JsonVariantHolder
         this.setSitting(compound.getBoolean("Sitting"));
         this.setRotation(compound.getFloat("Rotation"));
         this.setYHeadRot(compound.getFloat("YHeadRot"));
-        this.loadOrAssignVariant(this, compound, "Variant");
     }
 
     @Override
@@ -172,15 +167,6 @@ public class Mannequin extends AnimatedLivingEntity implements JsonVariantHolder
     }
 
     @Override
-    public void setVariant(ResourceLocation resourceLocation) {
-        this.entityData.set(DATA_VARIANT, resourceLocation.toString());
-    }
-    @Override
-    public ResourceLocation getVariant() {
-        return ResourceLocation.parse(this.entityData.get(DATA_VARIANT));
-    }
-
-    @Override
     public void kill() {
         this.remove(Entity.RemovalReason.KILLED);
         this.gameEvent(GameEvent.ENTITY_DIE);
@@ -213,10 +199,5 @@ public class Mannequin extends AnimatedLivingEntity implements JsonVariantHolder
     @Override
     public HumanoidArm getMainArm() {
         return null;
-    }
-
-    @Override
-    public ResourceLocation getDefaultVariant() {
-        return ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "teal");
     }
 }

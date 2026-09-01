@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.ninni.teallib.api.common.entity.catchable.Catchable;
 import com.ninni.teallib.api.common.entity.catchable.CustomInventoryRendering;
-import com.ninni.teallib.api.common.entity.variant.JsonVariantHolder;
 import com.ninni.teallib.api.common.item.tooltip.CapturedMobsTooltipData;
 import com.ninni.teallib.core.mixin.accessor.EntityAccessor;
 import com.ninni.teallib.core.mixin.accessor.TropicalFishAccessor;
@@ -16,11 +15,9 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.Squid;
-import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.item.component.CustomData;
 import net.neoforged.api.distmarker.Dist;
@@ -96,7 +93,10 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             }
             else if (entity instanceof Catchable catchable && entity instanceof Mob mob) catchable.loadDataFromTag(mob, entityTag);
             else entity.load(entityTag);
-            if (entity instanceof JsonVariantHolder holder && !entityTag.contains("Variant")) holder.setVariant(holder.getDefaultVariant());
+            //TODO
+            //if (entity instanceof JsonVariantHolder holder && !entityTag.contains("Variant")) {
+            //    holder.setVariant(holder.getDefaultVariant());
+            //}
             if (entity instanceof EntityAccessor accessor) accessor.setTouchingWater(true);
             entity.setYHeadRot(0);
 

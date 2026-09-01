@@ -2,18 +2,6 @@
   "entity.teallib.mannequin": "Mannequin",
   "item.teallib.mannequin": "Mannequin",
 
-  "config.teallib.section.vanilla_changes": "Vanilla Changes",
-
-  "config.teallib.bucket_tooltip": "Bucket Tooltip",
-  "config.teallib.bucket_tooltip.tooltip": "Whether bucketed mobs display themselves in the bucket tooltip.",
-
-  "config.teallib.replace_baby_mob_names": "Replace Baby Mob Names",
-  "config.teallib.replace_baby_mob_names.tooltip": "Whether Baby mobs get unique names (Example: Baby Cows called Calves, or Baby Chickens called Chicks).",
-
-  "config.teallib.global_bucket_tooltip": "Global Bucket Tooltip",
-  "config.teallib.global_bucket_tooltip.tooltip": "Whether Bucket containing vanilla mobs that have variants display their variant's name in the bucket's tooltip. (includes mobs like Axolotls!)",
-
-
   "variant.minecraft.horse.with_markings": "%1$s with %2$s",
   "variant.minecraft.horse.color.minecraft.white": "White",
   "variant.minecraft.horse.color.minecraft.creamy": "Creamy",

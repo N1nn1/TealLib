@@ -1,30 +1,20 @@
 package com.ninni.teallib.api.client.renderer.block;
 
-import com.ninni.teallib.api.common.block.entity.VariantHolderBlockEntity;
-import com.ninni.teallib.api.common.data.blockvariant.BlockVariantManager;
+import com.ninni.teallib.api.common.data.variant.VariantManager;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.world.Nameable;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
-
-import java.util.Objects;
-import java.util.Optional;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 
-public abstract class VariantHolderBlockEntityRenderer<T extends VariantHolderBlockEntity> implements BlockEntityRenderer<T> {
+public abstract class VariantHolderBlockEntityRenderer<T extends BlockEntity & Nameable> implements BlockEntityRenderer<T> {
 
     @SuppressWarnings("SameParameterValue")
-    protected Material getVariantTexture(T be, String subfolder, String extra) {
-        ResourceLocation variant = be.getVariant();
-        String beName = Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(be.getType())).getPath();
-        ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(variant.getNamespace(), "block_entity/" + beName + "/"  + subfolder + beName + "_" + variant.getPath() + extra);
-        Level level = be.getLevel();
-        if (level != null) {
-            Optional<BlockVariantManager.BlockVariantData> nameTagOverride = BlockVariantManager.getNameTagOverride(level.registryAccess(), be);
-            if (nameTagOverride.isPresent()) texture = ResourceLocation.fromNamespaceAndPath(nameTagOverride.get().id().getNamespace(), "block_entity/" + beName + "/" + subfolder + beName + "_" + nameTagOverride.get().id().getPath() + extra);
-        }
-        return new Material(InventoryMenu.BLOCK_ATLAS, texture);
+    protected Material getVariantMaterial(T be, ResourceLocation fallback) {
+        ResourceLocation texture = VariantManager.getTexture(be, "default");
+        if (texture != null) return new Material(InventoryMenu.BLOCK_ATLAS, texture);
+        return new Material(InventoryMenu.BLOCK_ATLAS, fallback);
     }
 }

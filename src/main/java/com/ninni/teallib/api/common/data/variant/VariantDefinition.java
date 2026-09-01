@@ -1,0 +1,67 @@
+package com.ninni.teallib.api.common.data.variant;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ninni.teallib.api.common.data.CodecUtils;
+import com.ninni.teallib.api.common.data.variantdata.VariantData;
+import net.minecraft.core.HolderSet;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biome;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+/**
+ * Defines a json variant.
+ */
+public record VariantDefinition(
+        List<VariantTarget> targets,
+        ResourceLocation id,
+
+        Optional<HolderSet<Biome>> location,
+        CodecUtils.Weather weather,
+
+        Optional<String> comment,
+
+        Optional<Integer> spawnWeight,
+        Optional<Integer> maxSpawnHeight,
+        Optional<Integer> minSpawnHeight,
+
+        Optional<CodecUtils.NameTagRule> nameTag,
+
+        boolean hidden,
+
+        Optional<List<VariantData>> variantData,
+        Map<String, ResourceLocation> textures
+) {
+
+    public static final Codec<VariantDefinition> CODEC =
+            RecordCodecBuilder.create(instance ->
+                    instance.group(
+                            VariantTarget.CODEC.listOf().fieldOf("targets").forGetter(VariantDefinition::targets),
+                            ResourceLocation.CODEC.fieldOf("id").forGetter(VariantDefinition::id),
+                            Biome.LIST_CODEC.optionalFieldOf("location").forGetter(VariantDefinition::location),
+                            CodecUtils.Weather.CODEC.fieldOf("weather").orElse(CodecUtils.Weather.NONE).forGetter(VariantDefinition::weather),
+                            Codec.STRING.optionalFieldOf("_comment").forGetter(VariantDefinition::comment),
+                            Codec.INT.optionalFieldOf("spawnWeight").forGetter(VariantDefinition::spawnWeight),
+                            Codec.INT.optionalFieldOf("maxSpawnHeight").forGetter(VariantDefinition::maxSpawnHeight),
+                            Codec.INT.optionalFieldOf("minSpawnHeight").forGetter(VariantDefinition::minSpawnHeight),
+                            CodecUtils.NameTagRule.CODEC.optionalFieldOf("nameTag").forGetter(VariantDefinition::nameTag),
+                            Codec.BOOL.fieldOf("hidden").orElse(false).forGetter(VariantDefinition::hidden),
+                            VariantData.LIST_CODEC.optionalFieldOf("variant_data_types").forGetter(VariantDefinition::variantData),
+                            Codec.unboundedMap(Codec.STRING, ResourceLocation.CODEC).optionalFieldOf("textures", Map.of()).forGetter(VariantDefinition::textures)
+
+                    ).apply(instance, VariantDefinition::new)
+            );
+
+    public boolean supports(VariantTarget target) {
+        return targets.contains(target);
+    }
+    public boolean hasTexture(String target) {
+        return textures.containsKey(target);
+    }
+    public Optional<ResourceLocation> texture(String target) {
+        return Optional.ofNullable(textures.get(target));
+    }
+}

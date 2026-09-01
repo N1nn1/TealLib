@@ -1,7 +1,6 @@
-package com.ninni.teallib.api.common.entity.variant.component;
+package com.ninni.teallib.api.common.data.variant;
 
-import com.ninni.teallib.api.common.data.entityvariant.EntityVariantManager;
-import com.ninni.teallib.api.common.entity.variant.JsonVariantHolder;
+import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
 import com.ninni.teallib.core.TealLib;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -199,8 +198,10 @@ public final class EntityVariantComponents {
         if (level != null) {
             EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(context.entityId);
             Entity entity = type.create(level);
-            if (entity instanceof JsonVariantHolder) {
-                if (EntityVariantManager.getVariantCountFor(level.registryAccess(), type) == 1) {
+
+            //TODO
+            if (VariantAttachments.has(entity)) {
+                if (VariantManager.getVariantCountFor(level.registryAccess(), VariantTarget.of(type)) == 1) {
                     return Optional.empty();
                 }
             }
