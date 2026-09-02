@@ -36,8 +36,8 @@ public class TealLib {
     }
 
     public TealLib(IEventBus modEventBus, ModContainer modContainer) {
-        modContainer.registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG_SPEC, "teallib-client.toml");
-        modContainer.registerConfig(ModConfig.Type.COMMON, COMMON_CONFIG_SPEC, "teallib-common.toml");
+        modContainer.registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG_SPEC, "teallib/client.toml");
+        modContainer.registerConfig(ModConfig.Type.COMMON, COMMON_CONFIG_SPEC, "teallib/common.toml");
         VariantDataTypes.DEF_REG.register(modEventBus);
         TealItems.DEF_REG.register(modEventBus);
         TealEntityType.DEF_REG.register(modEventBus);

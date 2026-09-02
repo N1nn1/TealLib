@@ -20,8 +20,7 @@ public class TealLibCommonConfig {
                         Add here the entity id's of mobs you don't want json variants applied to.
                         Teal Lib's variants can be aggressive and replace intended entity variants,
                         but it really shouldn't matter unless a variant datapack is enabled.
-                        Default: ["minecraft:ender_dragon", "minecraft:wolf", "minecraft:horse", "minecraft:tropical_fish"]
-                        """)
+                        Default: ["minecraft:ender_dragon", "minecraft:wolf", "minecraft:horse", "minecraft:tropical_fish"]""")
                 .translation("config.teallib.variant_blacklist")
                 .define("variant_blacklist", List.of(
                         BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.ENDER_DRAGON).toString(),
@@ -36,8 +35,7 @@ public class TealLibCommonConfig {
                         By default, only includes "minecraft", because default variants for the base game's mobs
                         are registered by Teal Lib for easy datapack making, but if you're not using any datapacks
                         they will replace modded variants for them.
-                        Default: ["minecraft"]
-                        """)
+                        Default: ["minecraft"]""")
                 .translation("config.teallib.variant_namespace_blacklist")
                 .define("variant_namespace_blacklist", List.of("minecraft"));
         builder.pop();

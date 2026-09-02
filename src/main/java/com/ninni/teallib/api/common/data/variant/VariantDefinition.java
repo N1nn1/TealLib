@@ -43,7 +43,7 @@ public record VariantDefinition(
                             ResourceLocation.CODEC.fieldOf("id").forGetter(VariantDefinition::id),
                             Biome.LIST_CODEC.optionalFieldOf("location").forGetter(VariantDefinition::location),
                             CodecUtils.Weather.CODEC.fieldOf("weather").orElse(CodecUtils.Weather.NONE).forGetter(VariantDefinition::weather),
-                            Codec.STRING.optionalFieldOf("_comment").forGetter(VariantDefinition::comment),
+                            Codec.STRING.optionalFieldOf("comment").forGetter(VariantDefinition::comment),
                             Codec.INT.optionalFieldOf("spawnWeight").forGetter(VariantDefinition::spawnWeight),
                             Codec.INT.optionalFieldOf("maxSpawnHeight").forGetter(VariantDefinition::maxSpawnHeight),
                             Codec.INT.optionalFieldOf("minSpawnHeight").forGetter(VariantDefinition::minSpawnHeight),

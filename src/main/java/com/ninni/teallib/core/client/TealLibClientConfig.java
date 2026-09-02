@@ -13,23 +13,20 @@ public class TealLibClientConfig {
         bucketTooltip = builder
                 .comment("""
                         Whether buckets and other entity containing items render their entity in the tooltip.
-                        Default: true
-                        """)
+                        Default: true""")
                 .translation("config.teallib.bucket_tooltip")
                 .define("bucket_tooltip", true);
         globalVariantTooltip = builder
                 .comment("""
                         Whether the vanilla bucket variant tooltips for mobs are replaced by Teal Lib's system.
                         Effectively this just makes Tropical Fish tooltips colorful, and adds Axolotl variant tooltips
-                        Default: true
-                        """)
+                        Default: true""")
                 .translation("config.teallib.global_bucket_tooltip")
                 .define("global_bucket_tooltip", true);
         replaceBabyMobNames = builder
                 .comment("""
                         Whether baby mob names are replaced by custom ones (Ex: Puppy for Wolves or Panda Cub for Pandas).
-                        Default: true
-                        """)
+                        Default: true""")
                 .translation("config.spawn.replace_baby_mob_names")
                 .define("replace_baby_mob_names", true);
         builder.pop();
