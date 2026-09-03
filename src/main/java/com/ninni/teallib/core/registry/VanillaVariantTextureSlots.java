@@ -171,6 +171,7 @@ public final class VanillaVariantTextureSlots {
             entity -> entity instanceof Vex vex && vex.isCharging()
     );
 
+    /** Client only. The slot constants hold render layer class literals a server cannot load. */
     public static void init() {
     }
 

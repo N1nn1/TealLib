@@ -33,7 +33,11 @@ public record VariantDefinition(
         boolean hidden,
 
         Optional<List<VariantData>> variantData,
-        Map<String, ResourceLocation> textures
+        Map<String, ResourceLocation> textures,
+        Map<ResourceLocation, ResourceLocation> textureOverrides,
+        Map<ResourceLocation, ResourceLocation> babyTextureOverrides,
+        int priority,
+        boolean keepVanillaTexture
 ) {
 
     public static final Codec<VariantDefinition> CODEC =
@@ -50,7 +54,11 @@ public record VariantDefinition(
                             CodecUtils.NameTagRule.CODEC.optionalFieldOf("nameTag").forGetter(VariantDefinition::nameTag),
                             Codec.BOOL.fieldOf("hidden").orElse(false).forGetter(VariantDefinition::hidden),
                             VariantData.LIST_CODEC.optionalFieldOf("variant_data_types").forGetter(VariantDefinition::variantData),
-                            Codec.unboundedMap(Codec.STRING, ResourceLocation.CODEC).optionalFieldOf("textures", Map.of()).forGetter(VariantDefinition::textures)
+                            Codec.unboundedMap(Codec.STRING, ResourceLocation.CODEC).optionalFieldOf("textures", Map.of()).forGetter(VariantDefinition::textures),
+                            Codec.unboundedMap(ResourceLocation.CODEC, ResourceLocation.CODEC).optionalFieldOf("texture_overrides", Map.of()).forGetter(VariantDefinition::textureOverrides),
+                            Codec.unboundedMap(ResourceLocation.CODEC, ResourceLocation.CODEC).optionalFieldOf("baby_texture_overrides", Map.of()).forGetter(VariantDefinition::babyTextureOverrides),
+                            Codec.INT.optionalFieldOf("priority", 0).forGetter(VariantDefinition::priority),
+                            Codec.BOOL.optionalFieldOf("keep_vanilla_texture", false).forGetter(VariantDefinition::keepVanillaTexture)
 
                     ).apply(instance, VariantDefinition::new)
             );
@@ -58,10 +66,25 @@ public record VariantDefinition(
     public boolean supports(VariantTarget target) {
         return targets.contains(target);
     }
+
+    /** Biome specific entries outrank generic ones unless a pack says otherwise. */
+    public int effectivePriority() {
+        return priority + (location.isPresent() ? 1 : 0);
+    }
     public boolean hasTexture(String target) {
         return textures.containsKey(target);
     }
     public Optional<ResourceLocation> texture(String target) {
         return Optional.ofNullable(textures.get(target));
+    }
+
+    /** Replacement keyed on the texture about to be drawn, so overlays need no Java slot. */
+    public Optional<ResourceLocation> overrideFor(ResourceLocation original, boolean baby) {
+        if (original == null) return Optional.empty();
+        if (baby) {
+            ResourceLocation babyOverride = babyTextureOverrides.get(original);
+            if (babyOverride != null) return Optional.of(babyOverride);
+        }
+        return Optional.ofNullable(textureOverrides.get(original));
     }
 }

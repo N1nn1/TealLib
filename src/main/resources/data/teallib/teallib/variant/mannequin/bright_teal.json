@@ -1,0 +1,11 @@
+{
+  "targets": [
+    {"kind": "entity_type", "id": "teallib:mannequin"}
+  ],
+  "id": "teallib:bright_teal",
+  "weather": "snow",
+  "spawnWeight": 100000,
+  "textures": {
+    "default": "teallib:textures/entity/mannequin/mannequin_bright_teal.png"
+  }
+}

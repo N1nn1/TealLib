@@ -11,9 +11,11 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
@@ -46,6 +48,6 @@ public class TealLib {
         NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post event) -> VariantManager.tickAwaitingVariants());
 
         VanillaEntityVariantComponents.register();
-        VanillaVariantTextureSlots.init();
+        if (FMLEnvironment.dist == Dist.CLIENT) VanillaVariantTextureSlots.init();
     }
 }

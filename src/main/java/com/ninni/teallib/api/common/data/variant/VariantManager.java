@@ -140,9 +140,26 @@ public final class VariantManager {
 
         CodecUtils.Weather weather = resolveWeather(level, pos, biome);
 
-        List<WeightedEntry> filtered = buildWeighted(level.registryAccess(), target, data -> data.location().isPresent() && data.location().get().contains(biome) && weatherMatches(data, weather) && heightMatches(data, y, minY, maxY));
-        if (!filtered.isEmpty()) return filtered;
-        return buildWeighted(level.registryAccess(), target, data -> data.location().isEmpty() && weatherMatches(data, weather) && heightMatches(data, y, minY, maxY));
+        List<VariantDefinition> matching = new ArrayList<>();
+        int best = Integer.MIN_VALUE;
+
+        for (VariantDefinition data : all(level.registryAccess())) {
+            if (!data.supports(target) || data.spawnWeight().isEmpty() || data.nameTag().isPresent()) continue;
+            if (data.spawnWeight().get() <= 0) continue;
+            if (data.location().isPresent() && !data.location().get().contains(biome)) continue;
+            if (!weatherMatches(data, weather) || !heightMatches(data, y, minY, maxY)) continue;
+
+            int priority = data.effectivePriority();
+            if (priority > best) {
+                best = priority;
+                matching.clear();
+            }
+            if (priority == best) matching.add(data);
+        }
+
+        List<WeightedEntry> out = new ArrayList<>();
+        for (VariantDefinition data : matching) out.add(new WeightedEntry(data.id(), data.spawnWeight().get()));
+        return out;
     }
 
     private static List<WeightedEntry> buildWeighted(RegistryAccess access, VariantTarget target, Predicate<VariantDefinition> filter) {

@@ -1,0 +1,11 @@
+{
+  "targets": [
+    {"kind": "entity_type", "id": "teallib:mannequin"}
+  ],
+  "id": "teallib:weird_teal",
+  "location": "#minecraft:is_savanna",
+  "spawnWeight": 10000,
+  "textures": {
+    "default": "teallib:textures/entity/mannequin/mannequin_weird_teal.png"
+  }
+}

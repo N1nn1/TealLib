@@ -1,34 +1,55 @@
 package com.ninni.teallib.api.client.renderer.variant;
 
 import com.ninni.teallib.api.common.data.variant.VariantTextureSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 public final class VariantRenderContext {
-    private static final ThreadLocal<Deque<LivingEntity>> ENTITIES = ThreadLocal.withInitial(ArrayDeque::new);
+    private static final ThreadLocal<Deque<Entity>> ENTITIES = ThreadLocal.withInitial(ArrayDeque::new);
     private static final ThreadLocal<Deque<VariantTextureSlot>> SLOTS = ThreadLocal.withInitial(ArrayDeque::new);
     private static final ThreadLocal<Integer> IGNORE_TEXTURE_REPLACEMENT = ThreadLocal.withInitial(() -> 0);
 
     private VariantRenderContext() {}
 
-    public static void push(LivingEntity entity) {
+    public static void push(Entity entity) {
         ENTITIES.get().push(entity);
     }
 
     public static void pop() {
-        Deque<LivingEntity> stack = ENTITIES.get();
+        Deque<Entity> stack = ENTITIES.get();
 
         if (!stack.isEmpty()) stack.pop();
         if (stack.isEmpty()) ENTITIES.remove();
     }
 
     @Nullable
-    public static LivingEntity get() {
-        Deque<LivingEntity> stack = ENTITIES.get();
+    public static Entity get() {
+        Deque<Entity> stack = ENTITIES.get();
         return stack.isEmpty() ? null : stack.peek();
+    }
+
+    /** Which part of the render is running, so a texture the body shares can still be told apart. */
+    public enum Scope { BASE, LAYER, UNSCOPED }
+
+    private static final ThreadLocal<Deque<Scope>> SCOPES = ThreadLocal.withInitial(ArrayDeque::new);
+
+    public static void pushScope(Scope scope) {
+        SCOPES.get().push(scope);
+    }
+
+    public static void popScope() {
+        Deque<Scope> stack = SCOPES.get();
+
+        if (!stack.isEmpty()) stack.pop();
+        if (stack.isEmpty()) SCOPES.remove();
+    }
+
+    public static Scope scope() {
+        Deque<Scope> stack = SCOPES.get();
+        return stack.isEmpty() ? Scope.UNSCOPED : stack.peek();
     }
 
     public static void pushSlot(VariantTextureSlot slot) {

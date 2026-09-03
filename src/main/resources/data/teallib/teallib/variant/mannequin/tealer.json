@@ -1,5 +1,7 @@
 {
-  "type": "teallib:mannequin",
+  "targets": [
+    {"kind": "entity_type", "id": "teallib:mannequin"}
+  ],
   "id": "teallib:tealer",
   "spawnWeight": 10000,
   "variant_data_types": [
@@ -12,5 +14,8 @@
         "operation": "add_value"
       }
     }
-  ]
+  ],
+  "textures": {
+    "default": "teallib:textures/entity/mannequin/mannequin_tealer.png"
+  }
 }

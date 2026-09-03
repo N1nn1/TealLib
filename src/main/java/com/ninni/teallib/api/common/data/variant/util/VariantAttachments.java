@@ -20,7 +20,7 @@ public final class VariantAttachments {
         return get(holder).isPresent();
     }
     public static void set(IAttachmentHolder holder, ResourceLocation id) {
-        holder.setData(TealAttachments.VARIANT, Optional.of(id));
+        holder.setData(TealAttachments.VARIANT, Optional.ofNullable(id));
     }
 
     public static void clear(IAttachmentHolder holder) {

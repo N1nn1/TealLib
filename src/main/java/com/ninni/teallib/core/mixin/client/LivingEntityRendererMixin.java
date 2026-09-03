@@ -38,13 +38,14 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     private RenderType teallib$renderBase(LivingEntityRenderer<T, M> instance, T entity, boolean bodyVisible, boolean translucent, boolean glowing, Operation<RenderType> original) {
         VariantTextureSlot slot = VariantTextureSlots.findBase(entity, VariantTarget.of(entity.getType()));
 
-        if (slot == null) return original.call(instance, entity, bodyVisible, translucent, glowing);
-        VariantRenderContext.pushSlot(slot);
+        VariantRenderContext.pushScope(VariantRenderContext.Scope.BASE);
+        if (slot != null) VariantRenderContext.pushSlot(slot);
 
         try {
             return original.call(instance, entity, bodyVisible, translucent, glowing);
         } finally {
-            VariantRenderContext.popSlot();
+            if (slot != null) VariantRenderContext.popSlot();
+            VariantRenderContext.popScope();
         }
     }
 
@@ -52,27 +53,15 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     private void teallib$renderLayer(RenderLayer<T, M> layer, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Entity entity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch, Operation<Void> original) {
         VariantTextureSlot slot = VariantTextureSlots.find(entity, VariantTarget.of(entity.getType()), layer.getClass());
 
-        if (slot == null) {
-            original.call(layer, poseStack, buffer, packedLight, entity, limbSwing, limbSwingAmount, partialTick, ageInTicks, netHeadYaw, headPitch);
-            return;
-        }
-        VariantRenderContext.pushSlot(slot);
+        VariantRenderContext.pushScope(VariantRenderContext.Scope.LAYER);
+        if (slot != null) VariantRenderContext.pushSlot(slot);
 
         try {
             original.call(layer, poseStack, buffer, packedLight, entity, limbSwing, limbSwingAmount, partialTick, ageInTicks, netHeadYaw, headPitch);
         } finally {
-            VariantRenderContext.popSlot();
+            if (slot != null) VariantRenderContext.popSlot();
+            VariantRenderContext.popScope();
         }
-    }
-
-    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("HEAD"))
-    private void teallib$pushEntity(T entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
-        VariantRenderContext.push(entity);
-    }
-
-    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("RETURN"))
-    private void teallib$popEntity(T entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
-        VariantRenderContext.pop();
     }
 
     @Inject(method = "getBob", at = @At("HEAD"), cancellable = true)

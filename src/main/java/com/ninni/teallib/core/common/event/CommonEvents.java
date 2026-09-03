@@ -13,8 +13,13 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
-
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import com.ninni.teallib.api.common.data.variant.VariantDefinition;
+import com.ninni.teallib.api.common.data.variant.VariantTarget;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @EventBusSubscriber(modid = TealLib.MODID)
 public class CommonEvents {
@@ -39,8 +44,18 @@ public class CommonEvents {
             }
             if (contains) return;
 
-            VariantManager.assignNaturally(event.getEntity());
+            VariantManager.assignNaturally(event.getEntity(), event.getLevel());
         }
+    }
+
+    /** Cheapest way to tell a broken pack apart from a broken renderer when a variant does not show. */
+    @SubscribeEvent
+    public static void logVariantRegistry(ServerStartedEvent event) {
+        if (!TealLib.LOGGER.isDebugEnabled()) return;
+        List<VariantDefinition> all = VariantManager.all(event.getServer().registryAccess());
+        Set<VariantTarget> targets = new HashSet<>();
+        for (VariantDefinition variant : all) targets.addAll(variant.targets());
+        TealLib.LOGGER.debug("Loaded {} json variant definitions across {} targets", all.size(), targets.size());
     }
 
     @SubscribeEvent

@@ -1,0 +1,10 @@
+{
+  "targets": [
+    {"kind": "entity_type", "id": "teallib:mannequin"}
+  ],
+  "id": "teallib:teal",
+  "spawnWeight": 10000,
+  "textures": {
+    "default": "teallib:textures/entity/mannequin/mannequin_teal.png"
+  }
+}
