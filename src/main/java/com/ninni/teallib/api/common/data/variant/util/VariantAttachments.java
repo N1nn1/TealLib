@@ -13,6 +13,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 
 import javax.annotation.Nullable;
@@ -25,6 +26,11 @@ public final class VariantAttachments {
     }
     public static boolean has(IAttachmentHolder holder) {
         return get(holder).isPresent();
+    }
+
+    /** getData materialises the default and syncs it, so a plain check must not use it. */
+    public static boolean hasStored(IAttachmentHolder holder) {
+        return holder.hasData(TealAttachments.VARIANT);
     }
     public static void set(IAttachmentHolder holder, ResourceLocation id) {
         holder.setData(TealAttachments.VARIANT, Optional.ofNullable(id));
@@ -116,6 +122,13 @@ public final class VariantAttachments {
             }
         }
         return !contains;
+    }
+
+    public static boolean isBlockEntityValid(BlockEntityType<?> blockEntityType) {
+        ResourceLocation type = BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntityType);
+        if (type == null) return false;
+        if (TealLib.COMMON_CONFIG.variantNamespaceBlacklist.get().contains(type.getNamespace())) return false;
+        return !TealLib.COMMON_CONFIG.variantBlacklist.get().contains(type.toString());
     }
 
     public static void toTag(Entity entity, CompoundTag tag) {

@@ -1,5 +1,7 @@
 package com.ninni.teallib.api.common.block.entity;
 
+import com.ninni.teallib.api.common.data.variant.VariantManager;
+import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
 import com.ninni.teallib.api.common.network.BlockEntitySyncPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -69,6 +71,21 @@ public abstract class NameableBlockEntity extends BlockEntity implements Nameabl
             saveAdditional(tag, level.registryAccess());
             PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) level, new ChunkPos(worldPosition), new BlockEntitySyncPacket(worldPosition, tag));
         }
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (level == null || level.isClientSide || !shouldAssignVariantOnLoad()) return;
+        if (!VariantAttachments.isBlockEntityValid(getType()) || VariantAttachments.hasStored(this)) return;
+
+        VariantManager.assignNaturally(this);
+        if (VariantAttachments.hasStored(this)) sync();
+    }
+
+    /** Block entities meant to sit empty, such as an unoccupied birdhouse, opt out. */
+    public boolean shouldAssignVariantOnLoad() {
+        return true;
     }
 
     @Override

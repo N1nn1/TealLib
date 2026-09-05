@@ -20,6 +20,8 @@ import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import com.ninni.teallib.api.common.data.variant.VariantDefinition;
 import com.ninni.teallib.api.common.data.variant.VariantTarget;
+import com.ninni.teallib.api.common.data.variant.VariantTextureSlot;
+import com.ninni.teallib.api.common.data.variant.VariantTextureSlots;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.List;
@@ -65,6 +67,36 @@ public class CommonEvents {
         Set<VariantTarget> targets = new HashSet<>();
         for (VariantDefinition variant : all) targets.addAll(variant.targets());
         TealLib.LOGGER.debug("Loaded {} json variant definitions across {} targets", all.size(), targets.size());
+    }
+
+    /** Texture keys are free strings, so a typo or a stale key is otherwise silent. */
+    @SubscribeEvent
+    public static void validateVariantTextures(ServerStartedEvent event) {
+        if (VariantTextureSlots.getAll().isEmpty()) {
+            TealLib.LOGGER.info("No variant texture slots registered, skipping texture key validation");
+            return;
+        }
+
+        for (VariantDefinition variant : VariantManager.all(event.getServer().registryAccess())) {
+            if (variant.textures().isEmpty()) continue;
+
+            if (!variant.hasTexture("default") && !variant.keepVanillaTexture()
+                    && variant.textureOverrides().isEmpty() && variant.babyTextureOverrides().isEmpty()) {
+                TealLib.LOGGER.warn("Variant {} declares textures but no \"default\" key, so the body keeps its vanilla texture", variant.id());
+            }
+
+            Set<String> legal = new HashSet<>(List.of("default", "baby"));
+            for (VariantTarget target : variant.targets()) {
+                for (VariantTextureSlot slot : VariantTextureSlots.getForTarget(target)) {
+                    legal.add(slot.id().getPath());
+                    legal.add("baby_" + slot.id().getPath());
+                }
+            }
+
+            for (String key : variant.textures().keySet()) {
+                if (!legal.contains(key)) TealLib.LOGGER.warn("Variant {} has texture key \"{}\" that no registered slot claims", variant.id(), key);
+            }
+        }
     }
 
     @SubscribeEvent

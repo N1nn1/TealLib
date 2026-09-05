@@ -17,6 +17,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 @Mod(TealLib.MODID)
@@ -46,6 +47,7 @@ public class TealLib {
         TealAttachments.DEF_REG.register(modEventBus);
         TealBiomeModifiers.DEF_REG.register(modEventBus);
         NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post event) -> VariantManager.tickAwaitingVariants());
+        NeoForge.EVENT_BUS.addListener((ServerStoppedEvent event) -> VariantManager.clearAwaitingVariants());
 
         VanillaEntityVariantComponents.register();
         if (FMLEnvironment.dist == Dist.CLIENT) VanillaVariantTextureSlots.init();

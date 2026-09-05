@@ -6,6 +6,7 @@ import com.ninni.teallib.api.common.data.variant.VariantTarget;
 import com.ninni.teallib.api.common.data.variant.VariantTextureSlot;
 import com.ninni.teallib.api.common.data.variant.VariantTextureSlots;
 import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
+import com.ninni.teallib.core.TealLib;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -14,10 +15,27 @@ import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class VariantRenderManager {
 
     private VariantRenderManager() {}
+
+    private static final Set<ResourceLocation> CHECKED_TEXTURES = ConcurrentHashMap.newKeySet();
+
+    /** A texture no pack provides renders magenta, and nothing else says why. */
+    private static ResourceLocation reportIfMissing(ResourceLocation texture) {
+        if (texture == null) return null;
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft == null || minecraft.getResourceManager() == null) return texture;
+        if (!CHECKED_TEXTURES.add(texture)) return texture;
+
+        if (minecraft.getResourceManager().getResource(texture).isEmpty()) {
+            TealLib.LOGGER.warn("Variant texture {} is in no loaded pack, so it will render untextured", texture);
+        }
+        return texture;
+    }
 
     @Nullable
     public static ResourceLocation getTexture(Entity entity, ResourceLocation original) {
@@ -51,7 +69,7 @@ public final class VariantRenderManager {
         }
 
         if (texture.isEmpty()) texture = variant.flatMap(data -> data.overrideFor(fallback, baby));
-        return texture.orElse(fallback);
+        return reportIfMissing(texture.orElse(fallback));
     }
 
     /** Whether a layer draws with the mob's own skin, as warden tendrils and the slime shell do. */

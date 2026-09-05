@@ -2,6 +2,7 @@ package com.ninni.teallib.api.common.data.variant;
 
 import com.ninni.teallib.api.common.data.CodecUtils;
 import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
+import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.api.common.data.variantdata.VariantData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -236,7 +237,10 @@ public final class VariantManager {
 
 
     public static void assignNaturally(Entity entity) {
-        if (!(entity.level() instanceof ServerLevelAccessor level)) return;
+        if (!(entity.level() instanceof ServerLevelAccessor level)) {
+            TealLib.LOGGER.debug("No variant for {}: not on a server level", entity.getType());
+            return;
+        }
 
         if (canQueryNow(level, entity.blockPosition())) assignNaturally(entity, level);
         else AWAITING_VARIANT.add(entity);
@@ -247,14 +251,26 @@ public final class VariantManager {
 
         List<WeightedEntry> candidates = candidatesFor(target, level, entity.blockPosition());
         WeightedEntry selected = choose(candidates, RandomSource.create());
-        if (selected == null) return;
+        if (selected == null) {
+            TealLib.LOGGER.debug("No variant for {} at {}: {} candidates passed the spawn conditions",
+                    entity.getType(), entity.blockPosition(), candidates.size());
+            return;
+        }
 
         ResourceLocation id = selected.id();
         VariantDefinition variant = getForTarget(level.registryAccess(), target, id);
-        if (variant == null) return;
+        if (variant == null) {
+            TealLib.LOGGER.warn("Variant {} was picked for {} but no definition carries that id", id, entity.getType());
+            return;
+        }
 
         VariantAttachments.set(entity, variant.id());
         applyVariantData(entity, level, variant);
+        TealLib.LOGGER.debug("Variant {} assigned to {} at {}", variant.id(), entity.getType(), entity.blockPosition());
+    }
+
+    public static void clearAwaitingVariants() {
+        AWAITING_VARIANT.clear();
     }
 
     public static void tickAwaitingVariants() {
