@@ -1,4 +1,4 @@
-package com.ninni.teallib.compat.geckolib.mixin;
+package com.ninni.teallib.core.compat.geckolib.mixin;
 
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;

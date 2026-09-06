@@ -1,4 +1,4 @@
-package com.ninni.teallib.compat.geckolib.mixin;
+package com.ninni.teallib.core.compat.geckolib.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

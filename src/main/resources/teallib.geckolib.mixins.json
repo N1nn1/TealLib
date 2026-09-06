@@ -1,8 +1,8 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "com.ninni.teallib.compat.geckolib.mixin",
-  "plugin": "com.ninni.teallib.compat.geckolib.mixin.GeckoLibMixinPlugin",
+  "package": "com.ninni.teallib.core.compat.geckolib.mixin",
+  "plugin": "com.ninni.teallib.core.compat.geckolib.mixin.GeckoLibMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "refmap": "teallib.refmap.json",
   "mixins": [],
