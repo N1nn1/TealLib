@@ -5,6 +5,7 @@
   "mixins": [
     "AxolotlMixin",
     "EntityMixin",
+    "MobAccessor",
     "MobBucketItemMixin",
     "WaterAnimalMixin",
     "accessor.HierarchicalModelAccessor",
@@ -21,9 +22,9 @@
     "client.BreezeEyesLayerMixin",
     "client.EnderDragonRendererMixin",
     "client.EntityRenderDispatcherMixin",
-    "client.NeoForgeRenderTypesMixin",
     "client.EyesLayerMixin",
     "client.LivingEntityRendererMixin",
+    "client.NeoForgeRenderTypesMixin",
     "client.RenderLayerMixin",
     "client.RenderTypesMixin"
   ]

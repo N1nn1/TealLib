@@ -139,7 +139,7 @@ public final class VariantManager {
         int maxY = level.getMaxBuildHeight();
         int minY = level.getMinBuildHeight();
 
-        CodecUtils.Weather weather = resolveWeather(level, pos, biome);
+        CodecUtils.Weather weather = CodecUtils.resolveWeather(level, pos, biome);
 
         List<VariantDefinition> matching = new ArrayList<>();
         int best = Integer.MIN_VALUE;
@@ -211,28 +211,6 @@ public final class VariantManager {
         }
 
         return null;
-    }
-
-
-    private static CodecUtils.Weather resolveWeather(LevelReader level, BlockPos pos, Holder<Biome> biome) {
-        Level weatherLevel;
-
-        if (level instanceof Level l) weatherLevel = l;
-        else if (level instanceof ServerLevelAccessor accessor) weatherLevel = accessor.getLevel();
-        else return CodecUtils.Weather.NONE;
-
-        if (!weatherLevel.isRaining()) return CodecUtils.Weather.NONE;
-        if (!level.canSeeSky(pos)) return CodecUtils.Weather.NONE;
-        if (level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos).getY() > pos.getY()) return CodecUtils.Weather.NONE;
-
-        Biome.Precipitation precipitation = biome.value().getPrecipitationAt(pos);
-        if (precipitation == Biome.Precipitation.SNOW) return CodecUtils.Weather.SNOW;
-
-        if (precipitation == Biome.Precipitation.RAIN) {
-            return weatherLevel.isThundering() ? CodecUtils.Weather.THUNDER : CodecUtils.Weather.RAIN;
-        }
-
-        return CodecUtils.Weather.NONE;
     }
 
 
