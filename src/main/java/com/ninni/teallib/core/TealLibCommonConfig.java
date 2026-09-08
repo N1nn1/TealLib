@@ -9,9 +9,15 @@ import java.util.List;
 public class TealLibCommonConfig {
     public final ModConfigSpec.ConfigValue<List<String>> variantBlacklist;
     public final ModConfigSpec.ConfigValue<List<String>> variantNamespaceBlacklist;
+    public final ModConfigSpec.BooleanValue vanillaMobsSpawnStunParticles;
 
 
     public TealLibCommonConfig(final ModConfigSpec.Builder builder) {
+
+        vanillaMobsSpawnStunParticles = builder
+                .comment("If vanilla mobs like Ravagers spawn Stun Particles when stunned")
+                .translation("config.teallib.vanilla_mobs_spawn_stun_particles")
+                .define("vanilla_mobs_spawn_stun_particles", true);
 
         builder.translation("config.teallib.section.json_variants").push("json_variants");
 
