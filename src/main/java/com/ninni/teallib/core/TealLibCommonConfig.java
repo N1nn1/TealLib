@@ -14,10 +14,12 @@ public class TealLibCommonConfig {
 
     public TealLibCommonConfig(final ModConfigSpec.Builder builder) {
 
+        builder.translation("config.teallib.section.extra").push("extra");
         vanillaMobsSpawnStunParticles = builder
                 .comment("If vanilla mobs like Ravagers spawn Stun Particles when stunned")
                 .translation("config.teallib.vanilla_mobs_spawn_stun_particles")
                 .define("vanilla_mobs_spawn_stun_particles", true);
+        builder.pop();
 
         builder.translation("config.teallib.section.json_variants").push("json_variants");
 

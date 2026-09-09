@@ -56,6 +56,6 @@ public abstract class AbstractFloorParticle extends TextureSheetParticle {
     }
 
     protected void makeCornerVertex(VertexConsumer vertexConsumer, Vector3f pos, float u, float v, int light) {
-        vertexConsumer.addVertex(pos.x(), pos.y(), pos.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(light);
+        vertexConsumer.addVertex(pos.x(), pos.y(), pos.z()).setUv(u, v).setUv1(0,1).setNormal(0,1,0).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(light);
     }
 }
