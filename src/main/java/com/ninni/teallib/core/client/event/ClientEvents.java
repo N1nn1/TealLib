@@ -2,24 +2,30 @@ package com.ninni.teallib.core.client.event;
 
 import com.ninni.teallib.api.client.particle.ShakingParticle;
 import com.ninni.teallib.core.TealLib;
+import com.ninni.teallib.core.client.TealShaders;
 import com.ninni.teallib.core.client.entity.MannequinModel;
 import com.ninni.teallib.core.client.entity.MannequinRenderer;
 import com.ninni.teallib.api.client.renderer.item.CapturedMobsTooltipRenderer;
 import com.ninni.teallib.api.common.item.tooltip.CapturedMobsTooltipData;
 import com.ninni.teallib.core.registry.TealEntityType;
 import com.ninni.teallib.core.registry.TealParticleType;
-import net.minecraft.client.particle.AttackSweepParticle;
-import net.minecraft.client.particle.CampfireSmokeParticle;
-import net.minecraft.client.particle.HeartParticle;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+
+import java.io.IOException;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = TealLib.MODID)
 public class ClientEvents {
+
+    @SubscribeEvent
+    public static void register(RegisterShadersEvent event) throws IOException {
+        TealShaders.register(event);
+    }
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {

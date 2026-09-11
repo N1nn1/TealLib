@@ -5,7 +5,8 @@
   "mixins": [
     "AxolotlMixin",
     "EntityMixin",
-    "MobAccessor",
+    "accessor.LivingEntityAccessor",
+    "accessor.MobAccessor",
     "MobBucketItemMixin",
     "RavagerMixin",
     "WaterAnimalMixin",

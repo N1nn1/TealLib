@@ -1,4 +1,4 @@
-package com.ninni.teallib.core.mixin;
+package com.ninni.teallib.core.mixin.accessor;
 
 import org.spongepowered.asm.mixin.gen.Invoker;
 
