@@ -4,6 +4,7 @@ import com.ninni.teallib.api.common.data.variant.VariantManager;
 import com.ninni.teallib.core.registry.VanillaEntityVariantComponents;
 import com.ninni.teallib.core.client.TealLibClientConfig;
 import com.ninni.teallib.core.registry.*;
+import net.minecraft.network.chat.Component;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,6 +24,7 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 @Mod(TealLib.MODID)
 public class TealLib {
     public static final String MODID = "teallib";
+    public static final String BABY_NAME = "teallib.baby_name";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final TealLibClientConfig CLIENT_CONFIG;
     public static final TealLibCommonConfig COMMON_CONFIG;
@@ -36,6 +38,14 @@ public class TealLib {
         final Pair<TealLibCommonConfig, ModConfigSpec> commonPair = new ModConfigSpec.Builder().configure(TealLibCommonConfig::new);
         COMMON_CONFIG = commonPair.getLeft();
         COMMON_CONFIG_SPEC = commonPair.getRight();
+    }
+
+    public static boolean replaceBabyMobNames() {
+        return CLIENT_CONFIG_SPEC.isLoaded() ? CLIENT_CONFIG.replaceBabyMobNames.get() : CLIENT_CONFIG.replaceBabyMobNames.getDefault();
+    }
+
+    public static Component babyName(Component replaced, Component unreplaced) {
+        return Component.translatableWithFallback(BABY_NAME, "%1$s", replaced, unreplaced);
     }
 
     public TealLib(IEventBus modEventBus, ModContainer modContainer) {

@@ -28,6 +28,7 @@
     "client.LivingEntityRendererMixin",
     "client.NeoForgeRenderTypesMixin",
     "client.RenderLayerMixin",
-    "client.RenderTypesMixin"
+    "client.RenderTypesMixin",
+    "client.TranslatableContentsMixin"
   ]
 }

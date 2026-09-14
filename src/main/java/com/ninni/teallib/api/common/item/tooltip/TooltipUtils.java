@@ -59,11 +59,11 @@ public class TooltipUtils {
         if ((entityTag.contains("Age", Tag.TAG_INT) && entityTag.getInt("Age") < 0) || (entityTag.contains("IsBaby") && entityTag.getBoolean("IsBaby"))) {
             String key = type.getDescriptionId() + ".baby";
             MutableComponent baby = Component.translatable(key);
-            if (baby.getString().equals(key) || !TealLib.CLIENT_CONFIG.replaceBabyMobNames.get()) {
+            if (baby.getString().equals(key)) {
                 baby = Component.translatable("tooltip.teallib.default_baby");
                 return baby.append(entityName);
             } else {
-                return baby;
+                return TealLib.babyName(baby, Component.translatable("tooltip.teallib.default_baby").append(entityName));
             }
         } else {
             return entityName;
