@@ -7,6 +7,7 @@ import com.ninni.teallib.api.common.data.variant.VariantManager;
 import com.ninni.teallib.api.common.data.variant.VariantTarget;
 import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
 import com.ninni.teallib.core.TealLib;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 
@@ -24,7 +25,11 @@ public class JsonVariantProvider<T extends Mob> implements VariantProvider<T> {
 
         if (!definitions.isEmpty()) {
             for (VariantDefinition definition : definitions) {
-                if (definition != null && definition.supports(target)) variants.add(new VariantDef(definition.id().toString(), definition.id()));
+                if (definition != null && definition.supports(target)) {
+                    if (!(definition == VariantManager.getDefaultVariant(target) && VariantManager.getVariantCountFor(entity.registryAccess(), target) < 1)) {
+                        variants.add(new VariantDef("tealvariant/" + BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()) + ":" + definition.id().toString(), definition.id()));
+                    }
+                }
             }
         }
 
@@ -46,6 +51,6 @@ public class JsonVariantProvider<T extends Mob> implements VariantProvider<T> {
     @Override
     public VariantDef getCurrent(T entity) {
         if (VariantAttachments.has(entity)) return new VariantDef(VariantAttachments.get(entity).toString(), VariantAttachments.get(entity));
-        return new VariantDef("teallib:default", ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "default"));
+        return new VariantDef("tealvariant/" + BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()) + ":" + VariantManager.getDefaultVariantId(), VariantManager.getDefaultVariantId());
     }
 }

@@ -30,6 +30,8 @@ public class TealLibCommonConfig {
                         but it really shouldn't matter unless a variant datapack is enabled.""")
                 .translation("config.teallib.variant_blacklist")
                 .define("variant_blacklist", List.of(
+                        "minecraft:zombie_villager",
+                        "minecraft:villager",
                         "minecraft:ender_dragon",
                         "minecraft:wolf",
                         "minecraft:horse",

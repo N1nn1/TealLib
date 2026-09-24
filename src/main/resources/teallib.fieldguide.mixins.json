@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.ninni.teallib.core.compat.fieldguide.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "teallib.refmap.json",
+  "mixins": [],
+  "client": [
+    "FieldGuideVariantManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

@@ -24,7 +24,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.levelgen.Heightmap;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
