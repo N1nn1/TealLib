@@ -24,7 +24,7 @@ public record VariantDefinition(
 
         Optional<String> comment,
 
-        Optional<Integer> spawnWeight,
+        Optional<Float> spawnWeight,
         Optional<Integer> maxSpawnHeight,
         Optional<Integer> minSpawnHeight,
 
@@ -48,7 +48,7 @@ public record VariantDefinition(
                             Biome.LIST_CODEC.optionalFieldOf("location").forGetter(VariantDefinition::location),
                             CodecUtils.Weather.CODEC.fieldOf("weather").orElse(CodecUtils.Weather.NONE).forGetter(VariantDefinition::weather),
                             Codec.STRING.optionalFieldOf("comment").forGetter(VariantDefinition::comment),
-                            Codec.INT.optionalFieldOf("spawnWeight").forGetter(VariantDefinition::spawnWeight),
+                            Codec.FLOAT.optionalFieldOf("spawnWeight").forGetter(VariantDefinition::spawnWeight),
                             Codec.INT.optionalFieldOf("maxSpawnHeight").forGetter(VariantDefinition::maxSpawnHeight),
                             Codec.INT.optionalFieldOf("minSpawnHeight").forGetter(VariantDefinition::minSpawnHeight),
                             CodecUtils.NameTagRule.CODEC.optionalFieldOf("nameTag").forGetter(VariantDefinition::nameTag),

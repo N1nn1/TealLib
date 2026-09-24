@@ -91,7 +91,15 @@ public final class VariantRenderManager {
     public static Optional<VariantDefinition> getCurrentVariant(Entity entity) {
         Optional<VariantDefinition> override = VariantManager.getNameTagOverride(entity);
         if (override.isPresent()) return override;
-        return VariantAttachments.getOptional(entity).flatMap(id -> Optional.ofNullable(VariantManager.get(entity.level().registryAccess(), VariantTarget.of(entity.getType()), id)));
+
+        VariantTarget target = VariantTarget.of(entity.getType());
+        Optional<ResourceLocation> id = VariantAttachments.getOptional(entity);
+
+        if (id.isPresent()) {
+            VariantDefinition variant = VariantManager.get(entity.level().registryAccess(), target, id.get());
+            if (variant != null) return Optional.of(variant);
+        }
+        return Optional.of(VariantManager.getDefaultVariant(target));
     }
 
     @Nullable

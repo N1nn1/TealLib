@@ -34,6 +34,8 @@ import java.util.function.Predicate;
 
 public final class VariantManager {
     private static final Set<Entity> AWAITING_VARIANT = ConcurrentHashMap.newKeySet();
+    private static final ResourceLocation DEFAULT_VARIANT_ID = ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "default");
+    private static final Map<VariantTarget, VariantDefinition> DEFAULT_VARIANTS = new ConcurrentHashMap<>();
 
     public static Registry<VariantDefinition> registry(RegistryAccess access) {
         return access.registryOrThrow(VariantRegistries.VARIANT_REGISTRY_KEY);
@@ -47,12 +49,29 @@ public final class VariantManager {
 
     @Nullable
     public static VariantDefinition get(RegistryAccess access, VariantTarget target, ResourceLocation id) {
+        if (target.isEntityType() && DEFAULT_VARIANT_ID.equals(id)) return getDefaultVariant(target);
+
         for (VariantDefinition variant : all(access)) {
             if (variant.id().equals(id) && variant.targets().contains(target)) return variant;
         }
         return null;
     }
 
+    public static VariantDefinition getDefaultVariant(VariantTarget target) {
+        return DEFAULT_VARIANTS.computeIfAbsent(target, VariantManager::createDefaultVariant);
+    }
+
+    private static VariantDefinition createDefaultVariant(VariantTarget target) {
+        return new VariantDefinition(
+                List.of(target), DEFAULT_VARIANT_ID, Optional.empty(),
+                CodecUtils.Weather.NONE, Optional.empty(),
+                Optional.of(1f), Optional.empty(), Optional.empty(), Optional.empty(), false, Optional.empty(),
+                Map.of(), Map.of(), Map.of(), 0, true
+        );
+    }
+    public static ResourceLocation getDefaultVariantId() {
+        return DEFAULT_VARIANT_ID;
+    }
 
     public static VariantTarget target(EntityType<?> type) {
         return VariantTarget.of(type);
@@ -100,9 +119,13 @@ public final class VariantManager {
         }
         return count;
     }
-
     public static List<VariantDefinition> getAllVariantsFor(RegistryAccess access, VariantTarget target, boolean countHidden) {
         List<VariantDefinition> list = new ArrayList<>();
+
+        if (target.isEntityType() && (countHidden || !getDefaultVariant(target).hidden())) {
+            list.add(getDefaultVariant(target));
+        }
+
         for (VariantDefinition variant : all(access)) {
             if (variant.supports(target)) {
                 if (!countHidden && variant.hidden()) continue;
@@ -159,6 +182,7 @@ public final class VariantManager {
         }
 
         List<WeightedEntry> out = new ArrayList<>();
+        out.add(new WeightedEntry(getDefaultVariant(target).id(), getDefaultVariant(target).spawnWeight().get()));
         for (VariantDefinition data : matching) out.add(new WeightedEntry(data.id(), data.spawnWeight().get()));
         return out;
     }
@@ -168,7 +192,7 @@ public final class VariantManager {
 
         for (VariantDefinition data : all(access)) {
             if (!data.supports(target) || data.spawnWeight().isEmpty() || data.nameTag().isPresent()) continue;
-            int weight = data.spawnWeight().get();
+            float weight = data.spawnWeight().get();
             if (weight <= 0) continue;
 
             if (filter.test(data)) out.add(new WeightedEntry(data.id(), weight));
@@ -194,22 +218,20 @@ public final class VariantManager {
     public static WeightedEntry choose(List<WeightedEntry> entries, RandomSource random) {
         if (entries.isEmpty()) return null;
 
-        int totalWeight = 0;
+        float totalWeight = 0;
 
         for (WeightedEntry entry : entries) {
             if (entry.weight() > 0) totalWeight += entry.weight();
         }
 
         if (totalWeight <= 0) return null;
-        int value = random.nextInt(totalWeight);
-        int accumulated = 0;
+        float roll = random.nextFloat() * totalWeight;
 
         for (WeightedEntry entry : entries) {
             if (entry.weight() <= 0) continue;
-            accumulated += entry.weight();
-            if (value < accumulated) return entry;
+            roll -= entry.weight();
+            if (roll < 0.0F) return entry;
         }
-
         return null;
     }
 
@@ -367,5 +389,5 @@ public final class VariantManager {
         return getTexture(level.registryAccess(), VariantTarget.of(blockEntity.getType()), id, slot);
     }
 
-    public record WeightedEntry(ResourceLocation id, int weight) {}
+    public record WeightedEntry(ResourceLocation id, float weight) {}
 }

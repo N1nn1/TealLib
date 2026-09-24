@@ -27,14 +27,13 @@ public class TealLibCommonConfig {
                 .comment("""
                         Add here the entity id's of mobs you don't want json variants applied to.
                         Teal Lib's variants can be aggressive and replace intended entity variants,
-                        but it really shouldn't matter unless a variant datapack is enabled.
-                        Default: ["minecraft:ender_dragon", "minecraft:wolf", "minecraft:horse", "minecraft:tropical_fish"]""")
+                        but it really shouldn't matter unless a variant datapack is enabled.""")
                 .translation("config.teallib.variant_blacklist")
                 .define("variant_blacklist", List.of(
-                        BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.ENDER_DRAGON).toString(),
-                        BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.WOLF).toString(),
-                        BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.HORSE).toString(),
-                        BuiltInRegistries.ENTITY_TYPE.getKey(EntityType.TROPICAL_FISH).toString()
+                        "minecraft:ender_dragon",
+                        "minecraft:wolf",
+                        "minecraft:horse",
+                        "minecraft:tropical_fish"
                 ));
 
         variantNamespaceBlacklist = builder
@@ -42,10 +41,9 @@ public class TealLibCommonConfig {
                         A blacklist for entire mod id's, entities from these mods will not have json variants.
                         By default, only includes "minecraft", because default variants for the base game's mobs
                         are registered by Teal Lib for easy datapack making, but if you're not using any datapacks
-                        they will replace modded variants for them.
-                        Default: ["minecraft"]""")
+                        they will replace modded variants for them.""")
                 .translation("config.teallib.variant_namespace_blacklist")
-                .define("variant_namespace_blacklist", List.of("minecraft"));
+                .define("variant_namespace_blacklist", List.of());
         builder.pop();
     }
 }
