@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.Objects;
@@ -191,7 +192,7 @@ public interface Catchable {
                 Entity entity = type.create(level);
                 if (!(entity instanceof Mob mob)) return null;
 
-                mob.finalizeSpawn(level, level.getCurrentDifficultyAt(BlockPos.containing(vec)), MobSpawnType.BUCKET, null);
+                EventHooks.finalizeMobSpawn(mob, level, level.getCurrentDifficultyAt(BlockPos.containing(vec)), MobSpawnType.BUCKET, null);
 
                 mob.moveTo(vec.x, vec.y, vec.z, yRot, xRot);
 
@@ -212,7 +213,7 @@ public interface Catchable {
         Entity entity = Objects.requireNonNull(fallbackType).create(level);
         if (!(entity instanceof Mob mob)) return null;
 
-        mob.finalizeSpawn(level, level.getCurrentDifficultyAt(BlockPos.containing(vec)), MobSpawnType.MOB_SUMMONED, null);
+        EventHooks.finalizeMobSpawn(mob, level, level.getCurrentDifficultyAt(BlockPos.containing(vec)), MobSpawnType.MOB_SUMMONED, null);
         mob.moveTo(vec.x, vec.y, vec.z, yRot, xRot);
 
         if (mob instanceof Catchable catchable) catchable.setHasBeenCaught(true);

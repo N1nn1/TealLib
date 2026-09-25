@@ -5,8 +5,6 @@ import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.core.common.entity.Mannequin;
 import com.ninni.teallib.core.registry.TealEntityType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.MobSpawnType;
