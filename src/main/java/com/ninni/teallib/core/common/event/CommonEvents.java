@@ -48,12 +48,10 @@ public class CommonEvents {
         AgeableMob child = event.getChild();
         if (!event.isCanceled() && child != null) {
             if (event.getParentA().level() instanceof ServerLevel serverLevel) {
-                AgeableMob randomBaby = VariantAttachments.getRandomAgeableBabyWithVariant(child.getType(), serverLevel, event.getParentA(), event.getParentB());
-                if (randomBaby != null) event.setChild(randomBaby);
+                VariantAttachments.setRandomBabyVariant(serverLevel, event.getParentA(), event.getParentB(), child);
             } else {
                 if (event.getParentB().level() instanceof ServerLevel serverLevel) {
-                    AgeableMob randomBaby = VariantAttachments.getRandomAgeableBabyWithVariant(child.getType(), serverLevel, event.getParentA(), event.getParentB());
-                    if (randomBaby != null) event.setChild(randomBaby);
+                    VariantAttachments.setRandomBabyVariant(serverLevel, event.getParentA(), event.getParentB(), child);
                 }
             }
         }
