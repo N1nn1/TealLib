@@ -181,8 +181,8 @@ public final class VariantManager {
         }
 
         List<WeightedEntry> out = new ArrayList<>();
-        out.add(new WeightedEntry(getDefaultVariant(target).id(), getDefaultVariant(target).spawnWeight().get()));
         for (VariantDefinition data : matching) out.add(new WeightedEntry(data.id(), data.spawnWeight().get()));
+        if (matching.isEmpty()) out.add(new WeightedEntry(getDefaultVariant(target).id(), getDefaultVariant(target).spawnWeight().get()));
         return out;
     }
 
