@@ -157,6 +157,7 @@ public final class VariantManager {
      */
     public static List<WeightedEntry> candidatesFor(VariantTarget target, LevelReader level, BlockPos pos) {
         Holder<Biome> biome = level.getBiome(pos);
+        WeightedEntry defaultEntry = new WeightedEntry(getDefaultVariant(target).id(), getDefaultVariant(target).spawnWeight().get());
         int y = pos.getY();
         int maxY = level.getMaxBuildHeight();
         int minY = level.getMinBuildHeight();
@@ -164,6 +165,7 @@ public final class VariantManager {
         CodecUtils.Weather weather = CodecUtils.resolveWeather(level, pos, biome);
 
         List<VariantDefinition> matching = new ArrayList<>();
+        int priority = 0;
         int best = Integer.MIN_VALUE;
 
         for (VariantDefinition data : all(level.registryAccess())) {
@@ -172,7 +174,7 @@ public final class VariantManager {
             if (data.location().isPresent() && !data.location().get().contains(biome)) continue;
             if (!weatherMatches(data, weather) || !heightMatches(data, y, minY, maxY)) continue;
 
-            int priority = data.effectivePriority();
+            priority = data.effectivePriority();
             if (priority > best) {
                 best = priority;
                 matching.clear();
@@ -181,8 +183,8 @@ public final class VariantManager {
         }
 
         List<WeightedEntry> out = new ArrayList<>();
+        if (priority == 0) out.add(defaultEntry);
         for (VariantDefinition data : matching) out.add(new WeightedEntry(data.id(), data.spawnWeight().get()));
-        if (matching.isEmpty()) out.add(new WeightedEntry(getDefaultVariant(target).id(), getDefaultVariant(target).spawnWeight().get()));
         return out;
     }
 
