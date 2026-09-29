@@ -36,7 +36,7 @@ public record VariantDefinition(
         Map<String, ResourceLocation> textures,
         Map<ResourceLocation, ResourceLocation> textureOverrides,
         Map<ResourceLocation, ResourceLocation> babyTextureOverrides,
-        int priority,
+        Optional<Integer> priority,
         boolean keepVanillaTexture
 ) {
 
@@ -57,7 +57,7 @@ public record VariantDefinition(
                             Codec.unboundedMap(Codec.STRING, ResourceLocation.CODEC).optionalFieldOf("textures", Map.of()).forGetter(VariantDefinition::textures),
                             Codec.unboundedMap(ResourceLocation.CODEC, ResourceLocation.CODEC).optionalFieldOf("texture_overrides", Map.of()).forGetter(VariantDefinition::textureOverrides),
                             Codec.unboundedMap(ResourceLocation.CODEC, ResourceLocation.CODEC).optionalFieldOf("baby_texture_overrides", Map.of()).forGetter(VariantDefinition::babyTextureOverrides),
-                            Codec.INT.optionalFieldOf("priority", 0).forGetter(VariantDefinition::priority),
+                            Codec.INT.optionalFieldOf("priority").forGetter(VariantDefinition::priority),
                             Codec.BOOL.optionalFieldOf("keep_vanilla_texture", false).forGetter(VariantDefinition::keepVanillaTexture)
 
                     ).apply(instance, VariantDefinition::new)
@@ -69,7 +69,7 @@ public record VariantDefinition(
 
     /** Biome specific entries outrank generic ones unless a pack says otherwise. */
     public int effectivePriority() {
-        return priority + (location.isPresent() ? 1 : 0);
+        return priority.orElseGet(() -> (location.isPresent() ? 1 : 0));
     }
     public boolean hasTexture(String target) {
         return textures.containsKey(target);

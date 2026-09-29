@@ -65,7 +65,7 @@ public final class VariantManager {
                 List.of(target), DEFAULT_VARIANT_ID, Optional.empty(),
                 CodecUtils.Weather.NONE, Optional.empty(),
                 Optional.of(1f), Optional.empty(), Optional.empty(), Optional.empty(), false, Optional.empty(),
-                Map.of(), Map.of(), Map.of(), 0, true
+                Map.of(), Map.of(), Map.of(), Optional.empty(), true
         );
     }
     public static ResourceLocation getDefaultVariantId() {
