@@ -192,7 +192,7 @@ public final class EntityVariantComponents {
     }
 
     public static Optional<List<Component>> genericFallback(EntityVariantComponents.Context context) {
-        String value = firstString(context, "tealvariant", "Variant", "variant", "Type", "type", "RabbitType");
+        String value = firstString(context, "Variant", "variant", "Type", "type", "RabbitType", "tealvariant");
 
         Level level = context.tooltipContext.level();
         if (level != null) {
