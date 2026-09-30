@@ -2,6 +2,7 @@ package com.ninni.teallib.api.common.item.tooltip;
 
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
+import com.ninni.teallib.api.common.data.variant.VariantDefinition;
 import com.ninni.teallib.api.common.data.variant.VariantManager;
 import com.ninni.teallib.api.common.data.variant.VariantTarget;
 import com.ninni.teallib.core.TealLib;
@@ -27,6 +28,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -82,25 +85,43 @@ public class TooltipUtils {
         }
     }
 
+    public static MutableComponent getJsonBlockEntityVariantTooltip(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, Style style) {
+        if (context.level() == null) return null;
+        if (stack.has(DataComponents.BLOCK_ENTITY_DATA)) {
+            CompoundTag tag = stack.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY).copyTag();
+            return getJsonBlockEntityVariant(context, style, tag);
+        }
+        return null;
+    }
+
     public static void addJsonBlockEntityVariantTooltip(Item.@NotNull TooltipContext context, @NotNull List<Component> list, CompoundTag tag) {
         addJsonBlockEntityVariantTooltip(context, list, GRAY_ITALIC, tag);
     }
 
     public static void addJsonBlockEntityVariantTooltip(Item.@NotNull TooltipContext context, @NotNull List<Component> list, Style style, CompoundTag tag) {
-        if (tag.contains("Variant", Tag.TAG_STRING)) {
-            ResourceLocation beId;
+        MutableComponent variant = getJsonBlockEntityVariant(context, style, tag);
+        if (variant != null) list.add(variant);
+    }
 
-            if (tag.contains("VariantId")) beId = ResourceLocation.tryParse(tag.getString("VariantId"));
-            else beId = ResourceLocation.tryParse(tag.getString("id"));
+    public static MutableComponent getJsonBlockEntityVariant(Item.@NotNull TooltipContext context, Style style, CompoundTag tag) {
+        Level level = context.level();
+        if (level == null) return null;
+        if (tag.contains("neoforge:attachments", Tag.TAG_COMPOUND)) {
+            ResourceLocation beId = ResourceLocation.tryParse(tag.getString("id"));
+            CompoundTag neoforgeTag = tag.getCompound("neoforge:attachments");
+
             if (beId != null) {
-                if (VariantManager.getVariantCountFor(context.level().registryAccess(), VariantTarget.of(BuiltInRegistries.BLOCK_ENTITY_TYPE.get(beId))) > 1) {
-                    ResourceLocation variant = ResourceLocation.tryParse(tag.getString("Variant"));
-                    if (variant != null) {
-                        list.add(Component.translatable("variant." + variant.getNamespace() + "." + beId.getPath() + "." + variant.getPath()).withStyle(style));
-                    }
+                BlockEntityType<?> type = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(beId);
+                VariantTarget target = VariantTarget.of(type);
+
+                if (VariantManager.getVariantCountFor(level.registryAccess(), target) > 1) {
+                    String string = neoforgeTag.getCompound("teallib:variant").getString("variant");
+                    VariantDefinition variant = VariantManager.get(level.registryAccess(), target, ResourceLocation.parse(string));
+                    return Component.translatable("variant." + beId.getNamespace() + "." + beId.getPath() + "." + variant.id().getNamespace() + "." + variant.id().getPath()).withStyle(style);
                 }
             }
         }
+        return null;
     }
 
 

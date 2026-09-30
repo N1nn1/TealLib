@@ -1,7 +1,8 @@
 {
   "entity.teallib.mannequin": "Mannequin",
   "item.teallib.mannequin": "Mannequin",
-  "config.jade.plugin_teallib.variant": "Entity Variant tooltip",
+  "config.jade.plugin_teallib.entity_variant": "Entity Variants",
+  "config.jade.plugin_teallib.block_variant": "Block Entity Variants",
 
   "variant.minecraft.allay.teallib.default": "Blue",
   "variant.minecraft.armadillo.teallib.default": "Terracotta",

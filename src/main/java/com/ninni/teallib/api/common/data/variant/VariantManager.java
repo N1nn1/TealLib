@@ -46,14 +46,13 @@ public final class VariantManager {
         return out;
     }
 
-    @Nullable
     public static VariantDefinition get(RegistryAccess access, VariantTarget target, ResourceLocation id) {
         if (target.isEntityType() && DEFAULT_VARIANT_ID.equals(id)) return getDefaultVariant(target);
 
         for (VariantDefinition variant : all(access)) {
             if (variant.id().equals(id) && variant.targets().contains(target)) return variant;
         }
-        return null;
+        return getDefaultVariant(target);
     }
 
     public static VariantDefinition getDefaultVariant(VariantTarget target) {
@@ -299,15 +298,15 @@ public final class VariantManager {
 
     public static void assignNaturally(BlockEntity blockEntity) {
         Level level = blockEntity.getLevel();
-
-        if (level == null) return;
-
         VariantTarget target = VariantTarget.of(blockEntity.getType());
-        ResourceLocation id = getNaturalVariant(target, level, blockEntity.getBlockPos(), RandomSource.create());
-        if (id == null) return;
-        VariantDefinition variant = getForTarget(level.registryAccess(), target, id);
-        if (variant == null) return;
-
+        VariantDefinition variant = getDefaultVariant(target);
+        if (level != null) {
+            ResourceLocation id = getNaturalVariant(target, level, blockEntity.getBlockPos(), RandomSource.create());
+            if (id != null) {
+                variant = getForTarget(level.registryAccess(), target, id);
+                if (variant == null) variant = getDefaultVariant(target);
+            }
+        }
         VariantAttachments.set(blockEntity, variant.id());
         applyVariantData(blockEntity, variant);
     }
