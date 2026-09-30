@@ -9,18 +9,31 @@ import com.ninni.teallib.api.client.renderer.item.CapturedMobsTooltipRenderer;
 import com.ninni.teallib.api.common.item.tooltip.CapturedMobsTooltipData;
 import com.ninni.teallib.core.registry.TealEntityType;
 import com.ninni.teallib.core.registry.TealParticleType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+import net.neoforged.neoforge.client.event.*;
 
 import java.io.IOException;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = TealLib.MODID)
 public class ClientEvents {
+
+    @SubscribeEvent
+    public static void onAdditional(ModelEvent.RegisterAdditional event) {
+        ResourceManager resources = Minecraft.getInstance().getResourceManager();
+
+        for (ResourceLocation resource : resources.listResources("models/item/tealvariant", location -> location.getPath().endsWith(".json")).keySet()) {
+            String modelPath = resource.getPath().substring("models/".length(), resource.getPath().length() - ".json".length());
+            ResourceLocation modelId = ResourceLocation.fromNamespaceAndPath(resource.getNamespace(), modelPath);
+            TealLib.LOGGER.debug("Registering variant model {}", modelId);
+            event.register(ModelResourceLocation.standalone(modelId));
+        }
+    }
 
     @SubscribeEvent
     public static void register(RegisterShadersEvent event) throws IOException {

@@ -26,6 +26,7 @@
     "client.EnderDragonRendererMixin",
     "client.EntityRenderDispatcherMixin",
     "client.EyesLayerMixin",
+    "client.ItemRenderMixin",
     "client.LivingEntityRendererMixin",
     "client.NeoForgeRenderTypesMixin",
     "client.RenderLayerMixin",

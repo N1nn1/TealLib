@@ -1,6 +1,5 @@
 package com.ninni.teallib.api.common.data.variant;
 
-import com.google.errorprone.annotations.Var;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ninni.teallib.api.common.data.CodecUtils;
