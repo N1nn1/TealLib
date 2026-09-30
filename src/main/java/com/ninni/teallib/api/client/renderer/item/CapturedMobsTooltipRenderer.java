@@ -2,11 +2,16 @@ package com.ninni.teallib.api.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import com.ninni.teallib.api.client.renderer.variant.VariantRenderContext;
+import com.ninni.teallib.api.client.renderer.variant.VariantRenderManager;
+import com.ninni.teallib.api.common.data.variant.VariantManager;
+import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
 import com.ninni.teallib.api.common.entity.catchable.Catchable;
 import com.ninni.teallib.api.common.entity.catchable.CustomInventoryRendering;
 import com.ninni.teallib.api.common.item.tooltip.CapturedMobsTooltipData;
 import com.ninni.teallib.core.mixin.accessor.EntityAccessor;
 import com.ninni.teallib.core.mixin.accessor.TropicalFishAccessor;
+import com.ninni.teallib.core.registry.TealAttachments;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,6 +20,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.Squid;
@@ -93,10 +99,6 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             }
             else if (entity instanceof Catchable catchable && entity instanceof Mob mob) catchable.loadDataFromTag(mob, entityTag);
             else entity.load(entityTag);
-            //TODO
-            //if (entity instanceof JsonVariantHolder holder && !entityTag.contains("Variant")) {
-            //    holder.setVariant(holder.getDefaultVariant());
-            //}
             if (entity instanceof EntityAccessor accessor) accessor.setTouchingWater(true);
             entity.setYHeadRot(0);
 
@@ -150,7 +152,7 @@ public class CapturedMobsTooltipRenderer implements ClientTooltipComponent {
             if (entity instanceof CustomInventoryRendering pose) light = LightTexture.pack(pose.getInventoryBlockLight(), pose.getInventorySkyLight());
 
             Minecraft.getInstance().getEntityRenderDispatcher().setRenderShadow(false);
-
+            if (tag.contains("tealvariant")) VariantAttachments.set(living, ResourceLocation.parse(tag.getString("tealvariant")));
             Minecraft.getInstance().getEntityRenderDispatcher().render(
                     living,
                     0.0, -0.2, 0.0,

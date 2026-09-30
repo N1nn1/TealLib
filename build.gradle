@@ -90,7 +90,8 @@ configurations {
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
-    implementation "maven.modrinth:field-guide:1.12.0-1.21.1-neoforge"
+    compileOnly "maven.modrinth:field-guide:1.12.0-1.21.1-neoforge"
+    compileOnly "maven.modrinth:jade:15.10.5+neoforge"
     compileOnly "curse.maven:geckolib-388172:8350073"
 }
 

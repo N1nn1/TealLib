@@ -132,12 +132,12 @@ public final class VariantAttachments {
     }
 
     public static void toTag(Entity entity, CompoundTag tag) {
-        if (VariantAttachments.has(entity)) tag.putString("Variant", VariantAttachments.get(entity).toString());
+        if (VariantAttachments.has(entity)) tag.putString("tealvariant", VariantAttachments.get(entity).toString());
     }
 
     public static void fromTag(Entity entity, CompoundTag tag, boolean tryAssign) {
-        if (tag.contains("Variant")) {
-            ResourceLocation variant = ResourceLocation.tryParse(tag.getString("Variant"));
+        if (tag.contains("tealvariant")) {
+            ResourceLocation variant = ResourceLocation.tryParse(tag.getString("tealvariant"));
             if (variant != null) VariantAttachments.set(entity, variant);
             else {
                 if (tryAssign) VariantManager.assignNaturally(entity);

@@ -4,13 +4,14 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AxolotlMixin",
+    "BucketableMixin",
     "EntityMixin",
-    "accessor.LivingEntityAccessor",
-    "accessor.MobAccessor",
     "MobBucketItemMixin",
     "RavagerMixin",
     "WaterAnimalMixin",
     "accessor.HierarchicalModelAccessor",
+    "accessor.LivingEntityAccessor",
+    "accessor.MobAccessor",
     "accessor.TropicalFishAccessor"
   ],
   "injectors": {

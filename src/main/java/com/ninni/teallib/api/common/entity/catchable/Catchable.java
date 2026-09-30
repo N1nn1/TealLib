@@ -1,5 +1,6 @@
 package com.ninni.teallib.api.common.entity.catchable;
 
+import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -92,6 +93,7 @@ public interface Catchable {
         if (mob.isInvulnerable()) tag.putBoolean("Invulnerable", mob.isInvulnerable());
         tag.putString("id", Objects.requireNonNull(mob.self().getEncodeId()));
         tag.putFloat("Health", mob.getHealth());
+        VariantAttachments.toTag(mob, tag);
     }
 
     static void loadDefaultDataFromTag(Mob mob, CompoundTag tag) {
@@ -102,6 +104,7 @@ public interface Catchable {
         if (tag.contains("Glowing")) mob.setGlowingTag(tag.getBoolean("Glowing"));
         if (tag.contains("Invulnerable")) mob.setInvulnerable(tag.getBoolean("Invulnerable"));
         if (tag.contains("Health")) mob.setHealth(tag.getFloat("Health"));
+        VariantAttachments.fromTag(mob, tag, true);
     }
 
     /**

@@ -192,21 +192,19 @@ public final class EntityVariantComponents {
     }
 
     public static Optional<List<Component>> genericFallback(EntityVariantComponents.Context context) {
-        String value = firstString(context, "Variant", "variant", "Type", "type", "RabbitType");
+        String value = firstString(context, "tealvariant", "Variant", "variant", "Type", "type", "RabbitType");
 
         Level level = context.tooltipContext.level();
         if (level != null) {
             EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(context.entityId);
             Entity entity = type.create(level);
 
-            //TODO
             if (VariantAttachments.has(entity)) {
                 if (VariantManager.getVariantCountFor(level.registryAccess(), VariantTarget.of(type)) == 1) {
                     return Optional.empty();
                 }
             }
         }
-
         return valueToOneComponent(context.entityId(), value);
     }
 
