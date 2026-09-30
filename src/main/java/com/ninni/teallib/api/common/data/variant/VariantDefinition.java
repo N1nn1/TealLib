@@ -1,10 +1,14 @@
 package com.ninni.teallib.api.common.data.variant;
 
+import com.google.errorprone.annotations.Var;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ninni.teallib.api.common.data.CodecUtils;
 import com.ninni.teallib.api.common.data.variantdata.VariantData;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.HolderSet;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 
@@ -62,6 +66,8 @@ public record VariantDefinition(
 
                     ).apply(instance, VariantDefinition::new)
             );
+
+    public static final StreamCodec<ByteBuf, VariantDefinition> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC);
 
     public boolean supports(VariantTarget target) {
         return targets.contains(target);

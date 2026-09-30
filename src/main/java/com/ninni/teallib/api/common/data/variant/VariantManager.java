@@ -46,6 +46,7 @@ public final class VariantManager {
         return out;
     }
 
+    @NotNull
     public static VariantDefinition get(RegistryAccess access, VariantTarget target, ResourceLocation id) {
         if (target.isEntityType() && DEFAULT_VARIANT_ID.equals(id)) return getDefaultVariant(target);
 
