@@ -21,10 +21,10 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class NameableBlockEntity extends BlockEntity implements Nameable {
+public abstract class VariantBlockEntity extends BlockEntity implements Nameable {
     private Component customName;
 
-    protected NameableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    protected VariantBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

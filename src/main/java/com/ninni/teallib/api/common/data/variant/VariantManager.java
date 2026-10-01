@@ -362,7 +362,6 @@ public final class VariantManager {
     @Nullable
     public static ResourceLocation getTexture(RegistryAccess access, VariantTarget target, ResourceLocation variantId, String slot) {
         VariantDefinition variant = get(access, target, variantId);
-        if (variant == null) return null;
         return variant.texture(slot).orElse(null);
     }
 
@@ -375,8 +374,6 @@ public final class VariantManager {
         if (variantId.isEmpty()) return fallback;
 
         VariantDefinition variant = VariantManager.get(entity.level().registryAccess(), VariantTarget.of(entity.getType()), variantId.get());
-
-        if (variant == null) return fallback;
         return variant.texture(slot).orElse(fallback);
     }
 
