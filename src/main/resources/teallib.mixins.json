@@ -8,6 +8,7 @@
     "EntityMixin",
     "MobBucketItemMixin",
     "RavagerMixin",
+    "SpawnEggItemMixin",
     "WaterAnimalMixin",
     "accessor.HierarchicalModelAccessor",
     "accessor.LivingEntityAccessor",
