@@ -67,9 +67,9 @@ public class VariantItemRenderer extends BlockEntityWithoutLevelRenderer {
         }
 
         if (variant != null) {
-            loc = ResourceLocation.fromNamespaceAndPath(variant.id().getNamespace(), "item/tealvariant/" + id.getPath() + "_" + variant.id().getPath());
+            loc = ResourceLocation.fromNamespaceAndPath(variant.id().getNamespace(), "item/tealvariant/" + id.getPath() + "/" + variant.id().getPath());
         } else {
-            loc = ResourceLocation.fromNamespaceAndPath(VariantManager.getDefaultVariantId().getNamespace(), "item/tealvariant/" + id.getPath() + "_" + VariantManager.getDefaultVariantId().getPath());
+            loc = ResourceLocation.fromNamespaceAndPath(VariantManager.getDefaultVariantId().getNamespace(), "item/tealvariant/" + id.getPath() + "/" + VariantManager.getDefaultVariantId().getPath());
         }
 
         poseStack.pushPose();
