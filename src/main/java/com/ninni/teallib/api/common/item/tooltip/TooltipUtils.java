@@ -114,9 +114,9 @@ public class TooltipUtils {
                 BlockEntityType<?> type = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(beId);
                 VariantTarget target = VariantTarget.of(type);
 
-                if (VariantManager.getVariantCountFor(level.registryAccess(), target) > 1) {
+                if (VariantManager.getVariantCountFor(level.registryAccess(), target, true) > 1) {
                     String string = neoforgeTag.getCompound("teallib:variant").getString("variant");
-                    VariantDefinition variant = VariantManager.get(level.registryAccess(), target, ResourceLocation.parse(string));
+                    VariantDefinition variant = VariantManager.get(level.registryAccess(), target, ResourceLocation.parse(string), true);
                     return Component.translatable("variant." + beId.getNamespace() + "." + beId.getPath() + "." + variant.id().getNamespace() + "." + variant.id().getPath()).withStyle(style);
                 }
             }

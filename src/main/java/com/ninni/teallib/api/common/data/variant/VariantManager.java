@@ -46,14 +46,15 @@ public final class VariantManager {
         return out;
     }
 
-    @NotNull
-    public static VariantDefinition get(RegistryAccess access, VariantTarget target, ResourceLocation id) {
+    @Nullable
+    public static VariantDefinition get(RegistryAccess access, VariantTarget target, ResourceLocation id, boolean force) {
         if (target.isEntityType() && DEFAULT_VARIANT_ID.equals(id)) return getDefaultVariant(target);
 
         for (VariantDefinition variant : all(access)) {
             if (variant.id().equals(id) && variant.targets().contains(target)) return variant;
         }
-        return getDefaultVariant(target);
+        if (force) return getDefaultVariant(target);
+        return null;
     }
 
     public static VariantDefinition getDefaultVariant(VariantTarget target) {
@@ -90,8 +91,9 @@ public final class VariantManager {
 
     @Nullable
     public static VariantDefinition getForTarget(RegistryAccess access, VariantTarget target, ResourceLocation id) {
-        VariantDefinition variant = get(access, target, id);
-        if (variant == null || !variant.supports(target)) return null;
+        VariantDefinition variant = get(access, target, id, false);
+        if (variant == null) return null;
+        if (!variant.supports(target)) return null;
         return variant;
     }
 
@@ -111,13 +113,14 @@ public final class VariantManager {
         return getForTarget(access, target, id) != null;
     }
 
-    public static int getVariantCountFor(RegistryAccess access, VariantTarget target) {
+    public static int getVariantCountFor(RegistryAccess access, VariantTarget target, boolean countHidden) {
         int count = 0;
-        for (VariantDefinition variant : all(access)) {
+        for (VariantDefinition variant : getAllVariantsFor(access, target, countHidden)) {
             if (variant.supports(target)) count++;
         }
         return count;
     }
+
     public static List<VariantDefinition> getAllVariantsFor(RegistryAccess access, VariantTarget target, boolean countHidden) {
         List<VariantDefinition> list = new ArrayList<>();
 
@@ -361,7 +364,8 @@ public final class VariantManager {
 
     @Nullable
     public static ResourceLocation getTexture(RegistryAccess access, VariantTarget target, ResourceLocation variantId, String slot) {
-        VariantDefinition variant = get(access, target, variantId);
+        VariantDefinition variant = get(access, target, variantId, false);
+        if (variant == null) return null;
         return variant.texture(slot).orElse(null);
     }
 
@@ -373,7 +377,7 @@ public final class VariantManager {
         if (variantId.isEmpty()) variantId = VariantAttachments.getOptional(entity);
         if (variantId.isEmpty()) return fallback;
 
-        VariantDefinition variant = VariantManager.get(entity.level().registryAccess(), VariantTarget.of(entity.getType()), variantId.get());
+        VariantDefinition variant = VariantManager.get(entity.level().registryAccess(), VariantTarget.of(entity.getType()), variantId.get(), true);
         return variant.texture(slot).orElse(fallback);
     }
 

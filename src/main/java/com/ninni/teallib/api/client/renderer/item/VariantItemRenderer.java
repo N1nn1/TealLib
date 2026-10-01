@@ -57,9 +57,9 @@ public class VariantItemRenderer extends BlockEntityWithoutLevelRenderer {
             if (tag.contains("neoforge:attachments", Tag.TAG_COMPOUND)) {
                 CompoundTag neoforgeTag = tag.getCompound("neoforge:attachments");
 
-                if (VariantManager.getVariantCountFor(mc.level.registryAccess(), target) > 1) {
+                if (VariantManager.getVariantCountFor(mc.level.registryAccess(), target, true) > 1) {
                     String string = neoforgeTag.getCompound("teallib:variant").getString("variant");
-                    variant = VariantManager.get(mc.level.registryAccess(), target, ResourceLocation.parse(string));
+                    variant = VariantManager.get(mc.level.registryAccess(), target, ResourceLocation.parse(string), false);
                 }
             }
 

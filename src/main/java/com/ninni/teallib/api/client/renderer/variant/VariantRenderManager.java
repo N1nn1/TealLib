@@ -96,7 +96,7 @@ public final class VariantRenderManager {
         Optional<ResourceLocation> id = VariantAttachments.getOptional(entity);
 
         if (id.isPresent()) {
-            VariantDefinition variant = VariantManager.get(entity.level().registryAccess(), target, id.get());
+            VariantDefinition variant = VariantManager.get(entity.level().registryAccess(), target, id.get(), false);
             if (variant != null) return Optional.of(variant);
         }
         return Optional.of(VariantManager.getDefaultVariant(target));

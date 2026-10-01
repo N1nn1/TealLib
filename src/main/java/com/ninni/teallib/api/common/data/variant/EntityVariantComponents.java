@@ -195,12 +195,11 @@ public final class EntityVariantComponents {
         String value = firstString(context, "Variant", "variant", "Type", "type", "RabbitType", "tealvariant");
 
         Level level = context.tooltipContext.level();
-        if (level != null) {
-            EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(context.entityId);
-            Entity entity = type.create(level);
 
-            if (VariantAttachments.has(entity)) {
-                if (VariantManager.getVariantCountFor(level.registryAccess(), VariantTarget.of(type)) == 1) {
+        if (level != null && value != null) {
+            EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(context.entityId);
+            if (VariantManager.isValidVariant(level.registryAccess(), VariantTarget.of(type), ResourceLocation.parse(value))) {
+                if (VariantManager.getVariantCountFor(level.registryAccess(), VariantTarget.of(type), true) <= 1) {
                     return Optional.empty();
                 }
             }
