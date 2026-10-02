@@ -17,8 +17,8 @@ public class FieldGuideVariantManagerMixin {
 
         Component tealVariant = Component.empty();
 
-        if (variant.value() instanceof ResourceLocation location && variant.id().startsWith("tealvariant/")) {
-            String[] values = variant.id().replace("tealvariant/", "").split(":");
+        if (variant.value() instanceof ResourceLocation location && variant.id().startsWith("tealvariant.")) {
+            String[] values = variant.id().replace("tealvariant.", "").split("\\.");
             if (values.length == 4) {
                 tealVariant = Component.translatable("variant." + values[0] + "." + values[1] + "." + location.getNamespace() + "." + location.getPath());
             }

@@ -26,9 +26,9 @@ public class JsonVariantProvider<T extends Mob> implements VariantProvider<T> {
         if (!definitions.isEmpty()) {
             for (VariantDefinition definition : definitions) {
                 if (definition != null && definition.supports(target)) {
-                    if (!(definition == VariantManager.getDefaultVariant(target) && VariantManager.getVariantCountFor(entity.registryAccess(), target, false) <= 1)) {
-                        variants.add(new VariantDef("tealvariant/" + BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()) + ":" + definition.id().toString(), definition.id()));
-                    }
+                    if (definition == VariantManager.getDefaultVariant(target) && VariantManager.getVariantCountFor(entity.registryAccess(), target, false) <= 1) continue;
+                    String id = "tealvariant." + BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()) + "." + definition.id().toString();
+                    variants.add(new VariantDef(id.replace(":", "."), definition.id()));
                 }
             }
         }
@@ -50,7 +50,8 @@ public class JsonVariantProvider<T extends Mob> implements VariantProvider<T> {
 
     @Override
     public VariantDef getCurrent(T entity) {
-        if (VariantAttachments.has(entity)) return new VariantDef(VariantAttachments.get(entity).toString(), VariantAttachments.get(entity));
-        return new VariantDef("tealvariant/" + BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()) + ":" + VariantManager.getDefaultVariantId(), VariantManager.getDefaultVariantId());
+        ResourceLocation variantId = VariantAttachments.has(entity) ? VariantAttachments.get(entity) : VariantManager.getDefaultVariantId();
+        String id = "tealvariant." + BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()) + "." + variantId;
+        return new VariantDef(id.replace(":", "."), variantId);
     }
 }
