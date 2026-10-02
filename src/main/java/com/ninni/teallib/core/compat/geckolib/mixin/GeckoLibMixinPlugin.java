@@ -15,14 +15,7 @@ public final class GeckoLibMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void onLoad(String mixinPackage) {
-        boolean found;
-        try {
-            Class.forName(GECKOLIB_RENDERER, false, GeckoLibMixinPlugin.class.getClassLoader());
-            found = true;
-        } catch (Throwable throwable) {
-            found = false;
-        }
-        this.present = found;
+        this.present = GeckoLibMixinPlugin.class.getClassLoader().getResource(GECKOLIB_RENDERER.replace('.', '/') + ".class") != null;
     }
 
     @Override

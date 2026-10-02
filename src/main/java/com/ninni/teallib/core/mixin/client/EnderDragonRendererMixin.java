@@ -13,10 +13,7 @@ import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/**
- * Its render types are class-load constants, so the buffer is the only reachable point. Rebuilt
- * factories are matched by identity, which needs substitution off while the comparison runs.
- */
+/** Its render types are class-load constants, so the swap happens at getBuffer, matching rebuilt types by identity with substitution off. */
 @Mixin(EnderDragonRenderer.class)
 public abstract class EnderDragonRendererMixin {
 

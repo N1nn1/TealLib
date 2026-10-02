@@ -10,7 +10,6 @@
     "RavagerMixin",
     "SpawnEggItemMixin",
     "WaterAnimalMixin",
-    "accessor.HierarchicalModelAccessor",
     "accessor.LivingEntityAccessor",
     "accessor.MobAccessor",
     "accessor.TropicalFishAccessor"
@@ -23,6 +22,7 @@
   },
   "client": [
     "accessor.EntityAccessor",
+    "accessor.HierarchicalModelAccessor",
     "client.BreezeEyesLayerMixin",
     "client.EnderDragonRendererMixin",
     "client.EntityRenderDispatcherMixin",
