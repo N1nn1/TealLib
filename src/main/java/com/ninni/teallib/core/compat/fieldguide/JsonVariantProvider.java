@@ -26,7 +26,7 @@ public class JsonVariantProvider<T extends Mob> implements VariantProvider<T> {
         if (!definitions.isEmpty()) {
             for (VariantDefinition definition : definitions) {
                 if (definition != null && definition.supports(target)) {
-                    if (!(definition == VariantManager.getDefaultVariant(target) && VariantManager.getVariantCountFor(entity.registryAccess(), target, false) < 1)) {
+                    if (!(definition == VariantManager.getDefaultVariant(target) && VariantManager.getVariantCountFor(entity.registryAccess(), target, false) <= 1)) {
                         variants.add(new VariantDef("tealvariant/" + BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()) + ":" + definition.id().toString(), definition.id()));
                     }
                 }
