@@ -4,8 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ninni.teallib.api.common.data.CodecUtils;
 import com.ninni.teallib.api.common.data.variantdata.VariantData;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.HolderSet;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -66,7 +66,7 @@ public record VariantDefinition(
                     ).apply(instance, VariantDefinition::new)
             );
 
-    public static final StreamCodec<ByteBuf, VariantDefinition> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC);
+    public static final StreamCodec<RegistryFriendlyByteBuf, VariantDefinition> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(CODEC);
 
     public boolean supports(VariantTarget target) {
         return targets.contains(target);
