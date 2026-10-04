@@ -21,6 +21,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class VariantItemRenderer extends BlockEntityWithoutLevelRenderer {
     public static final IClientItemExtensions EXTENSIONS =
             new IClientItemExtensions() {
@@ -54,7 +56,11 @@ public class VariantItemRenderer extends BlockEntityWithoutLevelRenderer {
             VariantTarget target = VariantTarget.of(type);
 
 
-            if (tag.contains("neoforge:attachments", Tag.TAG_COMPOUND)) {
+            Optional<VariantDefinition> nameTagOverride = VariantManager.getNameTagOverride(mc.level.registryAccess(), target, stack.getHoverName());
+
+            if (nameTagOverride.isPresent()) variant = nameTagOverride.get();
+
+            if ((nameTagOverride.isEmpty() || variant == null) && tag.contains("neoforge:attachments", Tag.TAG_COMPOUND)) {
                 CompoundTag neoforgeTag = tag.getCompound("neoforge:attachments");
 
                 if (VariantManager.getVariantCountFor(mc.level.registryAccess(), target, true) > 1) {
@@ -65,6 +71,8 @@ public class VariantItemRenderer extends BlockEntityWithoutLevelRenderer {
 
             if (variant == null) variant = VariantManager.getDefaultVariant(VariantTarget.of(type));
         }
+
+
 
         if (variant != null) {
             loc = ResourceLocation.fromNamespaceAndPath(variant.id().getNamespace(), "item/tealvariant/" + id.getPath() + "/" + variant.id().getPath());
