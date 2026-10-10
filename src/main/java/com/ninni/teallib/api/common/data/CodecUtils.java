@@ -6,6 +6,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
@@ -13,6 +16,15 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
+import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
 
 import java.util.List;
 import java.util.function.Function;
@@ -39,6 +51,32 @@ public class CodecUtils {
             String s = ChatFormatting.stripFormatting(customName.getString());
             for (String n : names) if (ignoreCase ? s.equalsIgnoreCase(n) : s.equals(n)) return true;
             return false;
+        }
+    }
+
+    public record BiomeSelector(ResourceLocation id, boolean tag) {
+        public static final Codec<BiomeSelector> CODEC =
+                Codec.STRING.comapFlatMap(
+                        input -> {
+                            boolean isTag = input.startsWith("#");
+                            String value = isTag ? input.substring(1) : input;
+                            if (value.isEmpty()) {
+                                return DataResult.error(() -> "Biome ID or tag cannot be empty: " + input);
+                            }
+                            return ResourceLocation.read(value).map(id -> new BiomeSelector(id, isTag));
+                        },
+                        selector -> (selector.tag() ? "#" : "") + selector.id()
+                );
+
+        public static final Codec<List<BiomeSelector>> LIST_OR_SINGLE_CODEC = Codec.either(CODEC, CODEC.listOf()).xmap(either -> either.map(List::of, list -> list), list -> list.size() == 1 ? Either.left(list.getFirst()) : Either.right(list));
+
+        public boolean matches(Holder<Biome> biome) {
+            if (tag) {
+                TagKey<Biome> tagKey = TagKey.create(Registries.BIOME, id);
+                return biome.is(tagKey);
+            }
+            ResourceKey<Biome> biomeKey = ResourceKey.create(Registries.BIOME, id);
+            return biome.is(biomeKey);
         }
     }
 
