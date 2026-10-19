@@ -23,12 +23,8 @@ import org.jetbrains.annotations.NotNull;
  * synchronization beyond (like the mod) vanilla update packets.
  */
 public class BlockEntitySyncPacket implements CustomPacketPayload {
-
-    public static final CustomPacketPayload.Type<BlockEntitySyncPacket> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "block_entity_sync"));
-
-    public static final StreamCodec<FriendlyByteBuf, BlockEntitySyncPacket> STREAM_CODEC =
-            StreamCodec.of(BlockEntitySyncPacket::write, BlockEntitySyncPacket::read);
+    public static final CustomPacketPayload.Type<BlockEntitySyncPacket> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "block_entity_sync"));
+    public static final StreamCodec<FriendlyByteBuf, BlockEntitySyncPacket> STREAM_CODEC = StreamCodec.of(BlockEntitySyncPacket::write, BlockEntitySyncPacket::read);
 
     final BlockPos pos;
     final CompoundTag tag;

@@ -1,5 +1,6 @@
 package com.ninni.teallib.core.registry;
 
+import com.ninni.teallib.api.common.network.AddParticlePacket;
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.api.common.network.BlockEntitySyncPacket;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,5 +16,6 @@ public class TealNetwork {
         PayloadRegistrar registrar = event.registrar(TealLib.MODID);
 
         registrar.playToClient(BlockEntitySyncPacket.TYPE, BlockEntitySyncPacket.STREAM_CODEC, BlockEntitySyncPacket::handle);
+        registrar.playToClient(AddParticlePacket.TYPE, AddParticlePacket.STREAM_CODEC, AddParticlePacket::handle);
     }
 }
