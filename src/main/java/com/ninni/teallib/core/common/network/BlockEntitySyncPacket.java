@@ -1,4 +1,4 @@
-package com.ninni.teallib.api.common.network;
+package com.ninni.teallib.core.common.network;
 
 import com.ninni.teallib.core.TealLib;
 import net.minecraft.core.BlockPos;

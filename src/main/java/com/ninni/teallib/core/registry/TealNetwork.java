@@ -1,8 +1,9 @@
 package com.ninni.teallib.core.registry;
 
-import com.ninni.teallib.api.common.network.AddParticlePacket;
+import com.ninni.teallib.core.common.network.AddParticlePacket;
 import com.ninni.teallib.core.TealLib;
-import com.ninni.teallib.api.common.network.BlockEntitySyncPacket;
+import com.ninni.teallib.core.common.network.BlockEntitySyncPacket;
+import com.ninni.teallib.core.common.network.CycleComponentStackPacket;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -17,5 +18,6 @@ public class TealNetwork {
 
         registrar.playToClient(BlockEntitySyncPacket.TYPE, BlockEntitySyncPacket.STREAM_CODEC, BlockEntitySyncPacket::handle);
         registrar.playToClient(AddParticlePacket.TYPE, AddParticlePacket.STREAM_CODEC, AddParticlePacket::handle);
+        registrar.playToServer(CycleComponentStackPacket.TYPE, CycleComponentStackPacket.STREAM_CODEC, CycleComponentStackPacket::handle);
     }
 }

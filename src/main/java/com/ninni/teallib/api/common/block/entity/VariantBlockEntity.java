@@ -2,7 +2,7 @@ package com.ninni.teallib.api.common.block.entity;
 
 import com.ninni.teallib.api.common.data.variant.VariantManager;
 import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
-import com.ninni.teallib.api.common.network.BlockEntitySyncPacket;
+import com.ninni.teallib.core.common.network.BlockEntitySyncPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

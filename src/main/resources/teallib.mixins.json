@@ -3,9 +3,13 @@
   "package": "com.ninni.teallib.core.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractContainerMenuMixin",
     "AxolotlMixin",
     "BucketableMixin",
     "EntityMixin",
+    "InventoryMixin",
+    "ItemEntityMixin",
+    "ItemStackMixin",
     "MobBucketItemMixin",
     "RavagerMixin",
     "SpawnEggItemMixin",
@@ -23,6 +27,7 @@
   "client": [
     "accessor.EntityAccessor",
     "accessor.HierarchicalModelAccessor",
+    "client.AbstractContainerScreenAccessor",
     "client.BreezeEyesLayerMixin",
     "client.EnderDragonRendererMixin",
     "client.EntityRenderDispatcherMixin",

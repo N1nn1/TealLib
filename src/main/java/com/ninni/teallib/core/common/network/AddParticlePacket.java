@@ -1,4 +1,4 @@
-package com.ninni.teallib.api.common.network;
+package com.ninni.teallib.core.common.network;
 
 import com.ninni.teallib.api.client.network.AddParticlePacketClient;
 import com.ninni.teallib.core.TealLib;
