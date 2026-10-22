@@ -30,7 +30,7 @@ public record CycleComponentStackPacket(int slotIndex, int direction) implements
         if (slotIndex < 0 || slotIndex >= menu.slots.size()) return;
         int direction = Integer.signum(payload.direction());
         if (direction == 0 || !ComponentStacking.cycleMenuSlot(menu, slotIndex, direction)) return;
-        player.playNotifySound(TealSoundEvents.CYCLE_ITEM.get(), SoundSource.MASTER, 1.0F, 1.0F);
+        player.playNotifySound(TealSoundEvents.CYCLE_ITEM.get(), SoundSource.MASTER, 0.2F, 1.35F);
         menu.slots.get(slotIndex).setChanged();
         menu.broadcastFullState();
     }
