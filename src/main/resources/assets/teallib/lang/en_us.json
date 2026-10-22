@@ -4,6 +4,8 @@
   "config.jade.plugin_teallib.entity_variant": "Entity Variants",
   "config.jade.plugin_teallib.block_variant": "Block Entity Variants",
 
+  "subtitles.ui.spawn.item.cycle": "Item is cycled",
+
   "variant.minecraft.allay.teallib.default": "Blue",
   "variant.minecraft.armadillo.teallib.default": "Terracotta",
   "variant.minecraft.armor_stand.teallib.default": "Oak",

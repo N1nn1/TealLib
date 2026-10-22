@@ -58,6 +58,7 @@ public class TealLib {
         TealBiomeModifiers.DEF_REG.register(modEventBus);
         TealParticleType.DEF_REG.register(modEventBus);
         TealDataComponentTypes.DEF_REG.register(modEventBus);
+        TealSoundEvents.DEF_REG.register(modEventBus);
         NeoForge.EVENT_BUS.addListener((ServerTickEvent.Post event) -> VariantManager.tickAwaitingVariants());
         NeoForge.EVENT_BUS.addListener((ServerStoppedEvent event) -> VariantManager.clearAwaitingVariants());
 
