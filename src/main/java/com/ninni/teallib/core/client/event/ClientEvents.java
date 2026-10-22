@@ -1,6 +1,8 @@
 package com.ninni.teallib.core.client.event;
 
+import com.mojang.datafixers.util.Either;
 import com.ninni.teallib.api.client.particle.ShakingParticle;
+import com.ninni.teallib.api.client.renderer.item.CombinedStackBarRenderer;
 import com.ninni.teallib.api.common.item.ComponentStacking;
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.core.client.TealShaders;
@@ -8,16 +10,17 @@ import com.ninni.teallib.core.client.entity.MannequinModel;
 import com.ninni.teallib.core.client.entity.MannequinRenderer;
 import com.ninni.teallib.api.client.renderer.item.CapturedMobsTooltipRenderer;
 import com.ninni.teallib.api.common.item.tooltip.CapturedMobsTooltipData;
+import com.ninni.teallib.core.common.item.CombinedStackBarData;
 import com.ninni.teallib.core.common.network.CycleComponentStackPacket;
 import com.ninni.teallib.core.mixin.client.AbstractContainerScreenAccessor;
+import com.ninni.teallib.core.registry.TealDataComponentTypes;
 import com.ninni.teallib.core.registry.TealEntityType;
 import com.ninni.teallib.core.registry.TealParticleType;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.inventory.Slot;
@@ -26,7 +29,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.io.IOException;
@@ -54,7 +56,16 @@ public class ClientEvents {
         int slotIndex = screen.getMenu().slots.indexOf(slot);
         if (slotIndex < 0) return;
         int direction = event.getScrollDeltaY() > 0 ? 1 : -1;
-        PacketDistributor.sendToServer(new CycleComponentStackPacket(slotIndex, direction));
+        PacketDistributor.sendToServer(new CycleComponentStackPacket(slotIndex, direction, Screen.hasControlDown() ? 16 : Screen.hasShiftDown() ? 4 : 1));
+    }
+
+
+    @SubscribeEvent
+    public static void addStackVariantBar(RenderTooltipEvent.GatherComponents event) {
+        ItemStack stack = event.getItemStack();
+        if (stack.isEmpty() || !ComponentStacking.hasMultipleVariants(stack) || !stack.has(TealDataComponentTypes.STACK_VARIANT_INDEX.get())) return;
+        int index = stack.getOrDefault(TealDataComponentTypes.STACK_VARIANT_INDEX.get(), 0);
+        event.getTooltipElements().add(Either.right(new CombinedStackBarData(index, stack.getCount())));
     }
 
 
@@ -81,5 +92,6 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerTooltips(RegisterClientTooltipComponentFactoriesEvent registry) {
         registry.register(CapturedMobsTooltipData.class, CapturedMobsTooltipRenderer::new);
+        registry.register(CombinedStackBarData.class, CombinedStackBarRenderer::new);
     }
 }

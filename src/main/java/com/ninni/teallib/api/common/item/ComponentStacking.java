@@ -173,17 +173,19 @@ public final class ComponentStacking {
         return isConfigured(stack) && stack.getCount() > 1 && hasVariants(stack);
     }
 
-    public static boolean cycleVariants(ItemStack stack, int direction) {
+    public static boolean cycleVariants(ItemStack stack, int direction, int step) {
         if (!hasMultipleVariants(stack) || direction == 0) return false;
+
         List<ItemStack> variants = variantsForCount(stack, stack.getCount());
-        int selected = Math.floorMod(selectedIndex(stack, variants.size()) + Integer.signum(direction), variants.size());
+        int selected = Math.floorMod(selectedIndex(stack, variants.size()) + Integer.signum(direction) * Math.max(1, step), variants.size());
+
         writeVariants(stack, variants, stack.getCount(), selected);
         return true;
     }
 
-    public static boolean cycleMenuSlot(AbstractContainerMenu menu, int slotIndex, int direction) {
+    public static boolean cycleMenuSlot(AbstractContainerMenu menu, int slotIndex, int direction, int step) {
         if (menu == null || slotIndex < 0 || slotIndex >= menu.slots.size()) return false;
-        return cycleVariants(menu.slots.get(slotIndex).getItem(), direction);
+        return cycleVariants(menu.slots.get(slotIndex).getItem(), direction, step);
     }
 
     public static ItemStack splitIfTracked(ItemStack stack, int requestedAmount) {

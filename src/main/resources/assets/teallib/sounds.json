@@ -1,6 +1,6 @@
 {
   "ui.item.cycle": {
     "sounds": ["teallib:ui/cycle"],
-    "subtitle": "subtitles.ui.spawn.item.cycle"
+    "subtitle": "subtitles.ui.teallib.item.cycle"
   }
 }

@@ -13,9 +13,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public record CycleComponentStackPacket(int slotIndex, int direction) implements CustomPacketPayload {
+public record CycleComponentStackPacket(int slotIndex, int direction, int step) implements CustomPacketPayload {
     public static final Type<CycleComponentStackPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "cycle_component_stack"));
-    public static final StreamCodec<ByteBuf, CycleComponentStackPacket> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.VAR_INT, CycleComponentStackPacket::slotIndex, ByteBufCodecs.VAR_INT, CycleComponentStackPacket::direction, CycleComponentStackPacket::new);
+    public static final StreamCodec<ByteBuf, CycleComponentStackPacket> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.VAR_INT, CycleComponentStackPacket::slotIndex, ByteBufCodecs.VAR_INT, CycleComponentStackPacket::direction, ByteBufCodecs.VAR_INT, CycleComponentStackPacket::step, CycleComponentStackPacket::new);
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
@@ -29,7 +29,7 @@ public record CycleComponentStackPacket(int slotIndex, int direction) implements
         int slotIndex = payload.slotIndex();
         if (slotIndex < 0 || slotIndex >= menu.slots.size()) return;
         int direction = Integer.signum(payload.direction());
-        if (direction == 0 || !ComponentStacking.cycleMenuSlot(menu, slotIndex, direction)) return;
+        if (direction == 0 || !ComponentStacking.cycleMenuSlot(menu, slotIndex, direction, payload.step())) return;
         player.playNotifySound(TealSoundEvents.CYCLE_ITEM.get(), SoundSource.MASTER, 0.2F, 1.35F);
         menu.slots.get(slotIndex).setChanged();
         menu.broadcastFullState();
