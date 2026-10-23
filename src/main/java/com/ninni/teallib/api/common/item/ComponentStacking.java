@@ -152,22 +152,26 @@ public final class ComponentStacking {
         }
     }
 
+
     public static void beforeCountChange(ItemStack stack, int newCount) {
         if (isTransactionActive() || ACTIVE_ENTITY_MERGE.get() != null || SUPPRESS_COUNT_HOOK.get() > 0 || !hasVariants(stack)) return;
+
         int oldCount = stack.getCount();
         if (newCount >= oldCount) return;
-        if (newCount <= 0) {
-            stack.remove(variantsType());
-            stack.remove(selectedIndexType());
-            return;
-        }
+        if (newCount <= 0) return;
+
         List<ItemStack> before = variantsForCount(stack, oldCount);
         int consumed = Math.min(oldCount - newCount, before.size());
         int selected = selectedIndex(stack, before.size());
+
         List<ItemStack> remaining = new ArrayList<>(before);
-        for (int i = 0; i < consumed && !remaining.isEmpty(); i++) remaining.remove(Math.floorMod(selected, remaining.size()));
-        writeVariants(stack, remaining, newCount, remaining.isEmpty() || selected >= remaining.size() ? 0 : selected);
+
+        for (int i = 0; i < consumed && !remaining.isEmpty(); i++) {
+            remaining.remove(Math.floorMod(selected, remaining.size()));
+        }
+        writeVariants(stack, remaining, newCount, remaining.isEmpty() ? 0 : Math.min(selected, remaining.size() - 1));
     }
+
 
     public static boolean hasMultipleVariants(ItemStack stack) {
         return isConfigured(stack) && stack.getCount() > 1 && hasVariants(stack);
@@ -188,22 +192,32 @@ public final class ComponentStacking {
         return cycleVariants(menu.slots.get(slotIndex).getItem(), direction, step);
     }
 
+
     public static ItemStack splitIfTracked(ItemStack stack, int requestedAmount) {
-        if (!hasVariants(stack)) return null;
+        if (isTransactionActive() || !hasVariants(stack)) return null;
+
         int oldCount = stack.getCount();
         int amount = Math.max(0, Math.min(requestedAmount, oldCount));
+
         if (amount == 0) return ItemStack.EMPTY;
+
         List<ItemStack> before = variantsForCount(stack, oldCount);
         int selected = selectedIndex(stack, before.size());
+
         List<ItemStack> remaining = new ArrayList<>(before);
         List<ItemStack> moved = new ArrayList<>();
-        for (int i = 0; i < amount && !remaining.isEmpty(); i++) moved.add(remaining.remove(Math.floorMod(selected, remaining.size())));
+
+        for (int i = 0; i < amount && !remaining.isEmpty(); i++) {
+            moved.add(remaining.remove(Math.floorMod(selected, remaining.size())));
+        }
         ItemStack result = new ItemStack(stack.getItem(), amount);
         writeVariants(result, moved, amount, 0);
-        setCountWithoutTracking(stack, oldCount - amount);
-        writeVariants(stack, remaining, oldCount - amount, remaining.isEmpty() || selected >= remaining.size() ? 0 : selected);
+        int remainingCount = oldCount - amount;
+        setCountWithoutTracking(stack, remainingCount);
+        writeVariants(stack, remaining, remainingCount, remaining.isEmpty() ? 0 : Math.min(selected, remaining.size() - 1));
         return result;
     }
+
 
     public static ItemStack copyWithCountIfTracked(ItemStack source, int requestedCount) {
         if (!hasVariants(source) || isTransactionActive()) return null;
