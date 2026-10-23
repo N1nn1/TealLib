@@ -3,11 +3,14 @@ package com.ninni.teallib.api.common.item;
 import com.ninni.teallib.core.registry.TealDataComponentTypes;
 import com.ninni.teallib.core.registry.TealTags;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -84,37 +87,57 @@ public final class ComponentStacking {
     public static void endTransaction() {
         MenuTransaction transaction = ACTIVE_TRANSACTION.get();
         if (transaction == null) return;
+
         transaction.depth--;
         if (transaction.depth > 0) return;
+
         ACTIVE_TRANSACTION.remove();
+
         Map<Item, List<ItemStack>> outgoing = new IdentityHashMap<>();
         List<FinalStack> finals = new ArrayList<>(transaction.snapshots.size());
+
         for (StackSnapshot snapshot : transaction.snapshots) {
             ItemStack current = snapshot.access.get();
             boolean currentTracked = isConfigured(current);
             Item currentItem = currentTracked ? current.getItem() : null;
             int currentCount = currentTracked ? current.getCount() : 0;
+
             boolean sameItem = snapshot.tracked && currentTracked && snapshot.item == currentItem;
             int remainingBeforeUnits = sameItem ? Math.min(snapshot.count, currentCount) : 0;
             int lost = snapshot.tracked ? snapshot.count - remainingBeforeUnits : 0;
-            if (lost > 0) outgoing.computeIfAbsent(snapshot.item, item -> new ArrayList<>()).addAll(copyRange(snapshot.variants, snapshot.count - lost, snapshot.count));
+
+            if (lost > 0) {
+                outgoing.computeIfAbsent(snapshot.item, item -> new ArrayList<>()).addAll(copyRange(snapshot.variants, snapshot.count - lost, snapshot.count));
+            }
+
             List<ItemStack> baseUnits = sameItem ? copyRange(snapshot.variants, 0, remainingBeforeUnits) : new ArrayList<>();
             int gained = currentTracked ? Math.max(0, currentCount - (sameItem ? snapshot.count : 0)) : 0;
+
             finals.add(new FinalStack(current, currentItem, currentCount, currentTracked, baseUnits, gained, sameItem ? snapshot.selectedIndex : 0));
         }
+
         Map<Item, Integer> cursors = new IdentityHashMap<>();
+
         for (FinalStack target : finals) {
             if (!target.tracked || target.stack == null || target.stack.isEmpty()) continue;
+            if (target.count == 1 && !hasVariants(target.stack)) continue;
+
             List<ItemStack> assigned = new ArrayList<>(target.baseUnits);
             List<ItemStack> pool = outgoing.get(target.item);
             int cursor = cursors.getOrDefault(target.item, 0);
+
             while (target.gained > 0 && pool != null && cursor < pool.size()) {
                 assigned.add(pool.get(cursor++).copy());
                 target.gained--;
             }
+
             cursors.put(target.item, cursor);
             ItemStack fallback = assigned.isEmpty() ? visibleUnitSnapshot(target.stack) : assigned.getFirst();
-            while (assigned.size() < target.count) assigned.add(fallback.copy());
+
+            while (assigned.size() < target.count) {
+                assigned.add(fallback.copy());
+            }
+
             if (assigned.size() > target.count) assigned = new ArrayList<>(assigned.subList(0, target.count));
             writeVariants(target.stack, assigned, target.count, target.selectedIndex);
         }
@@ -281,6 +304,7 @@ public final class ComponentStacking {
 
     private static void writeVariants(ItemStack stack, List<ItemStack> variants, int resultingCount, int requestedSelectedIndex) {
         int count = Math.max(0, resultingCount);
+
         if (stack == null || count == 0 || variants.isEmpty()) {
             if (stack != null) {
                 stack.remove(variantsType());
@@ -288,12 +312,23 @@ public final class ComponentStacking {
             }
             return;
         }
+
         List<ItemStack> fitted = copyRange(variants, 0, Math.min(count, variants.size()));
         ItemStack fallback = visibleUnitSnapshot(fitted.getFirst());
-        while (fitted.size() < count) fitted.add(fallback.copy());
+
+        while (fitted.size() < count) {
+            fitted.add(fallback.copy());
+        }
+
         int selected = Math.floorMod(requestedSelectedIndex, fitted.size());
         ItemStack representative = fitted.get(selected);
+
+        Component customName = representative.get(DataComponents.CUSTOM_NAME);
         stack.applyComponents(representative.getComponents());
+
+        if (customName == null) stack.remove(DataComponents.CUSTOM_NAME);
+        else stack.set(DataComponents.CUSTOM_NAME, customName);
+
         if (count > 1) {
             stack.set(variantsType(), List.copyOf(fitted));
             stack.set(selectedIndexType(), selected);
