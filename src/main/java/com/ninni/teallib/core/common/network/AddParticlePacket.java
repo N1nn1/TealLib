@@ -1,6 +1,6 @@
 package com.ninni.teallib.core.common.network;
 
-import com.ninni.teallib.api.client.network.AddParticlePacketClient;
+import com.ninni.teallib.api.client.network.HandleClientPackets;
 import com.ninni.teallib.core.TealLib;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -84,6 +84,6 @@ public class AddParticlePacket implements CustomPacketPayload {
     }
 
     public static void handle(AddParticlePacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> AddParticlePacketClient.handle(packet.particle, packet.alwaysRender, packet.x, packet.y, packet.z, packet.xV, packet.yV, packet.zV));
+        context.enqueueWork(() -> HandleClientPackets.handleAddParticle(packet.particle, packet.alwaysRender, packet.x, packet.y, packet.z, packet.xV, packet.yV, packet.zV));
     }
 }
