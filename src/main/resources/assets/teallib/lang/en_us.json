@@ -4,6 +4,8 @@
   "config.jade.plugin_teallib.entity_variant": "Entity Variants",
   "config.jade.plugin_teallib.block_variant": "Block Entity Variants",
 
+  "tooltip.teallib.sound_personality": "🎵 %1$s",
+
   "teallib.item.cycle.index": "%1$s out of %2$s",
   "subtitles.ui.teallib.item.cycle": "Item is cycled",
 
