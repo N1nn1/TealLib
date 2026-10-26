@@ -71,7 +71,7 @@ public class AddParticlePacket implements CustomPacketPayload {
     }
 
     public static void addParticle(ServerLevel level, int radius, ParticleOptions options, double x, double y, double z, double xV, double yV, double zV) {
-        addParticle(level, radius, options, false, x, y, z, x, y, z);
+        addParticle(level, radius, options, false, x, y, z, xV, yV, zV);
     }
 
     public static void addParticle(ServerLevel level, int radius, ParticleOptions options, boolean b, double x, double y, double z, double xV, double yV, double zV) {
