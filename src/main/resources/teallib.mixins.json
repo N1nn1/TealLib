@@ -10,6 +10,7 @@
     "InventoryMixin",
     "ItemEntityMixin",
     "ItemStackMixin",
+    "LivingEntityMixin",
     "MobBucketItemMixin",
     "RavagerMixin",
     "SpawnEggItemMixin",
