@@ -1,11 +1,9 @@
 package com.ninni.teallib.core.registry;
 
 import com.mojang.serialization.MapCodec;
+import com.ninni.teallib.api.common.data.variantdata.*;
+import com.ninni.teallib.api.common.entity.sound.SoundPersonality;
 import com.ninni.teallib.core.TealLib;
-import com.ninni.teallib.api.common.data.variantdata.AgeData;
-import com.ninni.teallib.api.common.data.variantdata.AttributeData;
-import com.ninni.teallib.api.common.data.variantdata.PersistentData;
-import com.ninni.teallib.api.common.data.variantdata.VariantData;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +16,8 @@ public class VariantDataTypes {
     public static final Registry<MapCodec<? extends VariantData>> REGISTRY = DEF_REG.makeRegistry(builder -> {});
 
     public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<PersistentData>> PERSISTENT = DEF_REG.register("persistent", () -> PersistentData.CODEC);
+    public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<CanWalkOnPowderSnowData>> CAN_WALK_ON_POWDER_SNOW = DEF_REG.register("can_walk_on_powder_snow", () -> CanWalkOnPowderSnowData.CODEC);
     public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<AgeData>> AGE = DEF_REG.register("age", () -> AgeData.CODEC);
     public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<AttributeData>> ATTRIBUTE = DEF_REG.register("attribute", () -> AttributeData.CODEC);
+    public static final DeferredHolder<MapCodec<? extends VariantData>, MapCodec<SoundPersonalityData>> SOUND_PERSONALITY = DEF_REG.register("sound_personality", () -> SoundPersonalityData.CODEC);
 }

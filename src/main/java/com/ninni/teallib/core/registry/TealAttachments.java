@@ -1,5 +1,6 @@
 package com.ninni.teallib.core.registry;
 
+import com.mojang.serialization.Codec;
 import com.ninni.teallib.core.TealLib;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
@@ -22,4 +23,6 @@ public final class TealAttachments {
                     .sync(ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC))
                     .build()
     );
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> CAN_WALK_ON_POWDER_SNOW = DEF_REG.register("can_walk_on_powder_snow", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).build());
 }

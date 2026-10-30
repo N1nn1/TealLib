@@ -13,6 +13,7 @@
     "LivingEntityMixin",
     "MobBucketItemMixin",
     "MobMixin",
+    "PowderSnowBlockMixin",
     "RavagerMixin",
     "SpawnEggItemMixin",
     "WaterAnimalMixin",

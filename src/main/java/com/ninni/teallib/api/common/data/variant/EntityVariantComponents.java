@@ -1,6 +1,7 @@
 package com.ninni.teallib.api.common.data.variant;
 
 import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
+import com.ninni.teallib.api.common.entity.sound.SoundPersonality;
 import com.ninni.teallib.core.TealLib;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -192,8 +194,9 @@ public final class EntityVariantComponents {
     }
 
     public static Optional<List<Component>> genericFallback(EntityVariantComponents.Context context) {
-        String value = firstString(context, "Variant", "variant", "Type", "type", "RabbitType", "tealvariant");
+        List<Component> list = new ArrayList<>();
 
+        String value = firstString(context, "Variant", "variant", "Type", "type", "RabbitType", "tealvariant");
         Level level = context.tooltipContext.level();
 
         if (level != null && value != null) {
@@ -204,20 +207,40 @@ public final class EntityVariantComponents {
                 }
             }
         }
-        return valueToOneComponent(context.entityId(), value);
+
+        Component translated = getTranslated(context.entityId(), value);
+        if (translated != null) list.add(translated);
+
+        if (context.has("sound_variant")) {
+            ResourceLocation personality = ResourceLocation.tryParse(context.tag.getCompound("sound_variant").getString("id"));
+            if (personality != null && !personality.equals(SoundPersonality.DEFAULT)) {
+                Style personalityStyle = Style.EMPTY.withColor(0x66449f).withItalic(true);
+                MutableComponent translatedPersonality = Component.translatable("personality." + context.entityId().getNamespace() + "." + context.entityId().getPath() + "." + personality.getNamespace() + "." + personality.getPath()).withStyle(personalityStyle);
+                list.add(Component.translatable("tooltip.teallib.sound_personality", translatedPersonality).withStyle(personalityStyle));
+            }
+        }
+
+        return Optional.of(list);
     }
 
     public static Optional<List<Component>> valueToOneComponent(ResourceLocation entityId, String rawValue) {
-        if (rawValue == null || rawValue.isBlank()) return Optional.empty();
+        Component translated = getTranslated(entityId, rawValue);
+        if (translated == null) return Optional.empty();
+        return Optional.of(List.of(translated));
+    }
+
+    @Nullable
+    public static Component getTranslated(ResourceLocation entityId, String rawValue) {
+        if (rawValue == null || rawValue.isBlank()) return null;
 
         String value = cleanVariant(rawValue);
-        if (value.isBlank()) return Optional.empty();
+        if (value.isBlank()) return null;
 
         ResourceLocation parsed = ResourceLocation.tryParse(value);
 
-        if (parsed != null) return Optional.of(List.of(EntityVariantComponents.translated(entityId, parsed)));
+        if (parsed != null) return EntityVariantComponents.translated(entityId, parsed);
 
-        return Optional.of(List.of(EntityVariantComponents.translated(entityId, value)));
+        return EntityVariantComponents.translated(entityId, value);
     }
 
     public static String firstString(EntityVariantComponents.Context context, String... keys) {
