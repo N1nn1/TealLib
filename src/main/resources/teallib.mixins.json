@@ -6,6 +6,7 @@
     "AbstractContainerMenuMixin",
     "AxolotlMixin",
     "BucketableMixin",
+    "BiomeMixin",
     "EntityMixin",
     "InventoryMixin",
     "ItemEntityMixin",
