@@ -211,13 +211,15 @@ public final class EntityVariantComponents {
         Component translated = getTranslated(context.entityId(), value);
         if (translated != null) list.add(translated);
 
-        if (context.has("sound_variant")) {
-            ResourceLocation personality = ResourceLocation.tryParse(context.tag.getCompound("sound_variant").getString("id"));
-            if (personality != null && !personality.equals(SoundPersonality.DEFAULT)) {
-                Style personalityStyle = Style.EMPTY.withColor(0x66449f).withItalic(true);
-                MutableComponent translatedPersonality = Component.translatable("personality." + context.entityId().getNamespace() + "." + context.entityId().getPath() + "." + personality.getNamespace() + "." + personality.getPath()).withStyle(personalityStyle);
-                list.add(Component.translatable("tooltip.teallib.sound_personality", translatedPersonality).withStyle(personalityStyle));
-            }
+        ResourceLocation personality = null;
+
+        if (context.has("sound_variant", Tag.TAG_COMPOUND)) personality = ResourceLocation.tryParse(context.tag.getCompound("sound_variant").getString("id"));
+        if (context.has("sound_variant", Tag.TAG_STRING)) personality = ResourceLocation.tryParse(context.tag.getString("sound_variant"));
+
+        if (personality != null && !personality.equals(SoundPersonality.DEFAULT)) {
+            Style personalityStyle = Style.EMPTY.withColor(0x66449f).withItalic(true);
+            MutableComponent translatedPersonality = Component.translatable("personality." + context.entityId().getNamespace() + "." + context.entityId().getPath() + "." + personality.getNamespace() + "." + personality.getPath()).withStyle(personalityStyle);
+            list.add(Component.translatable("tooltip.teallib.sound_personality", translatedPersonality).withStyle(personalityStyle));
         }
 
         return Optional.of(list);
