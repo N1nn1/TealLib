@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class TealRenderType extends RenderType {
@@ -36,6 +37,10 @@ public class TealRenderType extends RenderType {
 
     public static RenderType unlitTranslucentEmissive(ResourceLocation id) {
         return UNLIT_TRANSLUCENT_EMISSIVE.apply(getTealLibTexture(id));
+    }
+
+    public static RenderType eyesAlpha(ResourceLocation id) {
+        return EYES.apply(getTealLibTexture(id), RenderStateShard.LIGHTNING_TRANSPARENCY);
     }
 
     public static ResourceLocation getTealLibTexture(ResourceLocation id) {
