@@ -2,6 +2,7 @@ package com.ninni.teallib.core.registry;
 
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.core.common.entity.Mannequin;
+import com.ninni.teallib.core.common.entity.TitanMannequin;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -17,6 +18,13 @@ public class TealEntityType {
             () -> EntityType.Builder.of(Mannequin::new, MobCategory.MISC)
                     .sized(0.5F, 1.975F).eyeHeight(1.7775F).clientTrackingRange(10)
                     .build(ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "mannequin").toString())
+    );
+
+    public static final DeferredHolder<EntityType<?>, EntityType<TitanMannequin>> TITAN_MANNEQUIN = DEF_REG.register(
+            "titan_mannequin",
+            () -> EntityType.Builder.of(TitanMannequin::new, MobCategory.MISC)
+                    .sized(1.1F, 2.5F).eyeHeight(1.7775F).clientTrackingRange(10)
+                    .build(ResourceLocation.fromNamespaceAndPath(TealLib.MODID, "titan_mannequin").toString())
     );
 
 }

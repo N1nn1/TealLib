@@ -1,16 +1,17 @@
 package com.ninni.teallib.core.client.event;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Either;
 import com.ninni.teallib.api.client.particle.ShakingParticle;
 import com.ninni.teallib.api.client.renderer.item.CombinedStackBarRenderer;
 import com.ninni.teallib.api.common.item.ComponentStacking;
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.core.client.TealShaders;
-import com.ninni.teallib.core.client.entity.MannequinModel;
-import com.ninni.teallib.core.client.entity.MannequinRenderer;
+import com.ninni.teallib.core.client.entity.mannequin.MannequinModel;
+import com.ninni.teallib.core.client.entity.mannequin.MannequinRenderer;
 import com.ninni.teallib.api.client.renderer.item.CapturedMobsTooltipRenderer;
 import com.ninni.teallib.api.common.item.tooltip.CapturedMobsTooltipData;
+import com.ninni.teallib.core.client.entity.titanmannequin.TitanMannequinModel;
+import com.ninni.teallib.core.client.entity.titanmannequin.TitanMannequinRenderer;
 import com.ninni.teallib.core.common.gui.ScreenShakeEvent;
 import com.ninni.teallib.core.common.item.CombinedStackBarData;
 import com.ninni.teallib.core.common.network.CycleComponentStackPacket;
@@ -19,28 +20,19 @@ import com.ninni.teallib.core.registry.TealDataComponentTypes;
 import com.ninni.teallib.core.registry.TealEntityType;
 import com.ninni.teallib.core.registry.TealParticleType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.io.IOException;
@@ -132,11 +124,13 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerEntityLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(MannequinModel.LAYER_LOCATION, MannequinModel::createBodyLayer);
+        event.registerLayerDefinition(TitanMannequinModel.LAYER_LOCATION, TitanMannequinModel::createBodyLayer);
     }
 
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(TealEntityType.MANNEQUIN.get(), MannequinRenderer::new);
+        event.registerEntityRenderer(TealEntityType.TITAN_MANNEQUIN.get(), TitanMannequinRenderer::new);
     }
 
     @SubscribeEvent

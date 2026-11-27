@@ -20,6 +20,11 @@ public final class TealSoundEvents {
 
     public static final DeferredRegister<SoundEvent> DEF_REG = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, TealLib.MODID);
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> TITAN_MANNEQUIN_IDLE = register("entity.titan_mannequin.idle");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TITAN_MANNEQUIN_HURT = register("entity.titan_mannequin.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TITAN_MANNEQUIN_DEATH = register("entity.titan_mannequin.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TITAN_MANNEQUIN_STEP = register("entity.titan_mannequin.step");
+
     public static final DeferredHolder<SoundEvent, SoundEvent> CYCLE_ITEM = register("ui.item.cycle");
 
 

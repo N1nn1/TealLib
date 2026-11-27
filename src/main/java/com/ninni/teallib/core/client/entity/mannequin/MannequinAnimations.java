@@ -1,4 +1,4 @@
-package com.ninni.teallib.core.client.entity;
+package com.ninni.teallib.core.client.entity.mannequin;
 
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
