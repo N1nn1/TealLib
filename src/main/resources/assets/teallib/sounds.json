@@ -2,5 +2,33 @@
   "ui.item.cycle": {
     "sounds": ["teallib:ui/cycle"],
     "subtitle": "subtitles.ui.teallib.item.cycle"
+  },
+  "entity.titan_mannequin.idle": {
+    "sounds": [
+      "teallib:entity/titan_mannequin/idle1",
+      "teallib:entity/titan_mannequin/idle2",
+      "teallib:entity/titan_mannequin/idle3",
+      "teallib:entity/titan_mannequin/idle4"
+    ],
+    "subtitle": "subtitles.entity.teallib.titan_mannequin.idle"
+  },
+  "entity.titan_mannequin.hurt": {
+    "sounds": [
+      "teallib:entity/titan_mannequin/hurt1",
+      "teallib:entity/titan_mannequin/hurt2",
+      "teallib:entity/titan_mannequin/hurt3"
+    ],
+    "subtitle": "subtitles.entity.teallib.titan_mannequin.hurt"
+  },
+  "entity.titan_mannequin.death": {
+    "sounds": ["teallib:entity/titan_mannequin/death"],
+    "subtitle": "subtitles.entity.teallib.titan_mannequin.death"
+  },
+  "entity.titan_mannequin.step": {
+    "sounds": [
+      "teallib:entity/titan_mannequin/step1",
+      "teallib:entity/titan_mannequin/step2"
+    ],
+    "subtitle": "subtitles.entity.teallib.titan_mannequin.step"
   }
 }

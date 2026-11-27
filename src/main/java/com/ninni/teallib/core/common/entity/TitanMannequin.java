@@ -2,6 +2,7 @@ package com.ninni.teallib.core.common.entity;
 
 import com.ninni.teallib.api.common.entity.legged.Leg;
 import com.ninni.teallib.api.common.entity.legged.ProceduralWalker;
+import com.ninni.teallib.core.registry.TealSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -68,18 +69,18 @@ public class TitanMannequin extends PathfinderMob implements ProceduralWalker {
 
     }
 
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.SNIFFER_STEP, 0.15F, 1.0F);
+    public void playLegStepSound(BlockPos pos, BlockState state) {
+        this.playSound(TealSoundEvents.TITAN_MANNEQUIN_STEP.get(), 0.15F, 1.0F);
     }
 
-    protected SoundEvent getAmbientSound() {return SoundEvents.SNIFFER_IDLE;}
+    protected SoundEvent getAmbientSound() {return TealSoundEvents.TITAN_MANNEQUIN_IDLE.get();}
 
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.SNIFFER_HURT;
+        return TealSoundEvents.TITAN_MANNEQUIN_HURT.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.SNIFFER_DEATH;
+        return TealSoundEvents.TITAN_MANNEQUIN_DEATH.get();
     }
 
 

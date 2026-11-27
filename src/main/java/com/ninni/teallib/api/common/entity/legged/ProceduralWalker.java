@@ -1,6 +1,8 @@
 package com.ninni.teallib.api.common.entity.legged;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -39,6 +41,9 @@ public interface ProceduralWalker {
             float threshold = this.isMoving() ? moveThreshold() : 0.1F;
             leg.tryMoveToNewTarget(threshold, getEntity());
         }
+    }
+
+    default void playLegStepSound(BlockPos pos, BlockState state) {
     }
 
     private boolean isMoving() {

@@ -1,6 +1,11 @@
 {
   "entity.teallib.mannequin": "Mannequin",
   "item.teallib.mannequin": "Mannequin",
+  "entity.teallib.titan_mannequin": "Titan Mannequin",
+  "subtitles.entity.teallib.titan_mannequin.idle": "Oughghhhh",
+  "subtitles.entity.teallib.titan_mannequin.hurt": "Noooo don't sacrifice yourself",
+  "subtitles.entity.teallib.titan_mannequin.death": "You shouldn't have done thattt",
+  "subtitles.entity.teallib.titan_mannequin.step": "Titan Mannequin lingers closer",
   "config.jade.plugin_teallib.entity_variant": "Entity Variants",
   "config.jade.plugin_teallib.block_variant": "Block Entity Variants",
 

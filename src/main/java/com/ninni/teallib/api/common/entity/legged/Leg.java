@@ -46,7 +46,7 @@ public class Leg {
         BlockHitResult hit = entity.level().clip(new ClipContext(
                 startPos,
                 startPos.subtract(0, 6.0, 0),
-                ClipContext.Block.OUTLINE,
+                ClipContext.Block.COLLIDER,
                 ClipContext.Fluid.NONE,
                 entity
         ));
@@ -77,8 +77,7 @@ public class Leg {
 
 
     public Vec3 lerp(Vec3 from, Vec3 to, double delta) {
-        if (delta < 0.5)
-            return new Vec3(Mth.lerp(delta, from.x, to.x), Mth.lerp(delta, from.y, to.y+0.3f), Mth.lerp(delta, from.z, to.z));
+        if (delta < 0.5) return new Vec3(Mth.lerp(delta, from.x, to.x), Mth.lerp(delta, from.y, to.y+0.3f), Mth.lerp(delta, from.z, to.z));
         return new Vec3(Mth.lerp(delta, from.x, to.x), Mth.lerp(delta, from.y+0.3f, to.y), Mth.lerp(delta, from.z, to.z));
     }
 
@@ -94,7 +93,10 @@ public class Leg {
             this.wasAtTarget = false;
         } else {
             if (!this.wasAtTarget) {
-                entity.playSound(SoundEvents.BAMBOO_WOOD_BREAK);
+                if (entity instanceof ProceduralWalker proceduralWalker) {
+                    BlockPos pos = BlockPos.containing(this.currentPos.add(0,-0.02,0));
+                    proceduralWalker.playLegStepSound(pos, entity.level().getBlockState(pos));
+                }
             }
             this.wasAtTarget = true;
             this.moving = false;
