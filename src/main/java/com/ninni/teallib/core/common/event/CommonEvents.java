@@ -4,6 +4,7 @@ import com.ninni.teallib.api.common.data.variant.VariantManager;
 import com.ninni.teallib.api.common.data.variant.util.VariantAttachments;
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.core.common.entity.Mannequin;
+import com.ninni.teallib.core.common.entity.TitanMannequin;
 import com.ninni.teallib.core.registry.TealEntityType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
@@ -31,6 +32,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void registerEntityAttribute(EntityAttributeCreationEvent event) {
         event.put(TealEntityType.MANNEQUIN.get(), Mannequin.createAttributes().build());
+        event.put(TealEntityType.TITAN_MANNEQUIN.get(), TitanMannequin.createAttributes().build());
     }
 
 

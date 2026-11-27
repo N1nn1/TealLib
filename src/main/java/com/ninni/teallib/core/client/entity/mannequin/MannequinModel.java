@@ -1,4 +1,4 @@
-package com.ninni.teallib.core.client.entity;
+package com.ninni.teallib.core.client.entity.mannequin;
 
 import com.ninni.teallib.core.TealLib;
 import com.ninni.teallib.api.client.animation.ModelAnimationUtils;
