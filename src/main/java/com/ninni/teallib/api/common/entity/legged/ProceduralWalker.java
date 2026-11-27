@@ -3,6 +3,8 @@ package com.ninni.teallib.api.common.entity.legged;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
+
 public interface ProceduralWalker {
     float bodyTilt = 0;
 
@@ -10,7 +12,7 @@ public interface ProceduralWalker {
 
     }
 
-    default Leg[] getLegs() {
+    default List<Leg> getLegs() {
         return null;
     }
 
@@ -23,14 +25,14 @@ public interface ProceduralWalker {
     }
 
     default void updateLegPos() {
-        for (int i = 0; i < getLegs().length; i++) {
-            Leg leg = getLegs()[i];
+        for (int i = 0; i < getLegs().size(); i++) {
+            Leg leg = getLegs().get(i);
             leg.tick();
 
             if (leg.moving) continue;
 
-            boolean adj1Moving = getLegs()[(i + 1) % 4].moving;
-            boolean adj2Moving = getLegs()[(i + 2) % 4].moving;
+            boolean adj1Moving = getLegs().get((i + 1) % 4).moving;
+            boolean adj2Moving = getLegs().get((i + 2) % 4).moving;
 
             if (adj1Moving || adj2Moving) continue;
 
@@ -66,11 +68,10 @@ public interface ProceduralWalker {
         Vec3 momentum = getEntity().getDeltaMovement();
         Vec3 balancePoint = new Vec3(0,1,0);
 
-        float[] legWeights = {0.3f, 0.3f, 0.2f, 0.2f, 0.3f, 0.3f};
-
         for (int i = 0; i < 6; i++) {
-            Vec3 legOffset = getLegs()[i].getCurrentPos().subtract(getEntity().position());
-            balancePoint = balancePoint.add(legOffset.scale(legWeights[i]));
+            Leg leg = getLegs().get(i);
+            Vec3 legOffset = leg.getCurrentPos().subtract(getEntity().position());
+            balancePoint = balancePoint.add(legOffset.scale(leg.weight));
         }
 
         return balancePoint.add(momentum.scale(0.5f));

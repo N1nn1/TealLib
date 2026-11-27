@@ -37,8 +37,8 @@ public class TitanMannequinRenderer extends MobRenderer<TitanMannequin, TitanMan
         super.render(pEntity, pEntityYaw, pPartialTick, pPoseStack, pBufferSource, pPackedLight);
         renderBody(pEntity, pPoseStack, pBufferSource, pPartialTick, pPackedLight, this.model.getBody());
 
-        for (int i = 0; i < pEntity.getLegs().length; i++) {
-            Leg leg = pEntity.getLegs()[i];
+        for (int i = 0; i < pEntity.getLegs().size(); i++) {
+            Leg leg = pEntity.getLegs().get(i);
             if (leg == null) continue;
 
             renderLeg(pPoseStack, pBufferSource, pEntity, leg, pPartialTick, pPackedLight, this.model.getLegPart(i), i);

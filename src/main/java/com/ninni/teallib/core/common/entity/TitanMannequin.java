@@ -25,13 +25,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class TitanMannequin extends PathfinderMob implements ProceduralWalker {
 
     public Vec3 bodyOffset = Vec3.ZERO;
     public Vec3 bodyOffseto = Vec3.ZERO;
-    public Leg[] legs = new Leg[6];
+    public List<Leg> legs = new ArrayList<>(List.of());
 
     public TitanMannequin(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
@@ -55,14 +57,14 @@ public class TitanMannequin extends PathfinderMob implements ProceduralWalker {
 
     @Override
     public void initLegs() {
-        legs[0] = new Leg(this, new Vec3(0.75, 0, 0.75), 0, 5);
-        legs[1] = new Leg(this, new Vec3(-0.75, 0, 0.75), 1, 5);
+        legs.add(new Leg(this, new Vec3(0.75, 0, 0.75), 0, 5, 0.3f));
+        legs.add(new Leg(this, new Vec3(-0.75, 0, 0.75), 1, 5, 0.3f));
 
-        legs[2] = new Leg(this, new Vec3(0.9, 0, 0.0), 2, 5);
-        legs[3] = new Leg(this, new Vec3(-0.9, 0, 0.0), 3, 5);
+        legs.add(new Leg(this, new Vec3(0.9, 0, 0.0), 2, 5, 0.2f));
+        legs.add(new Leg(this, new Vec3(-0.9, 0, 0.0), 3, 5, 0.2f));
 
-        legs[4] = new Leg(this, new Vec3(0.75, 0, -0.75), 4, 5);
-        legs[5] = new Leg(this, new Vec3(-0.75, 0, -0.75), 5, 5);
+        legs.add(new Leg(this, new Vec3(0.75, 0, -0.75), 4, 5, 0.3f));
+        legs.add(new Leg(this, new Vec3(-0.75, 0, -0.75), 5, 5, 0.3f));
 
     }
 
@@ -90,7 +92,7 @@ public class TitanMannequin extends PathfinderMob implements ProceduralWalker {
     }
 
     @Override
-    public Leg[] getLegs() {
+    public List<Leg> getLegs() {
         return legs;
     }
 

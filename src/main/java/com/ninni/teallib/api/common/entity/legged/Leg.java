@@ -18,6 +18,7 @@ public class Leg {
     Vec3 targetPos;
     LivingEntity entity;
     boolean wasAtTarget = true;
+    float weight = 0;
 
     int moveDuration;
     int moveTicks = 0;
@@ -25,13 +26,14 @@ public class Leg {
     boolean moving = false;
     int index;
 
-    public Leg(LivingEntity entity, Vec3 restingOffset, int i, int dir) {
+    public Leg(LivingEntity entity, Vec3 restingOffset, int i, int dir, float weight) {
         this.entity = entity;
         this.restingOffset = restingOffset;
         this.currentPos = updatePosition();
         this.targetPos = this.currentPos;
         this.startPos = this.currentPos;
         this.index = i;
+        this.weight = weight;
         this.moveDuration = dir;
     }
 
